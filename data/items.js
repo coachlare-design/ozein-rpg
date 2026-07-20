@@ -10,12 +10,12 @@ GameData.register('items', {
   /* ---------- Equipamento inicial ---------- */
   espada_longa: {
     id: 'espada_longa', nome: 'Espada Longa', raridade: 'normal', tipo: 'arma', slot: 'arma',
-    dano: '1d8', critico: '19-20/×2',
+    dano: '1d8', critico: '19-20/×2', categoria: 'marcial',
     desc: 'Lâmina de aço vithusiano, bem cuidada. O arroz-com-feijão de todo soldado da Ordem.'
   },
   cota_malha: {
     id: 'cota_malha', nome: 'Cota de Malha', raridade: 'normal', tipo: 'armadura', slot: 'armadura',
-    caBonus: 5, desc: 'Elos de ferro entrelaçados. Pesada, barulhenta, confiável.'
+    caBonus: 5, categoria: 'media', desc: 'Elos de ferro entrelaçados. Pesada, barulhenta, confiável.'
   },
   escudo_pesado_aco: {
     id: 'escudo_pesado_aco', nome: 'Escudo Pesado de Aço', raridade: 'normal', tipo: 'escudo', slot: 'escudo',
@@ -27,12 +27,12 @@ GameData.register('items', {
   },
   rapieira: {
     id: 'rapieira', nome: 'Rapieira', raridade: 'normal', tipo: 'arma', slot: 'arma',
-    dano: '1d6', critico: '18-20/×2',
+    dano: '1d6', critico: '18-20/×2', categoria: 'ladino',
     desc: 'Fina, rápida, e entra exatamente onde a armadura não cobre.'
   },
   armadura_couro: {
     id: 'armadura_couro', nome: 'Armadura de Couro', raridade: 'normal', tipo: 'armadura', slot: 'armadura',
-    caBonus: 2, desc: 'Silenciosa. Do jeito que um ladino gosta.'
+    caBonus: 2, categoria: 'leve', desc: 'Silenciosa. Do jeito que um ladino gosta.'
   },
   gazuas_op: {
     id: 'gazuas_op', nome: 'Gazuas Obra-Prima', raridade: 'magico', tipo: 'ferramenta',
@@ -40,7 +40,7 @@ GameData.register('items', {
   },
   adaga: {
     id: 'adaga', nome: 'Adaga', raridade: 'normal', tipo: 'arma', slot: 'arma',
-    dano: '1d4', critico: '19-20/×2', desc: 'Último recurso de todo conjurador.'
+    dano: '1d4', critico: '19-20/×2', categoria: 'simples', desc: 'Último recurso de todo conjurador.'
   },
   grimorio: {
     id: 'grimorio', nome: 'Grimório de Aprendiz', raridade: 'normal', tipo: 'foco',
@@ -49,6 +49,29 @@ GameData.register('items', {
   componentes: {
     id: 'componentes', nome: 'Bolsa de Componentes', raridade: 'normal', tipo: 'ferramenta',
     desc: 'Enxofre, teia de aranha, pó de ferro. O necessário para fazer o mundo obedecer.'
+  },
+
+  /* ---------- Itens de GATILHO (varinhas e bastões — D&D 3.5) ----------
+     Regra: um item de gatilho dispara a magia SEM teste, mas só nas mãos
+     de quem tem a magia na lista da classe. Usam CARGAS (estado.cargas).
+     No combate aparecem no submenu ⚡ Gatilhos do herói que pode usá-los. */
+  varinha_missels: {
+    id: 'varinha_missels', nome: 'Varinha de Mísseis Mágicos', raridade: 'magico', tipo: 'gatilho',
+    cargas: 12, quem: ['maga'], gatilho: { dano: '2d4+2', automatico: true },
+    efeito: 'GATILHO: 2d4+2 de dano que NUNCA erra. 12 cargas.',
+    desc: 'Vara de teixo com ponta de âmbar. Aponte, diga a palavra ("ictus") e o alvo é atingido — mísseis mágicos não erram. Só a MAGA ativa (a magia é da lista arcana).'
+  },
+  varinha_cura: {
+    id: 'varinha_cura', nome: 'Varinha de Curar Ferimentos Leves', raridade: 'magico', tipo: 'gatilho',
+    cargas: 10, quem: ['maga', 'paladino'], gatilho: { cura: '1d8+1' },
+    efeito: 'GATILHO: cura 1d8+1 num aliado. 10 cargas.',
+    desc: 'Madeira clara, morna ao toque. PALADINO e MAGA ativam (Curar Ferimentos Leves está na lista dos dois). O ladino não — a guilda vive lembrando ele disso.'
+  },
+  bastao_chamas: {
+    id: 'bastao_chamas', nome: 'Bastão das Chamas', raridade: 'raro', tipo: 'gatilho',
+    cargas: 6, quem: ['maga'], gatilho: { dano: '4d6', area: true, salvamento: 'reflexos', cd: 14, elemento: 'fogo' },
+    efeito: 'GATILHO: 4d6 de fogo em TODOS os inimigos (Reflexos CD 14 = metade). 6 cargas.',
+    desc: 'Carvalho negro com veios de brasa viva. Bastões são varinhas crescidas: magia de verdade, sem gasto de foco. Só a MAGA ativa.'
   },
 
   /* ---------- Consumíveis ---------- */

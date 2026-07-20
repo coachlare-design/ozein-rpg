@@ -7,7 +7,7 @@
    ===================================================== */
 GameData.register('prestige', {
 
-  requisitoNivel: 6,
+  requisitoNivel: 4,
 
   paladino: [
     {

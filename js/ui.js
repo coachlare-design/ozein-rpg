@@ -423,7 +423,10 @@ const UI = {
 
     const cab = this.el('div', 'cabecalho-mapa');
     cab.style.cssText = 'position:absolute;left:24px;top:24px;z-index:15;max-width:380px;';
-    cab.innerHTML = `<h3>🗺️ ${mapa.nome}</h3><p>Avance nó a nó. Nós com borda dourada estão acessíveis; ✓ concluídos. Você pode voltar à cidade a qualquer momento.</p>`;
+    const missaoTrava = Engine.cidadeBloqueada();
+    cab.innerHTML = `<h3>🗺️ ${mapa.nome}</h3><p>Avance nó a nó. Nós com borda dourada estão acessíveis; ✓ concluídos. ${missaoTrava
+      ? `<b style="color:var(--tocha-clara)">🔒 Missão em andamento: "${missaoTrava}" — Renânia só reabre quando o objetivo cair. Descanse nos pontos da rota.</b>`
+      : 'Você pode voltar à cidade a qualquer momento.'}</p>`;
     this.raiz.appendChild(cab);
 
     const cont = this.el('div');
@@ -453,12 +456,13 @@ const UI = {
     for (const no of mapa.nos) {
       if (!visivel(no)) continue;
       const st = Engine.estadoDoNo(no);
-      const b = this.el('button', `no-mapa ${st}`);
+      const travadoCidade = no.tipo === 'cidade' && missaoTrava;
+      const b = this.el('button', `no-mapa ${travadoCidade ? 'bloqueado' : st}`);
       b.style.left = no.x + '%';
       b.style.top = no.y + '%';
-      b.innerHTML = `<span class="disco">${no.icone}</span><span class="rotulo">${no.nome}</span>`;
-      b.title = no.desc;
-      if (st === 'bloqueado') b.disabled = true;
+      b.innerHTML = `<span class="disco">${travadoCidade ? '🔒' : no.icone}</span><span class="rotulo">${no.nome}</span>`;
+      b.title = travadoCidade ? `A missão "${missaoTrava}" está em andamento — termine-a para voltar.` : no.desc;
+      if (st === 'bloqueado' && !travadoCidade) b.disabled = true;
       else b.onclick = () => this.entrarNo(no);
       cont.appendChild(b);
     }
@@ -466,7 +470,11 @@ const UI = {
   },
 
   entrarNo(no) {
-    if (no.tipo === 'cidade') { this.telaCidade(); return; }
+    if (no.tipo === 'cidade') {
+      const trava = Engine.cidadeBloqueada();
+      if (trava) { this.toast(`🔒 A missão "${trava}" está em andamento. Renânia reabre quando o objetivo da rota cair — descanse nos pontos do caminho.`); return; }
+      this.telaCidade(); return;
+    }
     this.contextoCena = { noId: no.id };
     const refarm = {
       no_mina_entrada: 'refarm_no1_intro', no_caverna: 'refarm_no2_intro', no_fundo: 'refarm_no3_intro',
@@ -503,12 +511,23 @@ const UI = {
     caixa.id = 'caixa-cena';
     this.raiz.appendChild(caixa);
 
+    // falas escritas como "Paladino/Ladino/Maga" ganham o NOME do herói
+    const nomeFala = (quem) => {
+      const h = Engine.estado.herois;
+      const mapa = {
+        'Paladino': h.paladino, 'Cavaleiro': h.paladino,
+        'Ladino': h.ladino, 'Maga': h.maga
+      };
+      const hr = mapa[quem];
+      return hr ? `${hr.nome} <span style="opacity:.65;font-weight:normal">(${quem})</span>` : quem;
+    };
+
     let i = 0;
     const mostrarFala = () => {
       const f = dlg.falas[i];
       const ultima = i === dlg.falas.length - 1;
       caixa.innerHTML = `
-        <div class="quem">${f.quem}</div>
+        <div class="quem">${nomeFala(f.quem)}</div>
         <div class="fala">${f.texto}</div>
         ${ultima ? '' : '<div class="continuar">▸ continuar</div>'}
         ${ultima ? '<div class="opcoes"></div>' : ''}`;

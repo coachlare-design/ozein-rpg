@@ -5,7 +5,7 @@
    ===================================================== */
 GameData.register('config', {
   titulo: 'Ozein — Os Pesadelos de Renânia',
-  versao: '0.6.0 — Missão 3: A Vila que Dorme + Prestígio & Grimório',
+  versao: '0.7.0 — Rota sem volta + Táticas + Gatilhos + Regras de Classe',
   mundo: 'Galáxia Empíria · Mundo Ozein · Continente Genesiano',
   regiao: 'Renânia (oeste de Vithus)',
 

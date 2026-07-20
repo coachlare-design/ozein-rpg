@@ -111,6 +111,66 @@ const Loot = {
     return item.nome;
   },
 
+  /* ---------- Restrições de classe (D&D 3.5) ----------
+     Proficiências por classe. Itens sem categoria caem no fallback:
+     arma → marcial; armadura → pelo peso (caBonus); escudo → escudo. */
+  PROFICIENCIAS: {
+    'Paladino': { armas: ['simples', 'marcial', 'ladino'], armaduras: ['leve', 'media', 'pesada'], escudo: true },
+    'Ladino':   { armas: ['simples', 'ladino'],            armaduras: ['leve'],                   escudo: false },
+    'Maga':     { armas: ['simples'],                      armaduras: [],                         escudo: false }
+  },
+  _classeDe(heroi) {
+    const c = heroi.classe || '';
+    if (c.indexOf('Paladino') >= 0) return 'Paladino';
+    if (c.indexOf('Ladino') >= 0) return 'Ladino';
+    return 'Maga';
+  },
+  _categoriaDe(item) {
+    if (item.categoria) return item.categoria;
+    if (item.slot === 'arma') return 'marcial';
+    if (item.slot === 'armadura') return (item.caBonus || 0) <= 3 ? 'leve' : ((item.caBonus || 0) <= 5 ? 'media' : 'pesada');
+    return null;
+  },
+  podeEquipar(heroi, item) {
+    if (!item || !item.slot) return { pode: false, motivo: 'Este item não se equipa.' };
+    // elmos, botas, anéis e amuletos: livres para todos
+    if (['elmo', 'botas', 'anel', 'anel1', 'anel2', 'amuleto'].includes(item.slot)) return { pode: true };
+    const cls = this._classeDe(heroi);
+    const prof = this.PROFICIENCIAS[cls];
+    const cat = this._categoriaDe(item);
+    if (item.slot === 'arma' && !prof.armas.includes(cat)) {
+      const motivos = {
+        'Maga': '🚫 D&D 3.5: magas só treinam armas SIMPLES (adaga, bordão). ' + item.nome + ' fica para quem jurou pelo aço.',
+        'Ladino': '🚫 Fora da lista do ladino (D&D 3.5): ele luta com armas simples, espada curta e rapieira — leves e rápidas como ele.'
+      };
+      return { pode: false, motivo: motivos[cls] || '🚫 ' + cls + ' não tem proficiência com ' + item.nome + '.' };
+    }
+    if (item.slot === 'armadura' && !prof.armaduras.includes(cat)) {
+      const motivos = {
+        'Maga': '🚫 D&D 3.5: magos NÃO vestem armadura — os gestos das magias falham dentro de couro e aço (falha arcana).',
+        'Ladino': '🚫 Ladinos vestem no máximo armadura LEVE — furtividade e evasão morrem dentro de uma cota de malha.'
+      };
+      return { pode: false, motivo: motivos[cls] || '🚫 Armadura pesada demais para ' + cls + '.' };
+    }
+    if (item.slot === 'escudo' && !prof.escudo) {
+      const motivos = {
+        'Maga': '🚫 Escudo atrapalha os gestos arcanos (falha arcana). A melhor defesa da maga é o Escudo Arcano.',
+        'Ladino': '🚫 Ladinos não usam escudo — as duas mãos pertencem às adagas e às fechaduras.'
+      };
+      return { pode: false, motivo: motivos[cls] || '🚫 ' + cls + ' não usa escudo.' };
+    }
+    return { pode: true };
+  },
+  /* Ícones de quem pode usar o item (mostrado no inventário) */
+  quemUsa(item) {
+    if (!item || !item.slot) return '';
+    const icones = { 'Paladino': '⚔️', 'Ladino': '🗡️', 'Maga': '🔮' };
+    const podem = ['Paladino', 'Ladino', 'Maga']
+      .filter(cls => this.podeEquipar({ classe: cls }, item).pode)
+      .map(cls => icones[cls]);
+    return podem.length === 3 ? '' : ' <span title="Quem pode equipar (regras de classe D&D)">[' + podem.join('') + ']</span>';
+  },
+
   corItem(item) {
     const cfg = GameData.get('config');
     return cfg.raridades[item.raridade] ? cfg.raridades[item.raridade].cor : '#c8c8c8';

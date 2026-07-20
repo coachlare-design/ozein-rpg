@@ -337,6 +337,13 @@ const Combat = {
     const alvo = alvoIdx !== undefined ? c.inimigos[alvoIdx] : inimigosVivos[0];
     const passiva = h.stats.passiva || {};
 
+    // itens de GATILHO (varinhas/bastões): disparam sem teste, gastam carga e a ação
+    if (habilidadeId && habilidadeId.indexOf('gatilho:') === 0) {
+      if (!this._usarGatilho(h, habilidadeId.slice(8), alvo)) return;
+      h.atb = 0; h.desprevenido = false; c.aguardando = null;
+      this._avancarTurno(); UICombate.render(); return;
+    }
+
     // limites genéricos: usos por combate e FOCO ARCANO
     if (ab && ab.usosPorCombate && habilidadeId !== 'golpe_sagrado') {
       if ((h.usos[habilidadeId] || 0) >= ab.usosPorCombate) { this.logar(`${ab.nome}: sem usos restantes neste combate.`); return; }
@@ -500,6 +507,44 @@ const Combat = {
     c.aguardando = null;
     this._avancarTurno();
     UICombate.render();
+  },
+
+  /* Ativa um item de gatilho (D&D 3.5: dispara a magia sem teste, se a magia
+     está na lista da classe). Retorna false se a ação não pôde acontecer. */
+  _usarGatilho(h, itemId, alvo) {
+    const def = GameData.get('items')[itemId];
+    if (!def || def.tipo !== 'gatilho') return false;
+    if (!def.quem.includes(h.id)) {
+      this.logar(`🚫 ${this._nome(h)} sacode ${def.nome} — nada. Itens de gatilho exigem a magia na LISTA DA CLASSE (D&D 3.5). Quem ativa: ${def.quem.join(', ')}.`);
+      return false;
+    }
+    const cargas = Engine.estado.cargas[itemId] || 0;
+    if (cargas <= 0) { this.logar(`⚡ ${def.nome} está sem cargas — virou um graveto caro.`); return false; }
+    Engine.estado.cargas[itemId] = cargas - 1;
+    const g = def.gatilho;
+    if (g.cura) {
+      const c = this.c;
+      const feridos = c.herois.filter(x => !this._tem(x, 'petrificado') && Engine.estado.pv[x.id] < x.stats.pvMax);
+      const alvoCura = feridos.sort((a, b) => (Engine.estado.pv[a.id] / a.stats.pvMax) - (Engine.estado.pv[b.id] / b.stats.pvMax))[0] || h;
+      const ganho = this._curar(alvoCura, this.rolarDado(g.cura));
+      this.logar(`⚡ ${this._nome(h)} ativa ${def.nome}: +${ganho} PV em ${this._nome(alvoCura)}. (${Engine.estado.cargas[itemId]} cargas)`);
+    } else if (g.area) {
+      this.logar(`⚡ ${this._nome(h)} ergue ${def.nome} — a palavra de comando incendeia o ar!`);
+      for (const e of this.c.inimigos) {
+        if (e.morto || e.fugiu) continue;
+        let d = this.rolarDado(g.dano);
+        let txt = '';
+        if (g.salvamento && this._salvarInimigo(e, g.cd || 14)) { d = Math.floor(d / 2); txt = ' (salvou: metade)'; }
+        this._ferir(e, d, def.nome);
+        this.logar(`   🔥 ${e.apelido} sofre ${d}${txt}.`);
+      }
+      this.logar(`   (${Engine.estado.cargas[itemId]} cargas restantes)`);
+    } else {
+      const d = this.rolarDado(g.dano);
+      this._ferir(alvo, d, def.nome);
+      this.logar(`⚡ ${this._nome(h)} ativa ${def.nome}: ${d} de dano em ${alvo.apelido}${g.automatico ? ' — sem chance de errar' : ''}. (${Engine.estado.cargas[itemId]} cargas)`);
+    }
+    return true;
   },
 
   alternarDesvio() {

@@ -544,14 +544,14 @@ GameData.register('dialogs', {
     cenario: 'assets/img/cidade-praca.png',
     falas: [
       { quem: 'Narrador', texto: 'A sala nos fundos da taverna virou outra coisa: alvos de arremesso, um manequim de treino já sem cabeça e mapas de Úbia pregados na parede. Encostada na mesa, uma mulher de couraça surrada avalia vocês como quem pesa gado.' },
-      { quem: 'Dora Terra-brava', texto: '"Dora Terra-brava. Top 2 do ranking geral — o Top 1 é a Yara, e ninguém alcança a Yara. Jack me pediu pra parar aqui no caminho e ver com os próprios olhos os rank B que fizeram \'o serviço mais importante do semestre\'." (ela morde uma maçã) "Vocês são menores do que eu esperava."' },
-      { quem: 'Dora Terra-brava', texto: '"Regra da guilda: rank B tem direito a TREINAMENTO DE TRILHA. Especialização. O que separa um caçador de carreira de um cadáver com distintivo. Cada um de vocês escolhe UMA trilha — e não tem troca depois, então pensem." (ela aponta a maçã pro paladino) "E antes que pergunte: sim, a Ordem de vocês já mandou os sigilos. Todo mundo quer um pedaço de vocês agora."' }
+      { quem: 'Dora Terra-brava', texto: '"Dora Terra-brava. Top 2 do ranking geral — o Top 1 é a Yara, e ninguém alcança a Yara. Jack me pediu pra parar aqui no caminho e dar uma olhada nos aspirantes que andam fazendo barulho em Renânia." (ela morde uma maçã) "Vocês são menores do que eu esperava."' },
+      { quem: 'Dora Terra-brava', texto: '"Regra da guilda: quem tem contrato CREDITADO tem direito a TREINAMENTO DE TRILHA. Especialização. O que separa um caçador de carreira de um cadáver com distintivo. Serve pra quem já aguenta o tranco — nível 4 de estrada, no mínimo. Cada um escolhe UMA trilha, e não tem troca depois, então pensem." (ela aponta a maçã pro paladino) "E antes que pergunte: sim, a Ordem de vocês já mandou os sigilos. Todo mundo quer um pedaço de vocês agora."' }
     ],
     opcoes: [
       { texto: '🎖️ Ver as trilhas de prestígio (escolha permanente)', efeito: [{ tipo: 'abrirPrestigio' }] },
       { texto: 'Voltar à praça', efeito: [{ tipo: 'voltarCidade' }] }
     ],
-    codex: { id: 'dora_terrabrava', titulo: 'Dora Terra-brava (Top 2)', texto: 'A segunda melhor caçadora do ranking geral, de passagem por Renânia a mando de Jack Caolha para treinar os novos rank B. Regra da guilda: rank B dá direito a UMA trilha de especialização (classe de prestígio) — permanente.' }
+    codex: { id: 'dora_terrabrava', titulo: 'Dora Terra-brava (Top 2)', texto: 'A segunda melhor caçadora do ranking geral, de passagem por Renânia a mando de Jack Caolha para treinar os aspirantes locais. Regra da guilda: contrato creditado + nível 4 dá direito a UMA trilha de especialização (classe de prestígio) — permanente.' }
   },
 
   /* ================= MISSÃO 3 — A VILA QUE DORME ================= */

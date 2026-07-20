@@ -60,9 +60,9 @@ GameData.register('world', {
       },
       {
         id: 'anexo',
-        nome: '🎖️ Anexo dos Caçadores — Treinamento',
-        desc: 'Depois do rank B, a guilda alugou uma sala nos fundos da taverna. Dizem que uma veterana do TOP do ranking está de passagem.',
-        condicao: { flag: 'rankB' },
+        nome: '🎖️ Anexo dos Caçadores — Classes de Prestígio',
+        desc: 'Desde o primeiro contrato creditado, a guilda mantém uma sala nos fundos da taverna. Uma veterana do TOP do ranking treina as TRILHAS DE PRESTÍGIO (nível 4+, escolha permanente).',
+        condicao: { flag: 'rankC' },
         acao: { tipo: 'dialogo', dialogo: 'anexo_treinamento' }
       },
       {

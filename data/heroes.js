@@ -8,7 +8,7 @@ GameData.register('heroes', {
 
   paladino: {
     id: 'paladino',
-    nome: 'Cavaleiro de Felix Magna',
+    nome: 'Dominus',
     titulo: 'Paladino da Ordem de Felix Magna',
     classe: 'Paladino',
     nivel: 2,
@@ -39,7 +39,7 @@ GameData.register('heroes', {
 
   ladino: {
     id: 'ladino',
-    nome: 'Aspirante dos Caçadores',
+    nome: 'Herman',
     titulo: 'Ladino, aspirante à guilda dos Caçadores (Úbia)',
     classe: 'Ladino',
     nivel: 2,
@@ -69,7 +69,7 @@ GameData.register('heroes', {
 
   maga: {
     id: 'maga',
-    nome: 'Aspirante das Brancas',
+    nome: 'Liria',
     titulo: 'Maga, aspirante a Incantatrix Branca',
     classe: 'Maga (Evocadora)',
     nivel: 2,

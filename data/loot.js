@@ -7,12 +7,13 @@ GameData.register('loot', {
 
   /* ---------- Bases (o "esqueleto" do item gerado) ---------- */
   bases: [
-    { id: 'b_espada', nome: 'Espada Longa', slot: 'arma', dano: '1d8', critico: '19-20/×2', valor: 15, iLvlMin: 1 },
-    { id: 'b_machado', nome: 'Machado de Batalha', slot: 'arma', dano: '1d8', critico: '×3', valor: 10, iLvlMin: 1 },
-    { id: 'b_adaga', nome: 'Adaga', slot: 'arma', dano: '1d4', critico: '19-20/×2', valor: 2, iLvlMin: 1 },
-    { id: 'b_martelo', nome: 'Martelo de Guerra', slot: 'arma', dano: '1d8', critico: '×3', valor: 12, iLvlMin: 2 },
-    { id: 'b_couro', nome: 'Armadura de Couro', slot: 'armadura', caBonus: 2, valor: 10, iLvlMin: 1 },
-    { id: 'b_cota', nome: 'Cota de Malha', slot: 'armadura', caBonus: 5, valor: 150, iLvlMin: 3 },
+    { id: 'b_espada', nome: 'Espada Longa', slot: 'arma', categoria: 'marcial', dano: '1d8', critico: '19-20/×2', valor: 15, iLvlMin: 1 },
+    { id: 'b_machado', nome: 'Machado de Batalha', slot: 'arma', categoria: 'marcial', dano: '1d8', critico: '×3', valor: 10, iLvlMin: 1 },
+    { id: 'b_adaga', nome: 'Adaga', slot: 'arma', categoria: 'simples', dano: '1d4', critico: '19-20/×2', valor: 2, iLvlMin: 1 },
+    { id: 'b_espada_curta', nome: 'Espada Curta', slot: 'arma', categoria: 'ladino', dano: '1d6', critico: '19-20/×2', valor: 10, iLvlMin: 1 },
+    { id: 'b_martelo', nome: 'Martelo de Guerra', slot: 'arma', categoria: 'marcial', dano: '1d8', critico: '×3', valor: 12, iLvlMin: 2 },
+    { id: 'b_couro', nome: 'Armadura de Couro', slot: 'armadura', categoria: 'leve', caBonus: 2, valor: 10, iLvlMin: 1 },
+    { id: 'b_cota', nome: 'Cota de Malha', slot: 'armadura', categoria: 'media', caBonus: 5, valor: 150, iLvlMin: 3 },
     { id: 'b_escudo', nome: 'Escudo Pesado', slot: 'escudo', caBonus: 2, valor: 20, iLvlMin: 1 },
     { id: 'b_elmo', nome: 'Elmo de Ferro', slot: 'elmo', caBonus: 1, valor: 25, iLvlMin: 2 },
     { id: 'b_anel', nome: 'Anel', slot: 'anel', valor: 30, iLvlMin: 2 },
@@ -52,7 +53,7 @@ GameData.register('loot', {
   /* ---------- Únicos (nome, história, poder fixo) ---------- */
   unicos: [
     {
-      id: 'u_lamina_juramento', nome: 'Lâmina do Juramento', slot: 'arma',
+      id: 'u_lamina_juramento', nome: 'Lâmina do Juramento', slot: 'arma', categoria: 'marcial',
       dano: '1d8+2', critico: '19-20/×2',
       efeito: { bonusAcerto: 1, bonusDano: 2 }, valor: 900, iLvl: 3,
       lore: 'Forjada em Úbia para um Caçador rank S que nunca voltou pra buscá-la. O fio nunca cega; a promessa nunca prescreve.'
@@ -63,12 +64,12 @@ GameData.register('loot', {
       lore: 'Anel de bronze com o brasão da Cidade dos Heróis. Dizem que Jack Caolha reconhece quem o usa — pra melhor ou pra pior.'
     },
     {
-      id: 'u_manto_vithus', nome: 'Manto do Fundidor de Vithus', slot: 'armadura',
+      id: 'u_manto_vithus', nome: 'Manto do Fundidor de Vithus', slot: 'armadura', categoria: 'leve',
       caBonus: 3, efeito: { caExtra: 1, pvExtra: 8 }, valor: 1100, iLvl: 4,
       lore: 'Couro tratado nas fundições de Vithus. Absorve calor, pancada e, segundo o fabricante, "uma quantidade razoável de arrependimento".'
     },
     {
-      id: 'u_adaga_ritual', nome: 'Adaga Ritual Carmesim', slot: 'arma',
+      id: 'u_adaga_ritual', nome: 'Adaga Ritual Carmesim', slot: 'arma', categoria: 'simples',
       dano: '1d4+1', critico: '19-20/×2',
       efeito: { bonusAcerto: 1, roubo: 2 }, valor: 1400, iLvl: 5,
       lore: 'Deixada para trás no Paredão. O aço bebe — e devolve. O cabo tem sulcos para os dedos de uma mão pequena e firme, acostumada a cortes precisos.'
@@ -84,7 +85,7 @@ GameData.register('loot', {
       lore: 'Presente de Yurin, "por conta da casa". Ferro negro com um selo que não é dele. Bate mais forte — e, às vezes, à noite, você sonha com uma armadura vazia que sorri. (+1 acerto, +2 dano, -1 Vontade. Todo pacto cobra.)'
     },
     {
-      id: 'u_foice_ceifeiro', nome: 'Foice do Ceifeiro Silente', slot: 'arma',
+      id: 'u_foice_ceifeiro', nome: 'Foice do Ceifeiro Silente', slot: 'arma', categoria: 'marcial',
       dano: '1d10+1', critico: '19-20/×2',
       efeito: { bonusDano: 2, roubo: 1 }, valor: 1600, iLvl: 8,
       lore: 'Cerimônia das Adagas Negras: a foice que "concede misericórdia" no Templo das Lamúrias. Nas mãos certas, concede exatamente o contrário.'
@@ -123,7 +124,11 @@ GameData.register('loot', {
     { item: 'pergaminho_identificar', preco: 25, estoque: 99 },
     { item: 'perg_bola_de_fogo', preco: 375, estoque: 1 },
     { item: 'perg_velocidade', preco: 375, estoque: 1 },
+    { item: 'varinha_missels', preco: 450, estoque: 1 },
+    { item: 'varinha_cura', preco: 375, estoque: 1 },
+    { item: 'bastao_chamas', preco: 900, estoque: 1 },
     { base: 'b_espada', preco: 15 },
+    { base: 'b_espada_curta', preco: 10 },
     { base: 'b_martelo', preco: 12 },
     { base: 'b_escudo', preco: 20 },
     { base: 'b_elmo', preco: 25 },

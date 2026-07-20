@@ -39,7 +39,9 @@ const UIInv = {
     const consumHtml = Object.entries(consum).map(([id, n]) => {
       const it = GameData.get('items')[id];
       const usavel = id === 'pocao_cura_leve';
-      return `<li><b>${it.nome}</b> ×${n} — <span style="color:var(--texto-fraco)">${it.efeito || it.desc}</span>
+      const cargas = it.tipo === 'gatilho' ? ` <b style="color:var(--conjunto)">⚡ ${Engine.estado.cargas[id] || 0} cargas</b>` : '';
+      const quem = it.tipo === 'gatilho' && it.quem ? ` <span style="color:var(--texto-fraco)">(usa em combate: ${it.quem.map(q => Engine.estado.herois[q] ? Engine.estado.herois[q].nome : q).join(', ')})</span>` : '';
+      return `<li><b>${it.nome}</b> ×${n}${cargas} — <span style="color:var(--texto-fraco)">${it.efeito || it.desc}</span>${quem}
         ${usavel ? `<button class="btn mini" onclick="UIInv.usarPocao()">usar</button>` : ''}</li>`;
     }).join('') || '<li style="color:var(--texto-fraco)">Nada além de fiapos de bolso.</li>';
 
@@ -61,7 +63,7 @@ const UIInv = {
          it.maldicao ? `<span style="color:var(--sangue)">${this._efeitoTxt(it.maldicao.efeito)} — ${it.maldicao.desc}</span>` : '',
          it.conjuntoNome ? `Conjunto: ${it.conjuntoNome}` : '', it.lore ? `<i>${it.lore}</i>` : '']
         .filter(Boolean).join(' · ');
-      return `<li><b style="color:${cor}">${Loot.nomeExibicao(it)}</b> <span class="tag-raridade" style="color:${cor}">${GameData.get('config').raridades[it.raridade].nome}</span><br>
+      return `<li><b style="color:${cor}">${Loot.nomeExibicao(it)}</b> <span class="tag-raridade" style="color:${cor}">${GameData.get('config').raridades[it.raridade].nome}</span>${it.naoIdentificado ? '' : Loot.quemUsa(it)}<br>
         <span style="color:var(--texto-fraco);font-size:13px">${detalhes}</span><br>${acoes}</li>`;
     }).join('') || '<li style="color:var(--texto-fraco)">Mochila vazia. As minas resolvem isso.</li>';
 
@@ -108,6 +110,8 @@ const UIInv = {
     const est = Engine.estado;
     const it = est.mochila[i];
     if (!it || !it.slot) return;
+    const regra = Loot.podeEquipar(est.herois[this.heroiSel], it);
+    if (!regra.pode) { UI.toast(regra.motivo); return; }
     let slot = it.slot;
     if (slot === 'anel') slot = !est.equips[this.heroiSel].anel1 ? 'anel1' : (!est.equips[this.heroiSel].anel2 ? 'anel2' : 'anel1');
     const atual = est.equips[this.heroiSel][slot];
@@ -227,7 +231,15 @@ const UIInv = {
     }
     if (est.ouro < of.preco) { UI.toast('💰 Ouro insuficiente.'); return; }
     est.ouro -= of.preco;
-    if (of.item) est.inventario.push(of.item);
+    if (of.item) {
+      est.inventario.push(of.item);
+      const def = GameData.get('items')[of.item];
+      if (def && def.tipo === 'gatilho') {
+        est.cargas[of.item] = (est.cargas[of.item] || 0) + (def.cargas || 0);
+        UI.toast('⚡ ' + def.nome + ': aparece no submenu GATILHOS (⚡) de quem pode ativá-la, durante o combate.');
+      }
+      if (def && def.magia) UI.toast('📜 Pergaminho de magia! A maga o estuda no DESCANSO — botão "📖 Estudar o grimório".');
+    }
     else {
       const base = JSON.parse(JSON.stringify(L.bases.find(b => b.id === of.base)));
       base.uid = 'it' + Math.floor(Math.random() * 1e9);

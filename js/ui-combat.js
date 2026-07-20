@@ -138,10 +138,22 @@ const UICombate = {
           if (ab.circulo && h.foco !== null && h.foco !== undefined) extra += ` [${ab.circulo}◈]`;
           html += `<button class="btn mini" title="${ab.desc}" onclick="UICombate.usar('${abId}')">${ab.nome}${extra}</button>`;
         }
+        // itens de GATILHO (varinhas/bastões) que ESTE herói pode ativar
+        const itensDef = GameData.get('items');
+        const gatilhos = [...new Set(Engine.estado.inventario)].filter(id => {
+          const d = itensDef[id];
+          return d && d.tipo === 'gatilho' && d.quem.includes(h.id);
+        });
+        for (const gid of gatilhos) {
+          const d = itensDef[gid];
+          const cg = Engine.estado.cargas[gid] || 0;
+          html += `<button class="btn mini gatilho" ${cg <= 0 ? 'disabled' : ''} title="${d.efeito} ${d.desc}" onclick="UICombate.usar('gatilho:${gid}')">⚡ ${d.nome.replace('Varinha de ', 'Varinha: ').replace('Bastão das ', 'Bastão: ')} (${cg})</button>`;
+        }
         if (c.enc.forjaInstavel && !c.forjaUsada) {
           html += `<button class="btn mini destaque" title="Arromba a válvula da forja: 3d6 de dano e ATORDOA o gigante. 1× por combate." onclick="UICombate.usar('forja')">💨 Liberar Vapor da Forja</button>`;
         }
         html += `<button class="btn mini" onclick="Combat.tentarFugir()">🏃 Fugir (50%)</button>`;
+        html += `<button class="btn mini ajuda-taticas" onclick="UICombate.painelTaticas()" title="Como cada herói funciona: furtivo, foco, gatilhos.">📖 Táticas</button>`;
       }
       html += '</div>';
       menu.innerHTML = html;
@@ -156,6 +168,19 @@ const UICombate = {
   },
 
   usar(abId) {
+    // gatilho de dano único precisa de alvo; cura e área, não
+    if (abId.indexOf('gatilho:') === 0) {
+      const d = GameData.get('items')[abId.slice(8)];
+      if (d && d.gatilho.dano && !d.gatilho.area) {
+        const vivos = Combat.c.inimigos.filter(e => !e.morto && !e.fugiu);
+        if (vivos.length === 1) { Combat.agir(abId, Combat.c.inimigos.indexOf(vivos[0])); return; }
+        this.selecionando = abId;
+        this.render();
+        return;
+      }
+      Combat.agir(abId);
+      return;
+    }
     const ab = GameData.get('abilities')[abId] || {};
     const precisaAlvo = ['atacar', 'golpe_sagrado', 'truque_sujo', 'misseis_magicos', 'raio_de_gelo'];
     if (ab.alvo === 'inimigo' || precisaAlvo.includes(abId)) {
@@ -176,6 +201,54 @@ const UICombate = {
   },
 
   cancelarAlvo() { this.selecionando = null; this.render(); },
+
+  /* ---------- 📖 Táticas: como cada herói funciona (funciona no toque) ---------- */
+  painelTaticas() {
+    const antigo = document.getElementById('painel-taticas');
+    if (antigo) { antigo.remove(); return; }
+    const abs = GameData.get('abilities');
+    const est = Engine.estado;
+    const nivelL = est.herois.ladino ? est.herois.ladino.nivel : 1;
+    const dadosFurtivo = Math.max(1, Math.ceil(nivelL / 2));
+
+    const blocoHeroi = (id, dicas) => {
+      const hr = est.herois[id];
+      if (!hr || !est.party.includes(id)) return '';
+      const habs = (hr.habilidadesCombate || [])
+        .map(a => abs[a]).filter(a => a && a.tipo !== 'passiva')
+        .map(a => `<li><b>${a.nome}</b>${a.circulo ? ` <span style="color:var(--conjunto)">[${a.circulo}◈ foco]</span>` : ''} — ${a.desc}</li>`).join('');
+      return `<div class="bloco"><h4>${hr.nome} <span style="color:var(--texto-fraco)">(${hr.classe})</span></h4>
+        ${dicas}<ul class="lista-simples" style="font-size:13px">${habs}</ul></div>`;
+    };
+
+    const dicaLadino = `<p class="dica-tatica">🗡️ <b>ATAQUE FURTIVO (+${dadosFurtivo}d6)</b> — sai <u>sozinho</u> sempre que o alvo estiver
+      <b>ATORDOADO</b>, <b>CEGO</b> ou <b>DORMINDO</b>, ou quando o ladino estiver <b>OCULTO</b>.
+      A jogada clássica: <b>💨 Truque Sujo</b> (atordoa) e no turno seguinte o golpe entra com os dados extras.
+      O dado extra cresce com o nível.</p>`;
+    const dicaMaga = `<p class="dica-tatica">🔮 <b>FOCO ARCANO</b> — o orçamento de magia de CADA combate (recarrega na luta seguinte).
+      Cada magia custa o círculo dela, mostrado como [n◈].
+      📜 <b>APRENDER MAGIAS NOVAS</b>: compre/encontre <b>pergaminhos de magia</b> e estude-os no
+      <b>DESCANSO</b> (botão "📖 Estudar o grimório"). O estudo rola Identificar Magia e gasta tinta — falhou, tenta no próximo descanso.</p>`;
+    const dicaPaladino = `<p class="dica-tatica">⚔️ <b>LINHA DE FRENTE</b> — ☀️ Golpe Sagrado devasta o MAL (chefes adoram ser o alvo);
+      ✋ Impor as Mãos cura o aliado mais ferido usando a reserva diária (renova no descanso).</p>`;
+    const dicaGatilhos = `<div class="bloco"><h4>⚡ Itens de gatilho (varinhas & bastões)</h4>
+      <p class="dica-tatica">Disparam a magia <b>sem teste e sem gastar foco</b> — consomem <b>CARGAS</b>.
+      Regra de D&D 3.5: só ativa quem tem a magia na <b>lista da classe</b> —
+      varinhas arcanas são da <b>maga</b>; a Varinha de Cura também obedece ao <b>paladino</b>.
+      O ladino não ativa nenhuma (e resmunga sobre isso). À venda na Forja do Bruno; aparecem como ⚡ no menu de quem pode usar.</p></div>`;
+
+    const painel = UI.el('div', 'painel-cheio');
+    painel.id = 'painel-taticas';
+    painel.style.zIndex = 60;
+    painel.innerHTML = `
+      <h2>📖 Táticas da Party</h2>
+      <button class="btn fechar" onclick="this.parentElement.remove()">✕ Fechar</button>
+      ${blocoHeroi('paladino', dicaPaladino)}
+      ${blocoHeroi('ladino', dicaLadino)}
+      ${blocoHeroi('maga', dicaMaga)}
+      ${dicaGatilhos}`;
+    UI.raiz.appendChild(painel);
+  },
 
   /* ---------- Fim de combate ---------- */
   telaFim(resultado, premio) {

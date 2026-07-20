@@ -8,7 +8,7 @@
 
 const Engine = {
   estado: null,
-  VERSAO_SAVE: 5,
+  VERSAO_SAVE: 6,
 
   /* ---------- Estado inicial (Novo Jogo) ---------- */
   novoJogo(nomeJogador, slot) {
@@ -33,7 +33,8 @@ const Engine = {
       dialogosVistos: [],
       local: 'cidade',
       contadorDescansos: 0,
-      estudos: {}            // pergaminho de magia -> nº do descanso da última tentativa
+      estudos: {},           // pergaminho de magia -> nº do descanso da última tentativa
+      cargas: {}             // itens de gatilho (varinhas/bastões) -> cargas restantes
     };
     this.recrutarHeroi('paladino');
     this.estado.reservaImpor = this._reservaMaxima();
@@ -128,6 +129,19 @@ const Engine = {
   },
 
   missaoAtiva() { return !!this.estado.missoes.missao1; },
+
+  /* A cidade fica trancada enquanto uma missão está em andamento e o
+     objetivo final da rota (o chefe) ainda não caiu. Farm livre não tranca. */
+  NOS_CHEFE_MISSAO: { missao1: 'no_fundo', missao2: 'no_paredao', missao3: 'no_m3_covil' },
+  cidadeBloqueada() {
+    for (const [mid, noChefe] of Object.entries(this.NOS_CHEFE_MISSAO)) {
+      const m = this.estado.missoes[mid];
+      if (m && !m.concluida && !this.estado.nosConcluidos.includes(noChefe)) {
+        return GameData.get('quests')[mid] ? GameData.get('quests')[mid].nome : mid;
+      }
+    }
+    return null;
+  },
 
   marcarEtapa(missaoId, etapaId) {
     const m = this.estado.missoes[missaoId];
@@ -247,6 +261,8 @@ const Engine = {
         case 'xp': {
           const g = this.ganharXp(ef.valor);
           instrucoes.push({ ui: 'toast', texto: '✨ +' + ef.valor + ' XP' + (g && g.subiu ? ' — NÍVEL ' + g.nivel + '!' : '') });
+          const avisoP = this._avisoPrestigio(g);
+          if (avisoP) instrucoes.push(avisoP);
           break;
         }
         case 'item': { // consumível/pergaminho por id (items.js)
@@ -258,6 +274,11 @@ const Engine = {
           }
           this.estado.inventario.push(ef.valor);
           instrucoes.push({ ui: 'toast', texto: '🎁 Item recebido: ' + (def ? def.nome : ef.valor) });
+          if (def && def.tipo === 'gatilho') {
+            this.estado.cargas[ef.valor] = (this.estado.cargas[ef.valor] || 0) + (def.cargas || 0);
+            instrucoes.push({ ui: 'toast', texto: '⚡ Item de GATILHO: aparece no submenu ⚡ de quem pode ativá-lo, em combate.' });
+          }
+          if (def && def.magia) instrucoes.push({ ui: 'toast', texto: '📜 Pergaminho de magia! A maga o estuda no DESCANSO — botão "📖 Estudar o grimório".' });
           break;
         }
         case 'itemUnico': { // item ÚNICO do loot.js, direto na mochila, já identificado
@@ -356,8 +377,21 @@ const Engine = {
     if (dlg.xp) {
       const g = this.ganharXp(dlg.xp);
       novidades.push({ ui: 'toast', texto: '✨ +' + dlg.xp + ' XP' + (g && g.subiu ? ' — NÍVEL ' + g.nivel + '!' : '') });
+      const avisoP = this._avisoPrestigio(g);
+      if (avisoP) novidades.push(avisoP);
     }
     return novidades;
+  },
+
+  /* Aviso único quando a party atinge o nível das trilhas de prestígio */
+  _avisoPrestigio(g) {
+    const req = GameData.get('prestige').requisitoNivel || 4;
+    if (!g || !g.subiu || g.nivel < req) return null;
+    if (this.estado.flags.avisoPrestigio) return null;
+    const algumSem = this.estado.party.some(id => !this.estado.herois[id].prestigio);
+    if (!algumSem) return null;
+    this.estado.flags.avisoPrestigio = true;
+    return { ui: 'toast', texto: '🎖️ NÍVEL ' + g.nivel + '! O Anexo dos Caçadores (na cidade) agora ensina CLASSES DE PRESTÍGIO — escolha a trilha de cada herói.' };
   },
 
   /* ---------- Save ---------- */
@@ -375,10 +409,11 @@ const Engine = {
     this.estado = est;
     if (!this.estado.slot) this.estado.slot = slot || 1;
     this._migrarSave();
-    // sincroniza retratos com os dados atuais (arte nova vale pra saves antigos)
+    // sincroniza retratos e NOMES com os dados atuais (valem pra saves antigos)
     for (const id of this.estado.party) {
       const base = GameData.get('heroes')[id];
       if (base && base.retrato) this.estado.herois[id].retrato = base.retrato;
+      if (base && base.nome) this.estado.herois[id].nome = base.nome;
     }
     return true;
   },
@@ -406,6 +441,16 @@ const Engine = {
     // v5: grimório e prestígio
     if (e.contadorDescansos === undefined) e.contadorDescansos = 0;
     if (!e.estudos) e.estudos = {};
+    // v6: cargas de itens de gatilho + restrições de classe (D&D 3.5)
+    if (!e.cargas) e.cargas = {};
+    for (const hid of e.party) {
+      for (const [slot, it] of Object.entries(e.equips[hid] || {})) {
+        if (it && !Loot.podeEquipar(e.herois[hid], it).pode) {
+          e.mochila.push(it);
+          e.equips[hid][slot] = null;
+        }
+      }
+    }
     e.versaoSave = this.VERSAO_SAVE;
   }
 };
