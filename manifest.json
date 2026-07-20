@@ -1,0 +1,15 @@
+{
+  "name": "Ozein — Os Pesadelos de Renânia",
+  "short_name": "Ozein RPG",
+  "description": "RPG artesanal da família: D&D 3.5 + loot de Diablo 2 + coração de Final Fantasy, no mundo de Ozein.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#0d1117",
+  "theme_color": "#141b24",
+  "icons": [
+    { "src": "assets/img/icone-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/icone-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
