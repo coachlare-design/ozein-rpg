@@ -203,8 +203,8 @@ const Musica = {
     if (!caminhoImagem) return;
     const c = String(caminhoImagem);
     if (c.includes('cidade')) this.tocar('cidade');
-    else if (c.includes('estrada') || c.includes('encosta')) this.tocar('estrada');
-    else this.tocar('minas'); // mina, caverna, forja, masmorra, batalha
+    else if (c.includes('estrada') || c.includes('encosta') || c.includes('porto') || c.includes('ubia-vista')) this.tocar('estrada');
+    else this.tocar('minas'); // mina, caverna, forja, masmorra, subsolo, batalha
   }
 };
 

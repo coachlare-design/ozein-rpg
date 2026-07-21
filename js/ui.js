@@ -78,12 +78,12 @@ const UI = {
     if (Engine.estado.local === 'mapa') {
       const trava = Engine.cidadeBloqueada();
       if (trava) {
-        this.toast(`🔒 A missão "${trava}" está em andamento — Renânia reabre quando o objetivo da rota cair. Descanse nos pontos do caminho.`);
+        this.toast(`🔒 A missão "${trava}" está em andamento — a cidade reabre quando o objetivo da rota cair. Descanse nos pontos do caminho.`);
         return;
       }
       this.telaCidade(); return;
     }
-    if (!Engine.missaoAtiva()) { this.toast('Aceite um contrato no quadro dos Caçadores primeiro.'); return; }
+    if (!Engine.missaoAtiva()) { this.toast('Aceite um contrato no quadro da guilda primeiro.'); return; }
     this.telaMapa();
   },
 
@@ -228,12 +228,34 @@ const UI = {
   },
 
   /* ---------- Cidade (hub) ---------- */
+
+  /* v0.8.0 — quais locais têm o PRÓXIMO PASSO da história (ganham ❗ e destaque) */
+  _locaisComNovidade() {
+    const e = Engine.estado, f = e.flags, m = e.missoes;
+    const nov = [];
+    if (Engine.regiaoAtual() === 'renania') {
+      if (!m.missao1) nov.push('quadro');
+      if (f.missao1Cobrar && m.missao1 && !m.missao1.concluida) nov.push('quadro');
+      if (f.v01Completa && !m.missao2) nov.push('beco');
+      if (f.missao2Relatorio && !f.v02Completa) nov.push('carta_guilda');
+      if (f.v02Completa && !m.missao3) nov.push('quadro');
+      if (f.missao3Relatorio && !f.v03Completa) nov.push('carta_m3');
+      if (f.v03Completa && !f.ubiaAberta) nov.push('convocacao');
+      if (f.ubiaAberta && (!m.missao4 || !m.missao4.concluida)) nov.push('viagem_ubia');
+    } else {
+      if (!m.missao4) nov.push('u_mural');
+      if (f.missao4Relatorio && !f.v04Completa) nov.push('u_mural');
+      if (f.v04Completa && !f.mantoEntregue) nov.push('u_torre');
+    }
+    return nov;
+  },
+
   telaCidade() {
     this.limpar();
     Musica.tocar('cidade');
     Engine.estado.local = 'cidade';
     this.atualizarHud();
-    const cidade = GameData.get('world').cidade;
+    const cidade = Engine.cidadeAtual();
     this.fundo(cidade.fundo);
 
     const painel = this.el('div');
@@ -244,12 +266,16 @@ const UI = {
     const prestigioPendente = Engine.estado.flags.rankC &&
       Engine.estado.party.some(id => Engine.podePrestigio(id));
     if (prestigioPendente) {
+      const emUbia = Engine.regiaoAtual() === 'ubia';
       const alerta = this.el('button', 'btn alerta-prestigio',
-        `🎖️ TRILHAS DE PRESTÍGIO DISPONÍVEIS!<span class="sub">A veterana do Anexo dos Caçadores espera a party nos fundos da taverna. A escolha é PERMANENTE — e define o futuro de cada herói. Clique para ir agora.</span>`);
-      alerta.onclick = () => this.abrirDialogo('anexo_treinamento');
+        `🎖️ TRILHAS DE PRESTÍGIO DISPONÍVEIS!<span class="sub">${emUbia
+          ? 'A Sede dos Caçadores treina as trilhas na própria matriz. A escolha é PERMANENTE. Clique para escolher agora.'
+          : 'A veterana do Anexo dos Caçadores espera a party nos fundos da taverna. A escolha é PERMANENTE — e define o futuro de cada herói. Clique para ir agora.'}</span>`);
+      alerta.onclick = () => emUbia ? this.telaPrestigio() : this.abrirDialogo('anexo_treinamento');
       painel.appendChild(alerta);
     }
 
+    const novidades = this._locaisComNovidade();
     for (const local of cidade.locais) {
       if (local.condicao) {
         if (local.condicao.flag && !Engine.estado.flags[local.condicao.flag]) continue;
@@ -257,11 +283,12 @@ const UI = {
         if (local.condicao.missao && !Engine.estado.missoes[local.condicao.missao]) continue;
       }
       const novoPrestigio = local.id === 'anexo' && prestigioPendente;
-      const b = this.el('button', 'btn' + (novoPrestigio ? ' destaque' : ''),
-        `${novoPrestigio ? '🔔 ' : ''}${local.nome}<span class="sub">${local.desc}</span>`);
+      const novidade = novidades.includes(local.id);
+      const b = this.el('button', 'btn' + (novoPrestigio || novidade ? ' destaque' : ''),
+        `${novoPrestigio ? '🔔 ' : ''}${novidade ? '❗ ' : ''}${local.nome}<span class="sub">${local.desc}</span>`);
       if (local.acao.tipo === 'viajar' && !Engine.missaoAtiva()) {
         b.disabled = true;
-        b.title = 'Aceite um contrato no quadro dos Caçadores primeiro.';
+        b.title = 'Aceite um contrato no quadro da guilda primeiro.';
       }
       b.onclick = () => this.acaoLocal(local.acao);
       painel.appendChild(b);
@@ -271,6 +298,8 @@ const UI = {
 
   acaoLocal(acao) {
     if (acao.tipo === 'mapaMundo') { this.painelMapaMundo(); return; }
+    if (acao.tipo === 'loja') { UIInv.telaLoja(acao.loja || 'bruno'); return; }
+    if (acao.tipo === 'regiao') { this.contextoCena = null; this.processarInstrucoes(Engine.executarEfeitos([{ tipo: 'regiao', valor: acao.regiao }])); return; }
     if (acao.tipo === 'dialogo') { this.contextoCena = null; this.abrirDialogo(acao.dialogo); }
     else if (acao.tipo === 'viajar') { Engine.estado.local = 'mapa'; this.telaMapa(); }
     else if (acao.tipo === 'descanso') {
@@ -456,8 +485,12 @@ const UI = {
     Musica.tocar('estrada');
     Engine.estado.local = 'mapa';
     this.atualizarHud();
-    const mapa = GameData.get('world').mapa;
+    const mapa = Engine.mapaAtual();
     this.fundo(mapa.fundo);
+
+    // v0.8.0: o mapa SEMPRE aponta o próximo passo (nó dourado pulsante ⭐)
+    const proximoId = Engine.proximoDestino();
+    const noProximo = proximoId ? mapa.nos.find(n => n.id === proximoId) : null;
 
     // Faixa fina, NÃO intercepta cliques (pointer-events:none) e fica ABAIXO
     // dos nós (z-index menor) — nenhum nó da estrada pode ficar inacessível atrás dela.
@@ -465,8 +498,9 @@ const UI = {
     cab.style.cssText = 'position:absolute;left:12px;top:8px;z-index:8;max-width:92vw;pointer-events:none;padding:8px 14px;';
     const missaoTrava = Engine.cidadeBloqueada();
     cab.innerHTML = `<h3 style="display:inline;font-size:15px">🗺️ ${mapa.nome}</h3> <span style="font-size:12px;color:var(--texto-fraco)">${missaoTrava
-      ? `<b style="color:var(--tocha-clara)">🔒 "${missaoTrava}" em andamento — Renânia reabre quando o objetivo cair.</b>`
-      : '— pode voltar à cidade quando quiser.'}</span>`;
+      ? `<b style="color:var(--tocha-clara)">🔒 "${missaoTrava}" em andamento — a cidade reabre quando o objetivo cair.</b>`
+      : '— pode voltar à cidade quando quiser.'}${noProximo
+      ? ` <b style="color:var(--ouro)">⭐ Próximo passo: ${noProximo.tipo === 'cidade' ? noProximo.nome + ' (o desfecho espera na cidade)' : noProximo.nome}.</b>` : ''}</span>`;
     this.raiz.appendChild(cab);
 
     const cont = this.el('div');
@@ -497,11 +531,12 @@ const UI = {
       if (!visivel(no)) continue;
       const st = Engine.estadoDoNo(no);
       const travadoCidade = no.tipo === 'cidade' && missaoTrava;
-      const b = this.el('button', `no-mapa ${travadoCidade ? 'bloqueado' : st}`);
+      const ehProximo = noProximo && no.id === noProximo.id && !travadoCidade;
+      const b = this.el('button', `no-mapa ${travadoCidade ? 'bloqueado' : st}${ehProximo ? ' proximo' : ''}`);
       b.style.left = no.x + '%';
       b.style.top = no.y + '%';
       b.innerHTML = `<span class="disco">${travadoCidade ? '🔒' : no.icone}</span><span class="rotulo">${no.nome}</span>`;
-      b.title = travadoCidade ? `A missão "${missaoTrava}" está em andamento — termine-a para voltar.` : no.desc;
+      b.title = travadoCidade ? `A missão "${missaoTrava}" está em andamento — termine-a para voltar.` : (ehProximo ? '⭐ PRÓXIMO PASSO: ' + no.desc : no.desc);
       if (st === 'bloqueado' && !travadoCidade) b.disabled = true;
       else b.onclick = () => this.entrarNo(no);
       cont.appendChild(b);
@@ -512,14 +547,15 @@ const UI = {
   entrarNo(no) {
     if (no.tipo === 'cidade') {
       const trava = Engine.cidadeBloqueada();
-      if (trava) { this.toast(`🔒 A missão "${trava}" está em andamento. Renânia reabre quando o objetivo da rota cair — descanse nos pontos do caminho.`); return; }
+      if (trava) { this.toast(`🔒 A missão "${trava}" está em andamento. A cidade reabre quando o objetivo da rota cair — descanse nos pontos do caminho.`); return; }
       this.telaCidade(); return;
     }
     this.contextoCena = { noId: no.id };
     const refarm = {
       no_mina_entrada: 'refarm_no1_intro', no_caverna: 'refarm_no2_intro', no_fundo: 'refarm_no3_intro',
       no_bolsao: 'refarm_m2_bolsao_intro', no_fissura: 'refarm_m2_fissura_intro',
-      no_m3_vau: 'refarm_m3_vau_intro', no_m3_pasto: 'refarm_m3_pasto_intro'
+      no_m3_vau: 'refarm_m3_vau_intro', no_m3_pasto: 'refarm_m3_pasto_intro',
+      no_u_armazem: 'refarm_m4_armazem_intro', no_u_subterraneo: 'refarm_m4_subterraneo_intro'
     };
     if (Engine.estado.nosConcluidos.includes(no.id)) {
       if (refarm[no.id]) { this.abrirDialogo(refarm[no.id]); return; }
@@ -538,7 +574,7 @@ const UI = {
 
     this.limpar();
     this.atualizarHud();
-    const fundoNo = this.contextoCena ? GameData.get('world').mapa.fundo : GameData.get('world').cidade.fundo;
+    const fundoNo = this.contextoCena ? Engine.mapaAtual().fundo : Engine.cidadeAtual().fundo;
     const fundoFinal = dlg.cenario || fundoNo;
     this.fundo(fundoFinal);
     Musica.porCenario(fundoFinal);
@@ -613,7 +649,7 @@ const UI = {
         case 'mapa': this.telaMapa(); return;
         case 'resultadoTeste': this.mostrarTeste(ins); return;
         case 'combate': UICombate.abrir(ins.id, { noId: this.contextoCena ? this.contextoCena.noId : null, farm: ins.farm }); return;
-        case 'loja': UIInv.telaLoja(); return;
+        case 'loja': UIInv.telaLoja(ins.lojaId); return;
         case 'previaCombate': this.telaPreviaCombate(ins.monstros, ins.noId); return;
         case 'prestigio': this.telaPrestigio(); return;
       }
@@ -780,7 +816,7 @@ const UI = {
         continue;
       }
       if (!m) {
-        missoesHtml += `<div class="bloco"><h4>📜 ${q.nome}</h4><p style="font-size:13px;color:var(--texto-fraco)">Disponível no quadro dos Caçadores, na taverna.</p></div>`;
+        missoesHtml += `<div class="bloco"><h4>📜 ${q.nome}</h4><p style="font-size:13px;color:var(--texto-fraco)">${q.origem || 'Disponível no quadro dos Caçadores, na taverna.'}</p></div>`;
         continue;
       }
       const etapas = q.etapas.map(e =>

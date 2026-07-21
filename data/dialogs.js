@@ -780,6 +780,309 @@ GameData.register('dialogs', {
       { texto: '⚔️ Dispersar o que sonha nas cinzas (farm, XP reduzido)', efeito: [{ tipo: 'combate', valor: 'refarm_m3_pasto', farm: true }] },
       { texto: 'Voltar ao mapa', efeito: [{ tipo: 'sairCena' }] }
     ]
+  },
+
+  /* ================= MISSÃO 4 — A CIDADE DOS HERÓIS (ÚBIA) ================= */
+
+  m4_convocacao: {
+    cenario: 'assets/img/cidade-praca.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O tubo de marfim espera sobre a mesa do casebre — o segundo em um mês. Este não pega fogo sozinho: dentro há um SALVO-CONDUTO com o lacre do conselho dos 8 e uma única linha: "Apresentem-se na Torre de Marfim de Úbia. A aspirante sabe por quê."' },
+      { quem: 'Narrador', texto: 'Por baixo do tubo, dobrado em quatro, um bilhete em letra de quem escreve com pressa e um olho só: "Sede. AGORA. Os dois assuntos são o mesmo assunto. E aspirantes... venham armados. — J.C."' },
+      { quem: 'Maga', texto: '"As Brancas e o Jack pedindo a mesma viagem no mesmo dia." (ela fecha o grimório devagar) "Da última vez que todo mundo quis a gente no mesmo lugar, o lugar era uma armadilha. Vamos assim mesmo, certo?" (não é bem uma pergunta)' }
+    ],
+    opcoes: [
+      { texto: '🐎 Tomar a diligência para ÚBIA (três dias de estrada)', efeito: [{ tipo: 'flag', valor: 'ubiaAberta' }, { tipo: 'regiao', valor: 'ubia' }] },
+      { texto: 'Resolver pendências em Renânia primeiro', efeito: [{ tipo: 'voltarCidade' }] }
+    ],
+    codex: { id: 'convocacao_ubia', titulo: 'Convocação a Úbia', texto: 'As Brancas convocaram a party à Torre de Marfim de Úbia; Jack Caolha mandou um bilhete pedindo a MESMA viagem: "os dois assuntos são o mesmo assunto". A diligência para o leste parte da praça de Renânia.' }
+  },
+
+  m4_sede: {
+    cenario: 'assets/img/cidade-ubia.png',
+    falas: [
+      { quem: 'Narrador', texto: 'A Sede dos Caçadores é um salão de pé-direito duplo forrado de placas de bronze — um nome de caçador em cada uma, os mortos com a data, os vivos com o RANKING. No topo da coluna central: "1. YARA". Alguém pendurou um pano preto sobre a placa. Ninguém teve coragem de tirá-la.' },
+      { quem: 'Jack Caolha', texto: 'Ele é menor do que as histórias — e o olho que sobrou compensa os dois. "Sentem. Vou economizar o teatro: a YARA sumiu há seis dias. A Dora foi atrás. A DORA sumiu há dois. E metade da minha ala leste está dormindo em pé, sorrindo, depois de tomar um TÔNICO que ninguém sabe quem distribui." (ele empurra um frasco âmbar sobre a mesa) "Cheirem. Sem beber."' },
+      { quem: 'Maga', texto: '(ela nem precisa abrir o frasco; o corvo Cinza eriça as penas) "Extrato do selo, diluído. O mesmo perfume de Vau da Prata." (pausa) "Jack... isto não é um contrato. É a FASE DOIS. Eles não estão adormecendo uma aldeia desta vez. Estão adormecendo os HERÓIS."' },
+      { quem: 'Jack Caolha', texto: '"Por isso o contrato está no MURAL, com o meu lacre pessoal. Terceira missão B de vocês — cumpram e são MEMBROS INTERNOS, com tudo que isso abre e tudo que isso custa." (ele se levanta) "Tragam a minha Top 1 de volta, aspirantes. Acordada."' }
+    ],
+    opcoes: [
+      { texto: '📜 Examinar o contrato no Mural da Sede', efeito: [{ tipo: 'dialogo', valor: 'm4_mural' }] },
+      { texto: '🎖️ Treinar trilhas de prestígio na Sede', efeito: [{ tipo: 'abrirPrestigio' }] },
+      { texto: 'Voltar à praça alta', efeito: [{ tipo: 'voltarCidade' }] }
+    ],
+    codex: { id: 'jack_caolha', titulo: 'Jack Caolha (em pessoa)', texto: 'O chefe dos Caçadores: baixo, um olho, zero paciência. Yara (Top 1) sumiu há seis dias; Dora (Top 2) foi atrás e também sumiu. Um "tônico" com extrato do selo circula pela guilda. A 3ª missão B da party está no mural — com o lacre pessoal dele.' }
+  },
+
+  m4_mural: {
+    cenario: 'assets/img/cidade-ubia.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O Mural da Sede é a mãe de todos os quadros de contratos do continente — três andares de pergaminho, prêmio e promessa. No centro, isolado por um cordão, um único contrato com o lacre de cera negra de Jack Caolha:' },
+      { quem: 'Contrato', texto: '"CONTRATO RANQUEADO — RANK B (interno). Recompensa: 2.000 po + INVESTIDURA DE MEMBRO INTERNO. Objeto: a linha de distribuição do chamado Tônico da Vigília; o paradeiro da caçadora YARA; o que quer que esteja usando o SUBSOLO da primeira Úbia. Discrição zero. Violência a critério. — J.C." (a guilda, desta vez, não retém nada.)' }
+    ],
+    opcoes: [
+      { texto: '⚔️ Aceitar o contrato de Jack (inicia a MISSÃO 4)', condicao: { semMissao: 'missao4' },
+        efeito: [{ tipo: 'aceitarMissao', valor: 'missao4' }, { tipo: 'etapa', missao: 'missao4', valor: 'e1' }, { tipo: 'dialogo', valor: 'm4_aceita' }] },
+      { texto: '🏅 Apresentar o RELATÓRIO FINAL a Jack', condicao: { flag: 'missao4Relatorio', semFlag: 'v04Completa' },
+        goto: 'm4_relatorio' },
+      { texto: 'Deixar o mural', efeito: [{ tipo: 'voltarCidade' }] }
+    ]
+  },
+
+  m4_aceita: {
+    falas: [
+      { quem: 'Narrador', texto: 'MISSÃO 4 INICIADA: A Cidade dos Heróis. A Baixa do Porto abriu no mapa de Úbia. (Dica: descanse na Estalagem para salvar, e visite a Torre de Marfim — as Brancas convocaram a maga por um motivo.)' },
+      { quem: 'Ladino', texto: '"Membro interno. Contratos rank A. Sabe o que rank A paga, cavaleiro?" (ele olha para o pano preto sobre a placa da Yara e o sorriso murcha um pouco) "...Primeiro a gente devolve a moça pro mural. DEPOIS a gente fica rico."' }
+    ],
+    opcoes: [
+      { texto: '⚓ Descer à Baixa do Porto', efeito: [{ tipo: 'irMapa' }] },
+      { texto: 'Preparar-se na cidade primeiro', efeito: [{ tipo: 'voltarCidade' }] }
+    ]
+  },
+
+  m4_torre: {
+    cenario: 'assets/img/cidade-ubia.png',
+    falas: [
+      { quem: 'Narrador', texto: 'A Torre de Marfim não tem porta — tem um ARCO, e quem o conselho aceita simplesmente... já está dentro. O salão cheira a pergaminho e neve. Uma mulher de branco, sem idade visível, espera com as mãos nas mangas. O corvo Cinza pousa no ombro dela como se voltasse pra casa.' },
+      { quem: 'Encantatriz Branca', texto: '"Aspirante. Companheiros." (ela inclina a cabeça exatamente dois graus) "O conselho suspendeu a proibição sobre a Blood Magus — vocês sabem. O que não sabem: nós rastreamos o extrato dela até AQUI. Úbia é a fase dois. Uma cidade de heróis que dorme é um EXÉRCITO que a máscara de osso não precisa recrutar... só coroar."' },
+      { quem: 'Encantatriz Branca', texto: '"Cacem a linha de distribuição. Encontrem o que ela coroou. E aspirante..." (pela primeira vez, a voz dela hesita meio tom) "...quando a missão terminar, volte a esta torre. O conselho tem algo para a senhorita. Costuramos há três semanas."' }
+    ],
+    opcoes: [
+      { texto: '🕊️ Apresentar-se ao conselho (fim da missão)', condicao: { missaoConcluida: 'missao4', semFlag: 'mantoEntregue' },
+        goto: 'm4_torre_manto' },
+      { texto: 'Voltar à praça alta', efeito: [{ tipo: 'voltarCidade' }] }
+    ],
+    codex: { id: 'torre_marfim', titulo: 'A Torre de Marfim (Úbia)', texto: 'A embaixada das Brancas em Úbia: sem porta, só um arco que decide quem entra. A proibição sobre Lysia está suspensa e o conselho confirma — Úbia é a FASE DOIS: uma cidade de heróis adormecida é um exército pronto para ser coroado. Elas "costuram algo há três semanas" para a maga.' }
+  },
+
+  m4_torre_manto: {
+    cenario: 'assets/img/cidade-ubia.png',
+    falas: [
+      { quem: 'Narrador', texto: 'Desta vez são CINCO mulheres de branco no salão — e o silêncio delas pesa como veredicto. A do centro traz nos braços um tecido dobrado que parece luz de inverno: seda branca, fio de prata rúnica, o sigilo da Cidadela no fecho.' },
+      { quem: 'Encantatriz Branca', texto: '"Pela quebra da coroa, pela caçadora devolvida e pela fase dois interrompida: o conselho reconhece a aspirante como INICIADA." (ela estende o manto) "Tecido não é armadura, Iniciada — a senhorita conjura livre dentro dele. E onde quer que o vista... NÓS saberemos como a senhorita está. Considere as duas coisas um presente."' },
+      { quem: 'Narrador', texto: '🕊️ A maga recebe o MANTO DA INCANTATRIX (item único: vestes — CA +3 total e +2 em Vontade). E a mulher do centro acrescenta, baixo: "A amostra-mãe está em AVENCHES. Quando a guilda apontar o leste... o conselho apontará junto. Pela primeira vez em duzentos anos."' }
+    ],
+    efeitoEntrada: [{ tipo: 'itemUnico', valor: 'u_manto_incantatrix' }, { tipo: 'flag', valor: 'mantoEntregue' }],
+    opcoes: [{ texto: 'Vestir o manto e sair sob o arco', efeito: [{ tipo: 'voltarCidade' }] }],
+    codex: { id: 'iniciada_brancas', titulo: 'Iniciada das Brancas', texto: 'A maga foi reconhecida como INICIADA e recebeu o Manto da Incantatrix (vestes únicas — e um rastreador elegante). O conselho confirmou: a amostra-mãe está em AVENCHES, e pela primeira vez em dois séculos as Brancas vão apontar na mesma direção que uma guilda de mercenários.' },
+    xp: 600
+  },
+
+  m4_museu_visita: {
+    cenario: 'assets/img/cidade-ubia.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O Museu dos Heróis guarda as eras de Úbia em vitrines de cristal: a couraça do Primeiro Caçador, a estátua dos duelistas de mestre-sala, espadas com mais títulos que muitos nobres. No centro, num pedestal de mármore negro, a LÁGRIMA DE ÚBIA — a joia que, dizem, chora quando a cidade corre perigo.' },
+      { quem: 'Narrador', texto: 'Há uma poça fina e brilhante na base do pedestal. O vigia jura que limpou de manhã. E que ontem limpou duas vezes.' }
+    ],
+    opcoes: [{ texto: 'Deixar o museu (com um arrepio na nuca)', efeito: [{ tipo: 'voltarCidade' }] }],
+    codex: { id: 'lagrima_ubia', titulo: 'A Lágrima de Úbia', texto: 'A relíquia-coração do museu: uma joia que CHORA quando Úbia corre perigo. Está chorando há dois dias. Relíquias que sentem a cidade inteira seriam um amplificador e tanto — para quem quisesse fazer a cidade inteira SONHAR.' },
+    xp: 300
+  },
+
+  /* ---------- Nós da M4 ---------- */
+
+  m4_cena_porto: {
+    cenario: 'assets/img/cenario-porto.png',
+    falas: [
+      { quem: 'Narrador', texto: 'A Baixa do Porto deveria ferver a esta hora — guindastes, palavrões, peixe. Em vez disso: metade das docas trabalha em silêncio, e a outra metade COCHILA sentada nos cabrestantes, sorrindo. Empilhados no cais 7, caixotes novos com um selo simpático: "TÔNICO REVIGORANTE DA VIGÍLIA — o descanso do trabalhador".' },
+      { quem: 'Maga', texto: '"Revigorante." (ela raspa a cera do selo com a unha) "Distribuição de graça, no porto, onde ninguém pergunta. Precisamos saber pra ONDE vai o resto da carga — e quem assina o manifesto."' }
+    ],
+    opcoes: [
+      { texto: '🔍 Vasculhar o manifesto de carga no escritório do cais [PROCURAR, CD 14]',
+        efeito: [{ tipo: 'teste', pericia: 'Procurar', cd: 14, sucesso: 'm4_porto_sucesso', falha: 'm4_porto_falha' }] },
+      { texto: '🗣️ Pagar uma rodada e soltar a língua dos estivadores acordados [DIPLOMACIA, CD 14]',
+        efeito: [{ tipo: 'teste', pericia: 'Diplomacia', cd: 14, sucesso: 'm4_porto_sucesso', falha: 'm4_porto_falha' }] }
+    ]
+  },
+
+  m4_porto_sucesso: {
+    cenario: 'assets/img/cenario-porto.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O manifesto canta: toda a carga do "tônico" desce no ARMAZÉM 7, arrendado há um mês por uma "Sociedade Beneficente da Vigília". Destinos das saídas: o quartel da guarda do porto, duas tavernas da cidade alta... e o ALOJAMENTO DA SEDE DOS CAÇADORES.' },
+      { quem: 'Narrador', texto: 'A assinatura do arrendamento é um floreio elegante: "V.R." E na margem, em letra miúda de contador: "prioridade aos que SONHAM ALTO — a coroa serve."' }
+    ],
+    xp: 600,
+    opcoes: [{ texto: 'Ao Armazém 7', efeito: [{ tipo: 'etapa', missao: 'missao4', valor: 'e2' }, { tipo: 'fecharCena' }] }],
+    codex: { id: 'tonico_vigilia', titulo: 'O Tônico da Vigília', texto: 'Extrato do selo diluído, distribuído DE GRAÇA como "tônico revigorante": porto, tavernas, o quartel da guarda — e o alojamento da própria Sede. Arrendatária do Armazém 7: "Sociedade Beneficente da Vigília", assinatura "V.R.". Na margem: "prioridade aos que sonham alto — a coroa serve."' }
+  },
+
+  m4_porto_falha: {
+    cenario: 'assets/img/cenario-porto.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O escrivão do cais é simpático, prestativo — e sonolento. No meio da conversa ele boceja, sorri... e o ar adocicado do hálito dele bate como um porrete de veludo. Vocês recuam da nuvem de pólen a tempo de não dormir NO CAIS — mas a cabeça cobra o pedágio.' },
+      { quem: 'Ladino', texto: '(esfregando os olhos) "O caixote de cima tinha um mapa de entregas rabiscado. Vi pouco... mas vi ARMAZÉM 7. Serve de começo."' }
+    ],
+    xp: 250,
+    opcoes: [{ texto: 'Respirar fundo e ir ao Armazém 7', efeito: [{ tipo: 'dano', valor: 6 }, { tipo: 'etapa', missao: 'missao4', valor: 'e2' }, { tipo: 'fecharCena' }] }]
+  },
+
+  m4_cena_armazem: {
+    cenario: 'assets/img/cenario-armazem.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O Armazém 7 é uma catedral de caixotes — milhares de frascos âmbar dormindo em palha, o suficiente para adoçar cada caneca de Úbia por um mês. Entre as pilhas, vultos de roupão cinza conferem listas... e duas figuras À PAISANA, paradas demais, com as mãos leves demais perto das mangas.' },
+      { quem: 'Paladino', texto: '(baixo) "As duas de casaco. O Detectar o Mal ARDE — e eu conheço o corte dessas mangas. Adagas Negras. Sem batina, desta vez."' }
+    ],
+    opcoes: [
+      { texto: '⚔️ Tomar o armazém — combate!', efeito: [{ tipo: 'combate', valor: 'm4_armazem' }] },
+      { texto: 'Recuar ao mapa', efeito: [{ tipo: 'sairCena' }] }
+    ]
+  },
+
+  m4_armazem_vitoria: {
+    cenario: 'assets/img/cenario-armazem.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O capataz cai por último, e o silêncio do armazém vira um silêncio HONESTO. Na escrivaninha, a lista-mestra de entregas — e um adendo com o mesmo floreio "V.R.": "Fase dois em cronograma. Quartéis: 60%. Guilda: em curso. A COROA está estável no hospedeiro; a Lágrima será colhida na madrugada do dia 9."' },
+      { quem: 'Maga', texto: '"Hospedeiro." (a palavra sai fria) "A coroa está EM ALGUÉM, e esse alguém vai roubar a Lágrima hoje." (ela ergue os olhos) "Que dia é hoje? ...DIA 9. Corram. O museu. AGORA."' }
+    ],
+    opcoes: [{ texto: '🏃 Correr ao Museu dos Heróis (madrugada)', efeito: [{ tipo: 'etapa', missao: 'missao4', valor: 'e3' }, { tipo: 'sairCena' }] }],
+    codex: { id: 'lista_mestra', titulo: 'A lista-mestra da fase dois', texto: 'A distribuição em números: guarda 60% dosada, guilda "em curso". E o pior: "a COROA está estável no hospedeiro; a Lágrima será colhida na madrugada do dia 9" — hoje. Alguém coroado vai roubar a relíquia que sente a cidade inteira.' }
+  },
+
+  m4_cena_museu: {
+    cenario: 'assets/img/cenario-museu.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O museu de madrugada é um bosque de heróis mortos em luz de lampião. O vigia dorme abraçado à alabarda, sorrindo. E no pedestal de mármore negro, de costas para vocês, alguém ergue a LÁGRIMA DE ÚBIA contra a luz — uma mulher em couraça de batalha gasta, cabelo em trança de guerra... e um ARO DE PRATA fino demais na testa, pulsando como um segundo coração.' },
+      { quem: 'Narrador', texto: 'Ela se vira. E vocês entendem o pano preto sobre a placa do ranking: é YARA. Os olhos da Top 1 dos Caçadores estão abertos, educados... e ausentes. "A Vigília agradece a doação", diz a boca dela, com a voz dela, sem NADA dela dentro.' }
+    ],
+    opcoes: [
+      { texto: '🗣️ Chamar a caçadora pelo NOME — alcançar quem está sob a coroa [SABEDORIA, CD 15]',
+        efeito: [{ tipo: 'teste', atributo: 'SAB', cd: 15, sucesso: 'm4_museu_sucesso', falha: 'm4_museu_falha' }] },
+      { texto: '🏃 Cortar a saída dela — rápido e silencioso [DESTREZA, CD 15]',
+        efeito: [{ tipo: 'teste', atributo: 'DES', cd: 15, sucesso: 'm4_museu_sucesso', falha: 'm4_museu_falha' }] }
+    ]
+  },
+
+  m4_museu_sucesso: {
+    cenario: 'assets/img/cenario-museu.png',
+    falas: [
+      { quem: 'Narrador', texto: '"YARA." O nome atravessa a coroa como pedra em vidraça. Por UM segundo, os olhos dela FOCAM — pavor, fúria, socorro — e a mão dela desvia sozinha, derrubando do próprio cinto um caderno de patrulha. Então o aro pulsa, o rosto fecha, e ela ATRAVESSA a rotunda num salto que nenhum humano deveria dar, sumindo com a Lágrima por uma boca de aqueduto.' },
+      { quem: 'Narrador', texto: 'No caderno, na letra firme da Top 1, a última anotação lúcida: "Subsolo. Fórum velho. Eles cantam pra uma COROA. Se eu não voltar — digam ao Jack que o tônico entra pela ala leste." Ela sabia. Ela FOI. E foi coroada.' }
+    ],
+    xp: 700,
+    opcoes: [{ texto: 'Ao subsolo, atrás dela', efeito: [{ tipo: 'etapa', missao: 'missao4', valor: 'e4' }, { tipo: 'fecharCena' }] }],
+    codex: { id: 'coroa_de_sonho', titulo: 'A Coroa de Sonho (e quem a veste)', texto: 'A ladra da Lágrima é YARA — coroada com um aro de prata que pulsa como coração: a COROA DE SONHO. Por um segundo o nome dela a alcançou; ela deixou cair o caderno: "Fórum velho. Eles cantam pra uma coroa. O tônico entra pela ala leste." A Top 1 investigou sozinha — e virou o hospedeiro.' }
+  },
+
+  m4_museu_falha: {
+    cenario: 'assets/img/cenario-museu.png',
+    falas: [
+      { quem: 'Narrador', texto: 'Vocês avançam — e a Top 1 do continente mostra POR QUE é a Top 1, mesmo vazia: a bainha (ela não desembainhou; alguma parte dela se recusou) varre a rotunda em dois arcos e três costelas. Quando o mundo para de girar, Yara é uma silhueta sumindo numa boca de aqueduto, com a Lágrima.' },
+      { quem: 'Ladino', texto: '(cuspindo poeira de mármore) "...Ela lutou com a BAINHA. Tá me dizendo que aquilo era ela SEGURANDO o golpe?" (ele se levanta com esforço) "Subsolo. E vamos rezando pra coroa não pedir a lâmina."' }
+    ],
+    xp: 300,
+    opcoes: [{ texto: 'Ao subsolo, atrás dela (doloridos)', efeito: [{ tipo: 'dano', valor: 10 }, { tipo: 'etapa', missao: 'missao4', valor: 'e4' }, { tipo: 'fecharCena' }] }],
+    codex: { id: 'coroa_de_sonho', titulo: 'A Coroa de Sonho (e quem a veste)', texto: 'A ladra da Lágrima é YARA, a Top 1 — coroada com um aro de prata pulsante: a COROA DE SONHO. Ela derrubou a party lutando COM A BAINHA (alguma parte dela ainda segura o golpe) e sumiu no subsolo com a relíquia.' }
+  },
+
+  m4_cena_subterraneo: {
+    cenario: 'assets/img/cenario-subterraneo.png',
+    falas: [
+      { quem: 'Narrador', texto: 'Sob a cidade alta corre a PRIMEIRA Úbia: aquedutos secos, arcos afogados em raiz, ruas inteiras que a cidade nova usou de alicerce. Alguém marcou o caminho com setas de fuligem — recentes, feitas para os que vêm DEPOIS. E no fim da galeria, luz vermelha e o bater ritmado de alabardas em pedra: uma PATRULHA.' },
+      { quem: 'Maga', texto: '(olhando as silhuetas paradas demais) "Vigilantes. Como a Ekaterina — mas em SÉRIE. É isto que a coroa fabrica com os que sonham alto." (o foco arcano acende nos dedos dela) "Ekaterina não teve escolha. Estes também não tiveram. Sejamos RÁPIDOS, por respeito."' }
+    ],
+    opcoes: [
+      { texto: '⚔️ Abrir passagem — combate!', efeito: [{ tipo: 'combate', valor: 'm4_subterraneo' }] },
+      { texto: 'Recuar ao mapa', efeito: [{ tipo: 'sairCena' }] }
+    ]
+  },
+
+  m4_subterraneo_vitoria: {
+    cenario: 'assets/img/cenario-subterraneo.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O último Vigilante desliga — e alguém APLAUDE de cima de um arco, devagar, com o deboche de sempre. Yurin está sentado no aqueduto como quem senta num muro de quintal, jogando uma moeda. "Vocês demoraram. Eu marquei o caminho com FULIGEM, pelos deuses. Era pra ser óbvio."' },
+      { quem: 'Yurin', texto: '"Escutem rápido: a coroa da moça é ENSAIO — a mestra quer Úbia inteira sonhando em um mês, e a Lágrima é o amplificador. O canto acontece no Fórum Afundado, embaixo da SEDE. Poético, né? O exército dela nascendo debaixo da cadeira do Jack." (a moeda para no ar, entre dois dedos) "Por que ajudo de novo? O MEU patrono continua não gostando de concorrência. E... digam à L. que o Suzas mandou lembranças. Ela vai ODIAR. Vale a viagem só por isso."' }
+    ],
+    xp: 400,
+    opcoes: [{ texto: 'Ao Santuário da Vigília', efeito: [{ tipo: 'etapa', missao: 'missao4', valor: 'e5' }, { tipo: 'sairCena' }] }],
+    codex: { id: 'yurin_ubia', titulo: 'Yurin, de novo no meio', texto: 'O bruxo de Suzas marcou o caminho no subsolo COM FULIGEM (as setas eram dele). A coroa de Yara é ensaio: a meta é Úbia inteira sonhando em UM MÊS, com a Lágrima de amplificador, e o ritual acontece no Fórum Afundado — exatamente sob a Sede dos Caçadores. Suzas segue não tolerando o exército alheio.' }
+  },
+
+  m4_cena_santuario: {
+    cenario: 'assets/img/cenario-santuario.png',
+    falas: [
+      { quem: 'Narrador', texto: 'A galeria abre num salão que já foi um mercado da primeira Úbia — e agora é um POMAR. Dos arcos pendem casulos de teia cinzenta, dezenas, cada um com uma etiqueta de madeira e um fio de prata subindo da testa de quem dorme dentro. Caçadores. Guardas. Uma taverneira ainda de avental. Os fios correm todos na mesma direção: para baixo, para o Fórum.' },
+      { quem: 'Narrador', texto: 'Entre os casulos, irmãos de roupão trabalham com tesouras de podar — e um FIHYR do tamanho de um cavalo dorme enrolado no centro do salão, gordo de pesadelo alheio. Um dos irmãos ergue a palma, sorrindo: "Vieram receber a bênção do descanso?"' }
+    ],
+    opcoes: [
+      { texto: '⚔️ "Viemos PODAR." — combate!', efeito: [{ tipo: 'combate', valor: 'm4_santuario' }] },
+      { texto: 'Recuar ao mapa', efeito: [{ tipo: 'sairCena' }] }
+    ]
+  },
+
+  m4_santuario_vitoria: {
+    cenario: 'assets/img/cenario-santuario.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O Fihyr Adulto se desfaz em névoa que ninguém respira de volta. A maga corta os fios de prata um a um, e casulo por casulo o salão ACORDA — tosse, palavrões, uma taverneira exigindo saber quem paga o avental rasgado. E de um casulo etiquetado "FORTE. TEIMOSA. SONHA COM O TOPO.", sai rasgando com as próprias unhas...' },
+      { quem: 'Dora Terra-brava', texto: '"...QUATRO DIAS. Me penduraram que nem PRESUNTO por quatro dias." (ela cospe teia, e o olhar dela encontra o de vocês — e por um segundo o Top 2 do continente parece quase constrangida) "Vocês. Claro que são vocês." (ela agarra o braço do paladino, séria como pedra) "Escutem: a Yara tá lá embaixo, e vão mandar vocês MATAREM ela. NÃO MATEM. A coroa solta quando o corpo cede — derrubem a MENINA pra libertar a CAÇADORA. E deixem a maga de vermelho comigo... não. Não deixem. Eu ainda tô cuspindo teia."' }
+    ],
+    xp: 500,
+    opcoes: [{ texto: '⚖️ Ao Fórum Afundado — quebrar a coroa', efeito: [{ tipo: 'etapa', missao: 'missao4', valor: 'e6' }, { tipo: 'sairCena' }] }],
+    codex: { id: 'dora_libertada', titulo: 'Dora, fora do casulo', texto: 'Dora Terra-brava estava entre os colhidos ("forte, teimosa, sonha com o topo"). Libertada, deu a instrução que importa: NÃO matar Yara — a Coroa de Sonho solta quando o corpo cede. Derrubar a menina é libertar a caçadora. Os casulos do santuário foram abertos; os fios de prata corriam todos para o Fórum.' }
+  },
+
+  m4_cena_forum: {
+    cenario: 'assets/img/cenario-forum.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O Fórum Afundado é a primeira Úbia inteira num só salão: arquibancadas de mármore submersas em sombra, colunas como costelas de um deus antigo — e no centro, num círculo de velas de sebo negro, a LÁGRIMA DE ÚBIA flutuando sobre um tripé de prata, chorando sem parar. Cada lágrima que cai VIRA FIO, e cada fio sobe para a cidade lá em cima.' },
+      { quem: 'Narrador', texto: 'Yara está de joelhos diante da relíquia, a coroa pulsando — e ao lado dela, conduzindo o canto com a palma aberta e ensanguentada, VESTES VERMELHAS até o chão. Lysia Moss nem se vira: "Pontuais. Eu disse à mestra: os heróis de Renânia chegam sempre DEPOIS do ensaio... e sempre ANTES da estreia." (o sangue dela sobe, tecendo o ar) "Vamos ver se a fase dois estreia hoje."' },
+      { quem: 'Maga', texto: '"LYSIA!" (o grito da maga ecoa nas arquibancadas mortas — dois anos de conta chegando ao vencimento) "O recado do seu bilhete, lá do laboratório? Considere RESPONDIDO."' }
+    ],
+    opcoes: [
+      { texto: '⚔️ QUEBRAR A COROA — o combate final de Úbia!', efeito: [{ tipo: 'combate', valor: 'm4_forum' }] },
+      { texto: 'Recuar (o canto continua às suas costas...)', efeito: [{ tipo: 'sairCena' }] }
+    ]
+  },
+
+  m4_forum_vitoria: {
+    cenario: 'assets/img/cenario-forum.png',
+    falas: [
+      { quem: 'Narrador', texto: 'Yara cai de joelhos — e a COROA RACHA com um som de sino trincado. O aro de prata rola pelo mármore, tenta pulsar uma última vez... e a bota do ladino resolve o assunto com um estalo seco e ZERO cerimônia. Os fios de prata do salão inteiro se soltam como cordas cortadas. Em algum lugar lá em cima, Úbia inteira vira de lado na cama e ACORDA.' },
+      { quem: 'Yara', texto: 'Os olhos dela focam — e desta vez FICAM. "...Eu vi tudo. Cada entrega. Cada casulo. Eu tava lá dentro, batendo na vidraça." (ela se levanta sozinha, recusando o braço do paladino, e apanha a própria espada do chão... e a ESTENDE, cabo primeiro) "Ela lutou contra vocês sem mim. Agora luta COM vocês. É assim que eu pago dívida de acordar."' },
+      { quem: 'Narrador', texto: '⚔️ A party recebe a LÂMINA DA YARA (item único). A Lágrima de Úbia para de chorar — e no silêncio novo, todos ouvem o que ela chorava: passos. Milhares. Marchando em sonho, em algum lugar a LESTE. A relíquia não chorava por Úbia. Chorava pelo que vem DEPOIS de Úbia.' }
+    ],
+    efeitoEntrada: [{ tipo: 'itemUnico', valor: 'u_lamina_yara' }],
+    opcoes: [{ texto: 'Subir com Yara e a Lágrima — relatório na Sede', efeito: [{ tipo: 'etapa', missao: 'missao4', valor: 'e7' }, { tipo: 'flag', valor: 'missao4Relatorio' }, { tipo: 'sairCena' }] }],
+    codex: { id: 'coroa_quebrada', titulo: 'A coroa quebrou (e a Lágrima parou)', texto: 'A Coroa de Sonho rachou quando Yara caiu — e a cidade acordou. Lysia fugiu MENOS elegante que de costume. Yara, desperta e furiosa, entregou a própria lâmina à party. E a Lágrima parou de chorar... revelando POR QUE chorava: um exército marcha em sonho, a leste. Ela não chorava por Úbia.' }
+  },
+
+  m4_relatorio: {
+    cenario: 'assets/img/cidade-ubia.png',
+    falas: [
+      { quem: 'Narrador', texto: 'O salão da Sede está LOTADO — caçadores acordados há uma hora, ainda de camisola de dormir sob a couraça, todos fingindo que não estão olhando. Jack Caolha arranca o pano preto de cima da placa "1. YARA" e o joga no lixo. Depois vira o olho bom para a party. O salão inteiro prende o ar.' },
+      { quem: 'Jack Caolha', texto: '"Três missões B. Um selo mantido, uma aldeia acordada, e agora a MINHA cidade e a MINHA Top 1 devolvidas no mesmo dia." (ele abre um estojo de couro: dois mil em barras, e três placas de bronze NOVAS) "Chega de \'aspirantes\'. A partir de hoje vocês são MEMBROS INTERNOS dos Caçadores — placa na coluna, voto no salão, e contratos rank A. Não me façam discursar. EU NÃO DISCURSO."' },
+      { quem: 'Yara', texto: '(da beira do salão, braços cruzados, meio sorriso) "Discursou." (risada geral; Jack aponta a porta; ninguém sai) "Membros internos: quando marcharem pro LESTE — e vocês vão — eu vou junto. Dívida é dívida."' },
+      { quem: 'Narrador', texto: 'E longe, em Avenches, numa cidadela sobre ossos de dragão, uma máscara de osso encara um mapa com uma cidade RISCADA. "Úbia perdida, mestra?" — pergunta a voz de seda, com um fio novo de medo. "Perdida?" A máscara não se altera. "Úbia era o ENSAIO GERAL, criança. A estreia nunca foi aqui." Atrás dela, o que não tem carne ri baixinho — e desta vez, ri POR ÚLTIMO. A MISSÃO 4 ESTÁ COMPLETA.' }
+    ],
+    opcoes: [
+      { texto: '🏅 Encerrar (a placa, o ouro e um descanso de HERÓI)', efeito: [
+        { tipo: 'ouro', valor: 2000 },
+        { tipo: 'etapa', missao: 'missao4', valor: 'e8' },
+        { tipo: 'concluirMissao', valor: 'missao4' },
+        { tipo: 'flag', valor: 'v04Completa' },
+        { tipo: 'flag', valor: 'membroInterno' },
+        { tipo: 'xp', valor: 1500 },
+        { tipo: 'voltarCidade' }
+      ] }
+    ],
+    codex: { id: 'membro_interno', titulo: 'MEMBROS INTERNOS (rank A)', texto: 'Jack investiu a party como MEMBROS INTERNOS: placa de bronze, voto no salão, contratos rank A — e 2.000 po. Yara jurou marchar junto quando a guilda apontar o leste. Em Avenches, Viridiana riscou Úbia do mapa sem alterar a máscara: "Úbia era o ensaio geral. A estreia nunca foi aqui." (Missão 5: Avenches — e a Torre de Marfim tem algo para a maga.)' }
+  },
+
+  /* ---------- Refarm M4 ---------- */
+  refarm_m4_armazem_intro: {
+    cenario: 'assets/img/cenario-armazem.png',
+    falas: [{ quem: 'Narrador', texto: 'O Armazém 7 foi lacrado pela guilda — o que não impede a irmandade de mandar gente atrás do estoque perdido. Lâminas caras rondam as docas à noite. A guilda paga por elas.' }],
+    opcoes: [
+      { texto: '⚔️ Caçar as Adagas remanescentes (farm, XP reduzido)', efeito: [{ tipo: 'combate', valor: 'refarm_m4_armazem', farm: true }] },
+      { texto: 'Voltar ao mapa', efeito: [{ tipo: 'sairCena' }] }
+    ]
+  },
+  refarm_m4_subterraneo_intro: {
+    cenario: 'assets/img/cenario-subterraneo.png',
+    falas: [{ quem: 'Narrador', texto: 'A primeira Úbia é grande demais para varrer numa noite. Vigilantes perdidos ainda patrulham ordens que ninguém mais canta, e o pesadelo residual cria corpo nos cantos escuros.' }],
+    opcoes: [
+      { texto: '⚔️ Varrer as galerias (farm, XP reduzido)', efeito: [{ tipo: 'combate', valor: 'refarm_m4_subterraneo', farm: true }] },
+      { texto: 'Voltar ao mapa', efeito: [{ tipo: 'sairCena' }] }
+    ]
   }
 
 });

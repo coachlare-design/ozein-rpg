@@ -13,6 +13,7 @@ GameData.register('loot', {
     { id: 'b_espada_curta', nome: 'Espada Curta', slot: 'arma', categoria: 'ladino', dano: '1d6', critico: '19-20/×2', valor: 10, iLvlMin: 1 },
     { id: 'b_martelo', nome: 'Martelo de Guerra', slot: 'arma', categoria: 'marcial', dano: '1d8', critico: '×3', valor: 12, iLvlMin: 2 },
     { id: 'b_couro', nome: 'Armadura de Couro', slot: 'armadura', categoria: 'leve', caBonus: 2, valor: 10, iLvlMin: 1 },
+    { id: 'b_vestes', nome: 'Vestes de Mago', slot: 'armadura', categoria: 'vestes', caBonus: 1, valor: 12, iLvlMin: 1 },
     { id: 'b_cota', nome: 'Cota de Malha', slot: 'armadura', categoria: 'media', caBonus: 5, valor: 150, iLvlMin: 3 },
     { id: 'b_escudo', nome: 'Escudo Pesado', slot: 'escudo', caBonus: 2, valor: 20, iLvlMin: 1 },
     { id: 'b_elmo', nome: 'Elmo de Ferro', slot: 'elmo', caBonus: 1, valor: 25, iLvlMin: 2 },
@@ -95,6 +96,18 @@ GameData.register('loot', {
       caBonus: 2, efeito: { salvamento: 'vontade', bonus: 2, caExtra: 1 }, valor: 1800, iLvl: 9,
       lore: 'A renda cinza que a Anciã usava para caminhar entre sonhos sem ser tocada. Quem a veste vê o medo chegar ANTES de senti-lo.'
     },
+    /* ---- v0.8.0 — Missão 4 (Úbia) ---- */
+    {
+      id: 'u_manto_incantatrix', nome: 'Manto da Incantatrix', slot: 'armadura', categoria: 'vestes',
+      caBonus: 1, efeito: { caExtra: 2, salvamento: 'vontade', bonus: 2 }, valor: 1900, iLvl: 9,
+      lore: 'Seda branca da Cidadela de Marfim, tecida com fio de prata rúnica. Tecido não é armadura — a maga conjura livre dentro dele, e as Brancas sabem exatamente quem o veste.'
+    },
+    {
+      id: 'u_lamina_yara', nome: 'Lâmina da Yara', slot: 'arma', categoria: 'marcial',
+      dano: '1d10+2', critico: '19-20/×2',
+      efeito: { bonusAcerto: 2, bonusDano: 2 }, valor: 2200, iLvl: 9,
+      lore: 'A espada da Top 1 dos Caçadores — bainha gasta, fio perfeito. Yara a entregou de bom grado: "ela lutou contra vocês sem mim. Agora luta COM vocês, comigo."'
+    },
   ],
 
   /* ---------- Conjunto (bônus por peças) ---------- */
@@ -132,7 +145,23 @@ GameData.register('loot', {
     { base: 'b_martelo', preco: 12 },
     { base: 'b_escudo', preco: 20 },
     { base: 'b_elmo', preco: 25 },
-    { base: 'b_couro', preco: 10 }
+    { base: 'b_couro', preco: 10 },
+    { base: 'b_vestes', preco: 12 }
+  ],
+
+  /* ---------- Empório da Guilda (Úbia, v0.8.0) ---------- */
+  lojaUbia: [
+    { item: 'pocao_cura_leve', preco: 45, estoque: 99 },
+    { item: 'pergaminho_identificar', preco: 25, estoque: 99 },
+    { item: 'varinha_missels', preco: 450, estoque: 1 },
+    { item: 'varinha_cura', preco: 375, estoque: 1 },
+    { item: 'perg_bola_de_fogo', preco: 375, estoque: 1 },
+    { base: 'b_espada', preco: 15 },
+    { base: 'b_espada_curta', preco: 10 },
+    { base: 'b_cota', preco: 150 },
+    { base: 'b_vestes', preco: 12 },
+    { base: 'b_elmo', preco: 25 },
+    { base: 'b_botas', preco: 8 }
   ],
   precoRemoverMaldicao: 75,
   fatorVenda: 0.4 // Bruno paga 40% do valor

@@ -160,7 +160,7 @@ const Combat = {
     const ab2 = alvo.condicoes.find(x => x.tipo === 'abalado');
     if (ab2) { ab2.duracao--; this._removerExpiradas(alvo); }
     // buffs com duração em turnos (contam no início do turno do dono)
-    for (const tipo of ['protegido', 'acelerado', 'abencoado', 'oculto']) {
+    for (const tipo of ['protegido', 'resguardado', 'acelerado', 'abencoado', 'oculto']) {
       const cnd = alvo.condicoes.find(x => x.tipo === tipo);
       if (cnd && cnd.duracao < 90) { cnd.duracao--; }
     }
@@ -190,6 +190,15 @@ const Combat = {
       if (rd > 0) {
         dano = Math.max(0, dano - rd);
         if (dano === 0) { UICombate.flutuar(alvo, 'RD ' + rd + '!', 'erro'); return; }
+      }
+      // ROLADA DEFENSIVA (Dançarino das Sombras, 1×/combate): o golpe que
+      // derrubaria causa metade — ele rola com o impacto (defensive roll 3.5)
+      if (alvo.stats.passiva && alvo.stats.passiva.roladaDefensiva &&
+          dano >= Engine.estado.pv[alvo.id] && !(alvo.usos && alvo.usos.rolada_defensiva)) {
+        alvo.usos = alvo.usos || {};
+        alvo.usos.rolada_defensiva = 1;
+        dano = Math.floor(dano / 2);
+        this.logar(`🌑 ROLADA DEFENSIVA! ${this._nome(alvo)} rola com o impacto — o golpe letal causa só ${dano}.`);
       }
       Engine.estado.pv[alvo.id] = Math.max(0, Engine.estado.pv[alvo.id] - dano);
       UICombate.flutuar(alvo, '-' + dano, 'dano');
@@ -284,9 +293,12 @@ const Combat = {
     UICombate.flutuar(alvo, 'errou', 'erro');
     this.logar(`${this._nome(atacante)} erra ${this._nome(alvo)}. (d20=${dado}+${bonus} vs CA ${caAlvo})`);
     if (ehHeroi) this._sairDasSombras(atacante);
-    // RIPOSTE do Duelista: inimigo errou um herói de pé → contra-ataque grátis
+    // RIPOSTE do Duelista (1×/rodada — parry do 3.5, não metralhadora):
+    // inimigo errou um herói de pé → contra-ataque imediato grátis
     if (!ehHeroi && !opcoes.riposte && alvo.stats && !alvo.caido &&
-        alvo.stats.passiva && alvo.stats.passiva.contraAtaque && !this._tem(alvo, 'petrificado')) {
+        alvo.stats.passiva && alvo.stats.passiva.contraAtaque && !this._tem(alvo, 'petrificado') &&
+        alvo._riposteRodada !== this.c.rodada) {
+      alvo._riposteRodada = this.c.rodada;
       this.logar(`🤺 RIPOSTE! ${this._nome(alvo)} pune o erro de ${this._nome(atacante)}:`);
       this._atacarAlvo(alvo, atacante, { riposte: true });
     }
@@ -309,6 +321,7 @@ const Combat = {
   _caHeroi(h) {
     let ca = h.stats.ca;
     if (this._tem(h, 'protegido')) ca += 4;
+    if (this._tem(h, 'resguardado')) ca += 2; // Baluarte do Defensor
     if (this._tem(h, 'escudo_arcano')) ca += 4;
     if (this._tem(h, 'abencoado')) ca += 2;
     if (h.desviando) ca -= 0; // desviar os olhos não muda CA, muda o acerto do herói

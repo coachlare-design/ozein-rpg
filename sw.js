@@ -1,7 +1,7 @@
 /* Ozein RPG — service worker: jogo 100% offline após a 1ª visita.
    Estratégia: cache-first com atualização em segundo plano (stale-while-revalidate).
    Trocar a VERSAO força atualização dos arquivos em todos os aparelhos. */
-const VERSAO = 'ozein-v0.7.2';
+const VERSAO = 'ozein-v0.8.0';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();

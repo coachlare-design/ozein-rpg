@@ -271,6 +271,94 @@ GameData.register('encounters', {
       { ref: 'larva_pesadelo', apelido: 'Larva de Pesadelo', pv: 18, ca: 14, atk: 7, dano: '1d4+3', atbVel: 11, icone: '🐛' }
     ],
     recompensa: { xp: 800, ouro: [100, 160], drops: 2 }
+  },
+
+  /* ================= MISSÃO 4 — A CIDADE DOS HERÓIS ================= */
+
+  m4_armazem: {
+    id: 'm4_armazem', nome: 'Armazém 7 — a escolta do tônico',
+    fundo: 'assets/img/cenario-armazem.png',
+    tier: 'medio', iLvl: 9,
+    inimigos: [
+      { ref: 'adaga_negra', apelido: 'Adaga Negra', pv: 38, ca: 18, atk: 10, dano: '1d6+5', atbVel: 11, icone: '🔪',
+        habilidades: ['lamina_envenenada'], cadaN: 3 },
+      { ref: 'adaga_negra', apelido: 'Adaga Negra Silente', pv: 40, ca: 18, atk: 10, dano: '1d6+5', atbVel: 12, icone: '🔪',
+        habilidades: ['lamina_envenenada'], cadaN: 3,
+        script: { fogeEmPv: 0.2, msgFuga: 'A Adaga Silente estilhaça um frasco de fumaça e SOME entre os caixotes — a irmandade não morre por carga alheia. Alguém no subsolo vai saber que vocês vêm.' } },
+      { ref: 'irmao_vigilia', apelido: 'Capataz da Vigília', pv: 34, ca: 16, atk: 9, dano: '1d6+4', atbVel: 8, icone: '🕯️',
+        habilidades: ['toque_do_sono'], cadaN: 3 }
+    ],
+    recompensa: { xp: 2600, ouro: [220, 350], drops: 2 },
+    posVitoria: 'm4_armazem_vitoria'
+  },
+
+  m4_subterraneo: {
+    id: 'm4_subterraneo', nome: 'Galerias do Subsolo — a patrulha rubra',
+    fundo: 'assets/img/cenario-subterraneo.png',
+    tier: 'medio', iLvl: 9,
+    inimigos: [
+      { ref: 'vigilante_rubro', apelido: 'Vigilante Rubro', pv: 46, ca: 18, atk: 10, dano: '1d8+5', atbVel: 9, icone: '🛡️',
+        habilidades: ['lamento_funebre'], cadaN: 3 },
+      { ref: 'vigilante_rubro', apelido: 'Vigilante Remendador', pv: 44, ca: 18, atk: 10, dano: '1d8+5', atbVel: 8, icone: '🛡️',
+        habilidades: ['vigilia_rubra'], cadaN: 2 },
+      { ref: 'fihyr', apelido: 'Fihyr de Esgoto', pv: 26, ca: 16, atk: 8, dano: '1d6+3', atbVel: 10, icone: '👁️' }
+    ],
+    recompensa: { xp: 2800, ouro: [240, 380], drops: 2 },
+    posVitoria: 'm4_subterraneo_vitoria'
+  },
+
+  m4_santuario: {
+    id: 'm4_santuario', nome: 'Santuário da Vigília — os casulos',
+    fundo: 'assets/img/cenario-santuario.png',
+    tier: 'medio', iLvl: 10,
+    inimigos: [
+      { ref: 'irmao_vigilia', apelido: 'Irmão Coletor', pv: 36, ca: 16, atk: 9, dano: '1d6+4', atbVel: 9, icone: '🕯️',
+        habilidades: ['toque_do_sono'], cadaN: 3 },
+      { ref: 'irmao_vigilia', apelido: 'Irmão Salmodiante', pv: 36, ca: 16, atk: 9, dano: '1d6+4', atbVel: 8, icone: '🕯️',
+        habilidades: ['toque_do_sono'], cadaN: 3 },
+      { ref: 'fihyr', apelido: 'Fihyr Adulto', pv: 48, ca: 17, atk: 10, dano: '1d8+4', atbVel: 9, icone: '👁️',
+        habilidades: ['aura_desespero'], cadaN: 3 },
+      { ref: 'larva_pesadelo', apelido: 'Larva Gorda', pv: 22, ca: 14, atk: 8, dano: '1d4+3', atbVel: 12, icone: '🐛' }
+    ],
+    recompensa: { xp: 3200, ouro: [260, 400], drops: 3 },
+    posVitoria: 'm4_santuario_vitoria'
+  },
+
+  m4_forum: {
+    id: 'm4_forum', nome: 'O Fórum Afundado — a Coroa e a Coroadora',
+    fundo: 'assets/img/cenario-forum.png',
+    tier: 'chefe', iLvl: 10,
+    inimigos: [
+      { ref: 'yara_lamina', apelido: 'Yara, a Lâmina de Úbia', pv: 105, ca: 20, atk: 12, dano: '1d10+6', atbVel: 11, icone: '⚔️', chefe: true,
+        habilidades: ['lamina_tempestade'], cadaN: 3 },
+      { ref: 'lysia_moss', apelido: 'Lysia Moss, a Blood Magus', pv: 90, ca: 19, atk: 11, dano: '1d6+4', atbVel: 9, icone: '🩸', chefe: true,
+        habilidades: ['ritual_de_sangue', 'vigilia_rubra'], cadaN: 3,
+        script: { fogeEmPv: 0.35, msgFuga: '🩸 Lysia fecha a palma cortada. "Chega. Vocês custam mais do que rendem." Ela recua para a sombra com a reverência de sempre — MENOS elegante, desta vez — e SOME. A Coroa de Sonho vacila na testa de Yara!' } },
+      { ref: 'vigilante_rubro', apelido: 'Vigilante da Coroa', pv: 40, ca: 18, atk: 10, dano: '1d8+4', atbVel: 8, icone: '🛡️' }
+    ],
+    recompensa: { xp: 4500, ouro: [420, 650], drops: 3 },
+    posVitoria: 'm4_forum_vitoria'
+  },
+
+  /* Re-exploração M4 (farm) */
+  refarm_m4_armazem: {
+    id: 'refarm_m4_armazem', nome: 'Docas Inquietas', fundo: 'assets/img/cenario-armazem.png',
+    tier: 'medio', iLvl: 9,
+    inimigos: [
+      { ref: 'adaga_negra', apelido: 'Adaga Negra', pv: 38, ca: 18, atk: 10, dano: '1d6+5', atbVel: 11, icone: '🔪' },
+      { ref: 'adaga_negra', apelido: 'Adaga Negra', pv: 38, ca: 18, atk: 10, dano: '1d6+5', atbVel: 12, icone: '🔪' }
+    ],
+    recompensa: { xp: 900, ouro: [150, 240], drops: 2 }
+  },
+  refarm_m4_subterraneo: {
+    id: 'refarm_m4_subterraneo', nome: 'Ecos sob Úbia', fundo: 'assets/img/cenario-subterraneo.png',
+    tier: 'medio', iLvl: 10,
+    inimigos: [
+      { ref: 'vigilante_rubro', apelido: 'Vigilante Perdido', pv: 46, ca: 18, atk: 10, dano: '1d8+5', atbVel: 9, icone: '🛡️' },
+      { ref: 'fihyr', apelido: 'Fihyr de Esgoto', pv: 26, ca: 16, atk: 8, dano: '1d6+3', atbVel: 10, icone: '👁️' },
+      { ref: 'larva_pesadelo', apelido: 'Larva de Pesadelo', pv: 20, ca: 14, atk: 8, dano: '1d4+3', atbVel: 12, icone: '🐛' }
+    ],
+    recompensa: { xp: 1000, ouro: [160, 260], drops: 2 }
   }
 
 });

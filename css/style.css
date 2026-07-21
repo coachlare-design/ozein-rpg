@@ -200,7 +200,13 @@ html, body {
   width: min(400px, 92vw);
   display: flex; flex-direction: column; gap: 10px;
   z-index: 15;
+  /* v0.8.0: a lista de locais cresceu — nunca pode sumir da tela no desktop */
+  max-height: calc(100% - 44px);
+  overflow-y: auto;
+  padding-right: 6px;
+  overscroll-behavior: contain;
 }
+#painel-locais .btn { flex-shrink: 0; }
 #painel-locais .cabecalho, .cabecalho-mapa {
   background: rgba(12,16,23,.92);
   border: 1px solid var(--pedra-500);
@@ -247,6 +253,21 @@ html, body {
 .no-mapa.concluido .disco { border-color: var(--conjunto); opacity: .8; }
 .no-mapa.concluido .rotulo::after { content: ' ✓'; color: var(--conjunto); }
 .no-mapa.bloqueado { cursor: default; opacity: .45; filter: grayscale(.8); }
+/* v0.8.0: PRÓXIMO PASSO — o mapa sempre mostra para onde seguir */
+.no-mapa.proximo .disco {
+  border-color: var(--ouro);
+  box-shadow: 0 0 18px rgba(230, 201, 92, .75);
+  animation: pulso-proximo 1.5s ease-in-out infinite;
+}
+.no-mapa.proximo .rotulo {
+  color: var(--ouro);
+  border: 1px solid rgba(230, 201, 92, .5);
+}
+.no-mapa.proximo .rotulo::before { content: '⭐ '; }
+@keyframes pulso-proximo {
+  0%, 100% { box-shadow: 0 0 10px rgba(230, 201, 92, .45); }
+  50%      { box-shadow: 0 0 26px rgba(230, 201, 92, .95); }
+}
 .linha-mapa { stroke: rgba(230,162,60,.55); stroke-width: 2.5px; stroke-dasharray: 7 7; }
 .linha-mapa.percorrida { stroke: rgba(92,230,122,.65); stroke-dasharray: none; }
 

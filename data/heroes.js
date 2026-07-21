@@ -93,7 +93,7 @@ GameData.register('heroes', {
       { nome: 'Familiar', desc: 'Um corvo chamado Cinza. Olhos em lugares altos.' },
       { nome: 'Trilha das Brancas', desc: 'Estuda para ingressar na ordem das Incantatrix Brancas — inimigas históricas das Negras.' }
     ],
-    equipamento: ['adaga', 'grimorio', 'componentes'],
+    equipamento: ['adaga', 'vestes_aprendiz', 'grimorio', 'componentes'],
     bio: 'Fraca ainda, mas com a trilha certa: as Incantatrix Brancas. Sabe que uma Negra opera em Renânia — Lysia Moss — e que um dia, quando for forte o bastante, esse acerto de contas virá.'
   }
 });

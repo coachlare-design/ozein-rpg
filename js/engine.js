@@ -8,7 +8,18 @@
 
 const Engine = {
   estado: null,
-  VERSAO_SAVE: 7,
+  VERSAO_SAVE: 8,
+
+  /* ---------- Regiões (v0.8.0): Renânia e Úbia ---------- */
+  regiaoAtual() { return (this.estado && this.estado.regiao) || 'renania'; },
+  cidadeAtual() {
+    const w = GameData.get('world');
+    return (w.regioes && w.regioes[this.regiaoAtual()] ? w.regioes[this.regiaoAtual()].cidade : w.cidade);
+  },
+  mapaAtual() {
+    const w = GameData.get('world');
+    return (w.regioes && w.regioes[this.regiaoAtual()] ? w.regioes[this.regiaoAtual()].mapa : w.mapa);
+  },
 
   /* ---------- Estado inicial (Novo Jogo) ---------- */
   novoJogo(nomeJogador, slot) {
@@ -32,6 +43,7 @@ const Engine = {
       nosConcluidos: [],
       dialogosVistos: [],
       local: 'cidade',
+      regiao: 'renania',
       contadorDescansos: 0,
       estudos: {},           // pergaminho de magia -> nº do descanso da última tentativa
       cargas: {}             // itens de gatilho (varinhas/bastões) -> cargas restantes
@@ -128,11 +140,15 @@ const Engine = {
     if (!this.estado.missoes[id]) this.estado.missoes[id] = { aceita: true, etapasFeitas: ['e1'] };
   },
 
-  missaoAtiva() { return !!this.estado.missoes.missao1; },
+  /* O mapa da região exige um contrato local: Renânia abre com a M1; Úbia com a M4 */
+  missaoAtiva() {
+    if (this.regiaoAtual() === 'ubia') return !!this.estado.missoes.missao4;
+    return !!this.estado.missoes.missao1;
+  },
 
   /* A cidade fica trancada enquanto uma missão está em andamento e o
      objetivo final da rota (o chefe) ainda não caiu. Farm livre não tranca. */
-  NOS_CHEFE_MISSAO: { missao1: 'no_fundo', missao2: 'no_paredao', missao3: 'no_m3_covil' },
+  NOS_CHEFE_MISSAO: { missao1: 'no_fundo', missao2: 'no_paredao', missao3: 'no_m3_covil', missao4: 'no_u_forum' },
   cidadeBloqueada() {
     for (const [mid, noChefe] of Object.entries(this.NOS_CHEFE_MISSAO)) {
       const m = this.estado.missoes[mid];
@@ -157,7 +173,7 @@ const Engine = {
 
   /* ---------- Mapa de nós ---------- */
   vizinhos(noId) {
-    const mapa = GameData.get('world').mapa;
+    const mapa = this.mapaAtual();
     const v = [];
     for (const [a, b] of mapa.arestas) {
       if (a === noId) v.push(b);
@@ -170,9 +186,33 @@ const Engine = {
     const feitos = this.estado.nosConcluidos;
     if (no.tipo === 'cidade') return 'acessivel';
     if (feitos.includes(no.id)) return 'concluido';
+    const mapa = this.mapaAtual();
     const viz = this.vizinhos(no.id);
-    const aberto = viz.some(v => v === 'no_cidade' || feitos.includes(v));
+    const aberto = viz.some(v => {
+      const nv = mapa.nos.find(n => n.id === v);
+      return (nv && nv.tipo === 'cidade') || feitos.includes(v);
+    });
     return aberto ? 'acessivel' : 'bloqueado';
+  },
+
+  /* v0.8.0 — PRÓXIMO PASSO no mapa atual: o nó da missão ativa que ainda falta,
+     ou o nó-cidade quando o próximo gancho está na cidade (fim de missão, contrato novo). */
+  proximoDestino() {
+    const mapa = this.mapaAtual();
+    const noCidade = mapa.nos.find(n => n.tipo === 'cidade');
+    const quests = GameData.get('quests');
+    for (const mid of Object.keys(quests)) {
+      const m = this.estado.missoes[mid];
+      if (!m || m.concluida) continue;
+      const nosDaMissao = mapa.nos.filter(n => n.tipo !== 'cidade' &&
+        ((n.condicao && n.condicao.missao) ? n.condicao.missao === mid : (mapa.missaoBase === mid)));
+      if (!nosDaMissao.length) continue; // missão de outra região
+      const alvo = nosDaMissao.find(n => !this.estado.nosConcluidos.includes(n.id) && this.estadoDoNo(n) === 'acessivel');
+      if (alvo) return alvo.id;
+      // rota limpa, missão ainda aberta → o desfecho espera NA CIDADE
+      return noCidade ? noCidade.id : null;
+    }
+    return noCidade ? noCidade.id : null; // sem missão ativa: os ganchos estão na cidade
   },
 
   concluirNo(noId) {
@@ -223,8 +263,16 @@ const Engine = {
           instrucoes.push({ ui: 'combate', id: ef.valor, farm: !!ef.farm });
           break;
         case 'loja':
-          instrucoes.push({ ui: 'loja' });
+          instrucoes.push({ ui: 'loja', lojaId: ef.valor || 'bruno' });
           break;
+        case 'regiao': { // viagem entre cidades (v0.8.0): 'renania' | 'ubia'
+          this.estado.regiao = ef.valor;
+          this.estado.local = 'cidade';
+          const cid = this.cidadeAtual();
+          instrucoes.push({ ui: 'cidade' });
+          instrucoes.push({ ui: 'toast', texto: '🐎 A estrada fica para trás. Você chega a ' + cid.nome + '.' });
+          break;
+        }
         case 'previaCombate':
           instrucoes.push({ ui: 'previaCombate', monstros: ef.valor, noId: contexto ? contexto.noId : null });
           break;
@@ -456,6 +504,21 @@ const Engine = {
     // v0.7.0 não têm rankC/rankB gravadas, e sem elas o Anexo (prestígio) nunca aparece
     if (e.missoes.missao1 && e.missoes.missao1.concluida && !e.flags.rankC) e.flags.rankC = true;
     if (e.missoes.missao2 && e.missoes.missao2.concluida && !e.flags.rankB) e.flags.rankB = true;
+    // v8: regiões (Úbia) + vestes da maga (slot de corpo liberado para tecido)
+    if (!e.regiao) e.regiao = 'renania';
+    if (e.party.includes('maga')) {
+      const eqM = e.equips.maga;
+      if (eqM && !eqM.armadura) {
+        const def = GameData.get('items').vestes_aprendiz;
+        if (def) {
+          const it = JSON.parse(JSON.stringify(def));
+          it.uid = 'ini_vestes_aprendiz';
+          eqM.armadura = it;
+        }
+      }
+      const hM = e.herois.maga;
+      if (hM && hM.equipamento && !hM.equipamento.includes('vestes_aprendiz')) hM.equipamento.push('vestes_aprendiz');
+    }
     e.versaoSave = this.VERSAO_SAVE;
   }
 };

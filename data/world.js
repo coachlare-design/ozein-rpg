@@ -1,10 +1,14 @@
 /* =====================================================
    OZEIN RPG — data/world.js
-   O mundo navegável: cidade-base de Renânia (hub) e o
-   mapa de nós da Missão 1 (cidade → estrada → minas).
+   O mundo navegável (v0.8.0 — DUAS regiões):
+   · RENÂNIA — cidade-base + mapa das Missões 1-3
+   · ÚBIA — a Cidade dos Heróis + mapa da Missão 4
    Estrutura Darkest Dungeon: cada nó abre uma cena.
+   O motor lê Engine.cidadeAtual()/Engine.mapaAtual();
+   `cidade`/`mapa` seguem apontando pra Renânia (legado).
    ===================================================== */
-GameData.register('world', {
+GameData.register('world', (function () {
+const mundo = {
 
   /* ---------- CIDADE-BASE: RENÂNIA ---------- */
   cidade: {
@@ -79,6 +83,20 @@ GameData.register('world', {
         acao: { tipo: 'dialogo', dialogo: 'm3_relatorio' }
       },
       {
+        id: 'convocacao',
+        nome: '📨 Tubo de marfim — CONVOCAÇÃO A ÚBIA',
+        desc: 'O sinete do conselho das Brancas, e um bilhete de Jack por baixo: "Sede. Agora. Os dois assuntos são o mesmo assunto. — J.C."',
+        condicao: { flag: 'v03Completa', semFlag: 'ubiaAberta' },
+        acao: { tipo: 'dialogo', dialogo: 'm4_convocacao' }
+      },
+      {
+        id: 'viagem_ubia',
+        nome: '🐎 Diligência para ÚBIA (leste)',
+        desc: 'Três dias de estrada até a Cidade dos Heróis — guilda, Torre de Marfim e o próximo capítulo.',
+        condicao: { flag: 'ubiaAberta' },
+        acao: { tipo: 'regiao', regiao: 'ubia' }
+      },
+      {
         id: 'portao',
         nome: '🏔️ Portão Oeste — Estrada das Minas',
         desc: 'A estrada sobe as montanhas até as minas. Requer um contrato ativo.',
@@ -91,6 +109,7 @@ GameData.register('world', {
   mapa: {
     id: 'mapa_missao1',
     nome: 'Estrada das Minas de Renânia',
+    missaoBase: 'missao1', // nós sem condição pertencem a esta missão (p/ o ⭐ próximo passo)
     fundo: 'assets/img/cenario-estrada.png',
     nos: [
       {
@@ -222,5 +241,125 @@ GameData.register('world', {
       ['no_m3_limiar', 'no_m3_pasto'],
       ['no_m3_pasto', 'no_m3_covil']
     ]
+  },
+
+  /* =====================================================
+     ÚBIA — A CIDADE DOS HERÓIS (v0.8.0, Missão 4)
+     ===================================================== */
+  cidadeUbia: {
+    id: 'ubia_cidade',
+    nome: 'Úbia — a Cidade dos Heróis',
+    fundo: 'assets/img/cidade-ubia.png',
+    descricao: 'Avenidas de mármore gasto sob o entardecer, estátuas de caçadores em cada esquina e a SEDE DOS CAÇADORES coroando a praça alta. Tudo aqui tem nome de herói morto — e a cidade cobra caro de quem quiser virar um.',
+    locais: [
+      {
+        id: 'u_sede',
+        nome: '🏛️ Sede dos Caçadores (Jack Caolha)',
+        desc: 'A matriz da guilda: o salão do ranking, a sala do Jack e o cheiro de tinta dos contratos rank A.',
+        acao: { tipo: 'dialogo', dialogo: 'm4_sede' }
+      },
+      {
+        id: 'u_mural',
+        nome: '📜 Mural de Contratos da Sede',
+        desc: 'O mural-mãe de todos os quadros do continente. O contrato no topo tem o lacre pessoal do Jack.',
+        acao: { tipo: 'dialogo', dialogo: 'm4_mural' }
+      },
+      {
+        id: 'u_torre',
+        nome: '🗼 Torre de Marfim (as Brancas)',
+        desc: 'A embaixada das Encantatrizes Brancas em Úbia. O corvo Cinza conhece o caminho — a maga foi CONVOCADA.',
+        acao: { tipo: 'dialogo', dialogo: 'm4_torre' }
+      },
+      {
+        id: 'u_museu',
+        nome: '🏺 Museu dos Heróis',
+        desc: 'As relíquias das eras heroicas de Úbia — inclusive a LÁGRIMA DE ÚBIA, a joia que "chora" quando a cidade corre perigo.',
+        acao: { tipo: 'dialogo', dialogo: 'm4_museu_visita' }
+      },
+      {
+        id: 'u_emporio',
+        nome: '🏪 Empório da Guilda',
+        desc: 'Suprimentos com desconto de membro. A intendente também purifica maldições.',
+        acao: { tipo: 'loja', loja: 'ubia' }
+      },
+      {
+        id: 'u_estalagem',
+        nome: '🛏️ Estalagem do Machado Rachado (salvar o jogo)',
+        desc: 'Quarto de membro da guilda: recupera PV e graça divina, salva o jogo e permite trocar o líder.',
+        acao: { tipo: 'descanso' }
+      },
+      {
+        id: 'u_porto',
+        nome: '⚓ Descer à Baixa do Porto (rota da missão)',
+        desc: 'A cidade baixa: docas, armazéns e o subsolo da velha Úbia. Requer um contrato ativo.',
+        acao: { tipo: 'viajar' }
+      },
+      {
+        id: 'u_volta',
+        nome: '🐎 Diligência de volta a RENÂNIA',
+        desc: 'Três dias de estrada de volta às montanhas — Bruno, Odo e as minas continuam lá.',
+        acao: { tipo: 'regiao', regiao: 'renania' }
+      }
+    ]
+  },
+
+  mapaUbia: {
+    id: 'mapa_ubia',
+    nome: 'Úbia — a Baixa e o Subsolo',
+    missaoBase: 'missao4',
+    fundo: 'assets/img/cenario-ubia-vista.png',
+    nos: [
+      {
+        id: 'no_u_cidade', nome: 'Praça Alta (Úbia)', icone: '🏛️',
+        x: 8, y: 22, tipo: 'cidade',
+        desc: 'A cidade alta. Reabre quando o objetivo da missão ativa cair — até lá, descanse nos pontos da rota.'
+      },
+      {
+        id: 'no_u_porto', nome: 'Baixa do Porto', icone: '⚓',
+        x: 26, y: 46, tipo: 'social', cena: 'm4_cena_porto', condicao: { missao: 'missao4' },
+        desc: 'Caixotes de "Tônico Revigorante da Vigília" que nenhum mercador honesto encomendou. As docas dormem cedo demais.'
+      },
+      {
+        id: 'no_u_armazem', nome: 'Armazém 7', icone: '📦',
+        x: 46, y: 30, tipo: 'combate', cena: 'm4_cena_armazem', condicao: { missao: 'missao4' },
+        desc: 'O depósito do tônico. Vigiado por gente de roupão que não pisca — e lâminas que não erram.'
+      },
+      {
+        id: 'no_u_museu', nome: 'Museu dos Heróis (madrugada)', icone: '🏺',
+        x: 63, y: 52, tipo: 'social', cena: 'm4_cena_museu', condicao: { missao: 'missao4' },
+        desc: 'Luz de lampião onde não devia haver ninguém. A Lágrima de Úbia está chorando — e alguém veio enxugá-la.'
+      },
+      {
+        id: 'no_u_subterraneo', nome: 'Galerias do Subsolo', icone: '🕳️',
+        x: 79, y: 34, tipo: 'combate', cena: 'm4_cena_subterraneo', condicao: { missao: 'missao4' },
+        desc: 'Os aquedutos secos da primeira Úbia. Alguém marcou o caminho com fuligem — para os que vêm DEPOIS.'
+      },
+      {
+        id: 'no_u_santuario', nome: 'Santuário da Vigília', icone: '🕯️',
+        x: 88, y: 60, tipo: 'combate', cena: 'm4_cena_santuario', condicao: { missao: 'missao4' },
+        desc: 'Um salão de casulos sob a cidade dos heróis. Aqui dormem os caçadores colhidos — sonhando o mesmo sonho.'
+      },
+      {
+        id: 'no_u_forum', nome: 'O Fórum Afundado', icone: '⚖️',
+        x: 94, y: 84, tipo: 'chefe', cena: 'm4_cena_forum', condicao: { missao: 'missao4' },
+        desc: 'A ruína da primeira Úbia, afundada sob a Sede. É aqui que a "fase dois" quer nascer — sob os pés da guilda.'
+      }
+    ],
+    arestas: [
+      ['no_u_cidade', 'no_u_porto'],
+      ['no_u_porto', 'no_u_armazem'],
+      ['no_u_armazem', 'no_u_museu'],
+      ['no_u_museu', 'no_u_subterraneo'],
+      ['no_u_subterraneo', 'no_u_santuario'],
+      ['no_u_santuario', 'no_u_forum']
+    ]
   }
-});
+};
+
+/* Regiões: o motor navega por aqui (cidade/mapa legadas = Renânia) */
+mundo.regioes = {
+  renania: { cidade: mundo.cidade, mapa: mundo.mapa },
+  ubia: { cidade: mundo.cidadeUbia, mapa: mundo.mapaUbia }
+};
+return mundo;
+})());

@@ -46,6 +46,11 @@ GameData.register('items', {
     id: 'grimorio', nome: 'Grimório de Aprendiz', raridade: 'normal', tipo: 'foco',
     desc: 'Capa de couro azul-meia-noite. Metade das páginas ainda em branco — como a carreira da dona.'
   },
+  vestes_aprendiz: {
+    id: 'vestes_aprendiz', nome: 'Vestes de Aprendiz', raridade: 'normal', tipo: 'armadura', slot: 'armadura',
+    caBonus: 1, categoria: 'vestes',
+    desc: 'Lã cinzenta com forro acolchoado e runas menores costuradas na bainha. Tecido não é armadura (D&D 3.5) — a maga conjura sem falha arcana dentro dele.'
+  },
   componentes: {
     id: 'componentes', nome: 'Bolsa de Componentes', raridade: 'normal', tipo: 'ferramenta',
     desc: 'Enxofre, teia de aranha, pó de ferro. O necessário para fazer o mundo obedecer.'

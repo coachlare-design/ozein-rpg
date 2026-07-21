@@ -61,6 +61,27 @@ GameData.register('quests', {
       { id: 'e8', texto: 'Seguir o rastro até o laboratório de Lysia em Renânia.' },
       { id: 'e9', texto: 'Correio da guilda: relatório, rank e consequências.' }
     ],
-    ganchoFinal: 'A pedra do coração quebrou e a aldeia acordou — mas era um ENSAIO. A amostra verdadeira já está em Avenches, com Viridiana, multiplicando. "O exército precisa dormir." (Missão 4: Avenches)'
+    ganchoFinal: 'A pedra do coração quebrou e a aldeia acordou — mas era um ENSAIO. A amostra verdadeira já está em Avenches, com Viridiana, multiplicando. "O exército precisa dormir." (Missão 4: Úbia)'
+  },
+
+  missao4: {
+    id: 'missao4',
+    nome: 'Missão 4 — A Cidade dos Heróis',
+    rank: 'B',
+    contratante: 'Jack Caolha, na Sede dos Caçadores — com as Brancas observando da Torre de Marfim',
+    recompensa: '2.000 po + MEMBRO INTERNO da guilda (3ª missão B: acesso a contratos rank A)',
+    origem: 'Disponível na SEDE DOS CAÇADORES, em Úbia (a convocação chega após a Missão 3).',
+    resumo: 'A "fase dois" de Viridiana começou dentro da própria guilda: um Tônico da Vigília circula em Úbia adormecendo caçadores e guardas da cidade — e YARA, a Top 1 do ranking, desapareceu. A party precisa seguir a linha de distribuição da Baixa do Porto até o subsolo da primeira Úbia e quebrar o ritual antes que a Cidade dos Heróis vire o quartel do exército que sonha.',
+    etapas: [
+      { id: 'e1', texto: 'Aceitar o contrato de Jack Caolha no Mural da Sede (Úbia).' },
+      { id: 'e2', texto: 'Baixa do Porto — rastrear os caixotes do "Tônico da Vigília".' },
+      { id: 'e3', texto: 'Armazém 7 — tomar o depósito e a lista de entregas.' },
+      { id: 'e4', texto: 'Museu dos Heróis — impedir o roubo da Lágrima de Úbia (madrugada).' },
+      { id: 'e5', texto: 'Galerias do Subsolo — seguir o rastro de fuligem sob a cidade.' },
+      { id: 'e6', texto: 'Santuário da Vigília — libertar os caçadores encasulados.' },
+      { id: 'e7', texto: 'O Fórum Afundado — quebrar a Coroa de Sonho e enfrentar quem a coroou.' },
+      { id: 'e8', texto: 'Voltar à Sede: relatório, o título de MEMBRO INTERNO e as ordens da Torre.' }
+    ],
+    ganchoFinal: 'Membros internos. A Lágrima recuperada, Yara acordada — mas a amostra-mãe segue em Avenches e a lista da "fase dois" tem outras cidades. As Brancas apontam o leste. (Missão 5: Avenches)'
   }
 });

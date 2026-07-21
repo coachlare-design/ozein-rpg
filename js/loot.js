@@ -138,6 +138,9 @@ const Loot = {
     const cls = this._classeDe(heroi);
     const prof = this.PROFICIENCIAS[cls];
     const cat = this._categoriaDe(item);
+    // v0.8.0 — VESTES/MANTOS (tecido) não são armadura no D&D 3.5:
+    // qualquer classe veste (inclusive a maga — sem falha arcana em pano)
+    if (item.slot === 'armadura' && cat === 'vestes') return { pode: true };
     if (item.slot === 'arma' && !prof.armas.includes(cat)) {
       const motivos = {
         'Maga': '🚫 D&D 3.5: magas só treinam armas SIMPLES (adaga, bordão). ' + item.nome + ' fica para quem jurou pelo aço.',
@@ -147,7 +150,7 @@ const Loot = {
     }
     if (item.slot === 'armadura' && !prof.armaduras.includes(cat)) {
       const motivos = {
-        'Maga': '🚫 D&D 3.5: magos NÃO vestem armadura — os gestos das magias falham dentro de couro e aço (falha arcana).',
+        'Maga': '🚫 D&D 3.5: magos NÃO vestem armadura — os gestos falham dentro de couro e aço (falha arcana). VESTES e MANTOS de tecido, porém, são bem-vindos.',
         'Ladino': '🚫 Ladinos vestem no máximo armadura LEVE — furtividade e evasão morrem dentro de uma cota de malha.'
       };
       return { pode: false, motivo: motivos[cls] || '🚫 Armadura pesada demais para ' + cls + '.' };

@@ -174,6 +174,45 @@ GameData.register('monsters', {
     especial: ['LAMENTO FÚNEBRE (Vontade CD 15 p/ metade)', 'VIGÍLIA RUBRA: remenda a carne dos aliados (cura)', 'Foi RECOLHIDA no Paredão — e devolvida... diferente'],
     fraqueza: 'Parte dela lembra de quem era. A parte que não lembra luta melhor.',
     lore: 'Caiu diante do Paredão; o corpo sumiu. Wee Jas é deusa da Morte E da Magia — e Lysia é devota aplicada. O que voltou usa o rosto de Ekaterina, a fé de Ekaterina, e nenhum dos medos dela.'
+  },
+
+  /* ================= MISSÃO 4 — A CIDADE DOS HERÓIS ================= */
+
+  adaga_negra: {
+    id: 'adaga_negra', nome: 'Adaga Negra', nd: 7,
+    tipo: 'Humanoide (assassino de aluguel)',
+    pv: 38, ca: 18, bba: 9,
+    ataques: [{ nome: 'Lâmina envenenada', dano: '1d6+5 + veneno' }],
+    especial: ['LÂMINA ENVENENADA: dano + chance de APAGAR o alvo (paralisia)', 'Sem batina desta vez — em Úbia, as Adagas trabalham à paisana'],
+    fraqueza: 'Sem surpresa, são só lâminas caras',
+    lore: 'A capela de Vau da Prata caiu, mas a irmandade não. Em Úbia elas escoltam o "tônico" — e cobram por cabeça de quem pergunta demais.'
+  },
+  vigilante_rubro: {
+    id: 'vigilante_rubro', nome: 'Vigilante Rubro', nd: 8,
+    tipo: 'Morto-vivo (rediviva de Wee Jas)',
+    pv: 46, ca: 18, bba: 10,
+    ataques: [{ nome: 'Alabarda cerimonial', dano: '1d8+5' }],
+    especial: ['LAMENTO FÚNEBRE (Vontade p/ metade)', 'VIGÍLIA RUBRA: remenda os aliados (cura)', 'O que a Vigília fez com Ekaterina... agora faz EM SÉRIE'],
+    fraqueza: 'A luz da Triuni — e quebrar quem os remenda',
+    lore: 'Ekaterina foi o protótipo. Os Vigilantes Rubros são a linha de produção: caçadores e soldados que "dormiram" — e voltaram de olhos despertos e vazios.'
+  },
+  yara_lamina: {
+    id: 'yara_lamina', nome: 'Yara, a Lâmina de Úbia', nd: 11,
+    tipo: 'Humanoide (Top 1 dos Caçadores — DOMINADA)',
+    pv: 115, ca: 20, bba: 13,
+    ataques: [{ nome: 'Lâmina da Yara', dano: '1d10+6' }],
+    especial: ['LÂMINA-TEMPESTADE: um arco que alcança a party inteira (Reflexos p/ metade)', 'COROA DE SONHO: o aro de prata na testa dela NÃO é dela', 'Dora avisou: "não matem a menina — quebrem a COROA"'],
+    fraqueza: 'A coroa quebra quando o corpo dela cede — derrubá-la é LIBERTÁ-LA',
+    lore: 'A Top 1 do ranking geral, a caçadora que "ninguém alcança". A fase dois precisava de um rosto que a guilda seguisse — então Viridiana mandou coroar o melhor deles.'
+  },
+  lysia_moss: {
+    id: 'lysia_moss', nome: 'Lysia Moss, a Blood Magus', nd: 12,
+    tipo: 'Humanoide (Incantatrix Negra / maga do sangue)',
+    pv: 90, ca: 19, bba: 11,
+    ataques: [{ nome: 'Adaga carmesim', dano: '1d6+4' }],
+    especial: ['RITUAL DE SANGUE: o próprio sangue vira onda de energia negativa (Vontade p/ metade)', 'VIGÍLIA RUBRA: remenda os redivivos', 'FOGE quando o preço fica alto — sempre fugiu'],
+    fraqueza: 'Cada magia custa o sangue DELA. Façam custar.',
+    lore: 'A maga de vermelho, aprendiz de Viridiana Quispe. Pagou o gigante, colheu a amostra, montou o laboratório — e agora rege a fase dois em Úbia. As Brancas suspenderam a proibição: desta vez, pode-se caçá-la.'
   }
 
 });

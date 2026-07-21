@@ -170,15 +170,22 @@ const UIInv = {
     UI.toast(`🧪 +${cura} PV em ${heroi.nome}.`);
   },
 
-  /* ---------- LOJA DO BRUNO ---------- */
-  telaLoja() {
+  /* ---------- LOJAS (Bruno em Renânia · Empório da Guilda em Úbia) ---------- */
+  lojaAtual: 'bruno',
+  _ofertaLoja() {
+    const L = GameData.get('loot');
+    return this.lojaAtual === 'ubia' ? (L.lojaUbia || L.loja) : L.loja;
+  },
+
+  telaLoja(lojaId) {
+    if (lojaId) this.lojaAtual = lojaId;
     const antigo = document.getElementById('painel-loja');
     if (antigo) antigo.remove();
     const est = Engine.estado;
     const L = GameData.get('loot');
     const itens = GameData.get('items');
 
-    const comprarHtml = L.loja.map((of, i) => {
+    const comprarHtml = this._ofertaLoja().map((of, i) => {
       const nome = of.item ? itens[of.item].nome : L.bases.find(b => b.id === of.base).nome;
       const desc = of.item ? (itens[of.item].efeito || itens[of.item].desc) : 'Equipamento base, sem encantos.';
       return `<li><b>${nome}</b> — <span style="color:var(--ouro)">${of.preco} po</span><br>
@@ -203,16 +210,19 @@ const UIInv = {
       }
     }
 
+    const ehUbia = this.lojaAtual === 'ubia';
     const painel = UI.el('div', 'painel-cheio');
     painel.id = 'painel-loja';
     painel.innerHTML = `
-      <h2>⚒️ Forja do Mestre Bruno</h2>
+      <h2>${ehUbia ? '🏪 Empório da Guilda — Úbia' : '⚒️ Forja do Mestre Bruno'}</h2>
       <button class="btn fechar" onclick="this.parentElement.remove()">✕ Fechar</button>
-      <p style="color:var(--texto-fraco);margin-bottom:14px">"Aço honesto, preço honesto. Maldição eu tiro também — por um preço menos honesto."  · Seu ouro: <b style="color:var(--ouro)">${est.ouro} po</b></p>
+      <p style="color:var(--texto-fraco);margin-bottom:14px">${ehUbia
+        ? '"Desconto de membro. Não conta pro Jack que a margem já era pequena." · A intendente também purifica maldições.'
+        : '"Aço honesto, preço honesto. Maldição eu tiro também — por um preço menos honesto."'}  · Seu ouro: <b style="color:var(--ouro)">${est.ouro} po</b></p>
       <div class="grade-ficha">
         <div><div class="bloco"><h4>Comprar</h4><ul class="lista-simples">${comprarHtml}</ul></div>
         ${maldicoesHtml ? `<div class="bloco"><h4>⛓️ Purificar maldições</h4><ul class="lista-simples">${maldicoesHtml}</ul></div>` : ''}</div>
-        <div><div class="bloco"><h4>Vender (Bruno paga 40%)</h4><ul class="lista-simples">${venderHtml}</ul></div></div>
+        <div><div class="bloco"><h4>Vender (a casa paga 40%)</h4><ul class="lista-simples">${venderHtml}</ul></div></div>
       </div>`;
     UI.raiz.appendChild(painel);
   },
@@ -220,7 +230,7 @@ const UIInv = {
   comprar(i) {
     const est = Engine.estado;
     const L = GameData.get('loot');
-    const of = L.loja[i];
+    const of = this._ofertaLoja()[i];
     // pergaminhos de magia: um por vez, e só se a maga ainda não souber a magia
     if (of.item) {
       const def = GameData.get('items')[of.item];

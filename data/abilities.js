@@ -101,13 +101,13 @@ GameData.register('abilities', {
   /* ---------- Habilidades de PRESTÍGIO ---------- */
   punicao_celestial: {
     id: 'punicao_celestial', nome: '⚜️ Punição Celestial', tipo: 'ataque', alvo: 'inimigo',
-    desc: 'O golpe do Cálice: +CAR no acerto, +2d6 sagrado no dano (o Flagelo soma contra o mal). 1× por combate.',
-    ataqueEspecial: { bonusAcertoAtributo: 'CAR', bonusDanoDados: '2d6' }, usosPorCombate: 1
+    desc: 'O golpe do Cálice: +CAR no acerto, +2d6 sagrado no dano (o Flagelo soma contra o mal). 2× por combate.',
+    ataqueEspecial: { bonusAcertoAtributo: 'CAR', bonusDanoDados: '2d6' }, usosPorCombate: 2
   },
   baluarte: {
     id: 'baluarte', nome: '🛡️ Baluarte', tipo: 'buff',
-    desc: 'O Defensor cerra fileiras: a PARTY INTEIRA ganha +4 CA por 2 turnos.',
-    aplicarParty: { condicao: 'protegido', duracao: 2 }, usosPorCombate: 2
+    desc: 'O Defensor cerra fileiras: a PARTY INTEIRA ganha +2 CA por 3 turnos. 2× por combate.',
+    aplicarParty: { condicao: 'resguardado', duracao: 3 }, usosPorCombate: 2
   },
   clamor_triuni: {
     id: 'clamor_triuni', nome: '☀️ Clamor da Triuni', tipo: 'cura',
@@ -203,6 +203,23 @@ GameData.register('abilities', {
     id: 'vigilia_rubra', nome: 'Vigília Rubra', tipo: 'cura_aliada',
     desc: 'A sacerdotisa rediviva remenda a carne do aliado mais ferido (2d8+2).',
     dado: '2d8+2'
+  },
+
+  /* ---------- Inimigos — Missão 4 ---------- */
+  lamina_envenenada: {
+    id: 'lamina_envenenada', nome: 'Lâmina Envenenada', tipo: 'ataque_pesado',
+    desc: 'O veneno paralisante das Adagas Negras: dano e chance de APAGAR (perde a próxima ação).',
+    dado: '2d6+4', aplica: { condicao: 'atordoado', duracao: 1, chance: 0.3 }
+  },
+  ritual_de_sangue: {
+    id: 'ritual_de_sangue', nome: 'Ritual de Sangue', tipo: 'area',
+    desc: 'Lysia corta a própria palma — o sangue sobe em símbolos e DESABA sobre a party. Vontade CD 16 para metade.',
+    dado: '3d6', elemento: 'negativo', salvamento: 'vontade', cd: 16
+  },
+  lamina_tempestade: {
+    id: 'lamina_tempestade', nome: 'Lâmina-Tempestade', tipo: 'area',
+    desc: 'Yara gira num arco que nenhum mestre ensina — a lâmina alcança a party inteira. Reflexos CD 17 para metade (Evasão anula).',
+    dado: '2d6+4', salvamento: 'reflexos', cd: 17
   }
 
 });

@@ -5,9 +5,9 @@
    ===================================================== */
 GameData.register('config', {
   titulo: 'Ozein — Os Pesadelos de Renânia',
-  versao: '0.7.2 — Prestígio visível + mapa destravado + paladino renovado',
+  versao: '0.8.0 — Missão 4: A Cidade dos Heróis (Úbia) + prestígio rebalanceado + vestes da maga',
   mundo: 'Galáxia Empíria · Mundo Ozein · Continente Genesiano',
-  regiao: 'Renânia (oeste de Vithus)',
+  regiao: 'Renânia e Úbia (Genesiano)',
 
   // Cores de raridade (guia de estilo §6.5)
   raridades: {

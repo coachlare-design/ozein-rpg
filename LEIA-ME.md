@@ -1,12 +1,19 @@
 # OZEIN — Os Pesadelos de Renânia
-### v0.6.0 — Missão 3: A Vila que Dorme + Classes de Prestígio & Grimório
+### v0.8.0 — Missão 4: A Cidade dos Heróis (Úbia) + prestígio rebalanceado + vestes da maga
 
 RPG artesanal do Carlos: regras de D&D 3.5, loot/build de Diablo 2, party/história/ATB de Final Fantasy — no mundo de Ozein (galáxia Empíria), cânone bidirecional com as mesas.
 
 ## Como jogar
 Dê dois cliques no **atalho "Ozein RPG" na área de trabalho**, ou abra o `index.html` desta pasta no Chrome/Edge.
 
-## O que o jogo tem agora (v0.6.0)
+## NOVO na v0.8.0
+- **MISSÃO 4 — "A Cidade dos Heróis" — completa, em OUTRA CIDADE**: a party viaja para **ÚBIA** (convocação das Brancas + bilhete de Jack). Cidade-hub nova (Sede dos Caçadores, Mural, Torre de Marfim, Museu dos Heróis, Empório da Guilda, Estalagem) e **mapa novo** sobre a vista da Baixa e do Porto: Porto → Armazém 7 → Museu (madrugada) → Galerias do Subsolo → Santuário da Vigília → **O Fórum Afundado**. A "fase dois" de Viridiana: o Tônico da Vigília adormece a guilda, **Yara (Top 1) foi COROADA**, Dora está num casulo, Yurin apronta das dele — e o chefe final é **Yara dominada + LYSIA MOSS em pessoa** (ela foge, claro — mas agora menos elegante). Recompensas: MEMBRO INTERNO (rank A), 2.000 po, **Lâmina da Yara** e **Manto da Incantatrix** (na Torre, pós-missão). 8 cenários novos do Gemini. Gancho: Missão 5 — Avenches.
+- **⭐ PRÓXIMO PASSO no mapa**: o mapa agora SEMPRE aponta para onde ir — nó dourado pulsante com ⭐ + aviso no cabeçalho. Ao fim de cada missão (ex.: chefe da M2 morto), a ⭐ aponta a CIDADE ("o desfecho espera na cidade"). Na cidade, os locais com o próximo passo da história ganham **❗ e destaque**.
+- **Cidade com rolagem no desktop**: a lista de locais nunca mais some da tela (barra de rolagem própria).
+- **VESTES DA MAGA (slot de corpo)**: tecido não é armadura no 3.5 — a categoria **vestes** (Vestes de Aprendiz/de Mago, Manto da Incantatrix) é livre para todos, e a maga finalmente veste algo no corpo (sem falha arcana). Saves antigos ganham as vestes na migração v8.
+- **PRESTÍGIO REBALANCEADO (fiel às CdP 3.5)**: as 9 trilhas no mesmo orçamento de poder. Defensor: +1 CA (não +2) e Baluarte +2 CA/3 turnos (não +4); Cavaleiro: +PV e **2ª Punição** (smite escala); Campeão: +PV; **Dançarino ganhou a ROLADA DEFENSIVA** (defensive roll: 1×/combate, golpe letal vira metade — a passiva que faltava); **RIPOSTE do Duelista virou 1×/rodada** (parry, não metralhadora); Maga de Batalha perdeu o +1 CA (War Wizard não é tanque). Simulação: builds ofensiva e defensiva agora empatam (~64% × 66% no chefe da M4).
+
+## O que o jogo tinha até a v0.6/0.7
 - **MISSÃO 3 — "A Vila que Dorme" — completa**: contrato direto de Jack Caolha (1.200 po): a aldeia de Vau da Prata dorme há 9 dias. Rota sul nova com 6 nós — caravana adormecida (testes de perícia), os Irmãos da Vigília colhendo sonhadores, a Capela das Lamúrias (sacerdotes de Nerull/Adagas Negras), o **Limiar do Sonho** (a party entra no sonho coletivo e encontra YURIN, que entrega o covil e um anel do pacto "por conta da casa"), o corcel **Pesadelo** no Pasto de Cinzas, e o chefe duplo final: **Madame Vevra, Anciã Noturna** (night hag do MM 3.5, com a pedra do coração) + **Ekaterina, a Vigília Rubra** (rediviva... errada — e ela CURA a aliada). Epílogo no laboratório de clone de Lysia, carta das Brancas suspendendo a proibição, gancho da Missão 4 (Úbia/Avenches). 4 únicos novos + refarms.
 - **CLASSES DE PRESTÍGIO (D&D 3.5)** — no Anexo dos Caçadores (aparece com o rank B), Dora Terra-brava (Top 2 do ranking!) oferece **3 trilhas por herói, escolha PERMANENTE** no nível 6+: Paladino → Cavaleiro do Cálice (Flagelo +2d6 vs o mal), Defensor Juramentado (RD 3, Baluarte) ou Campeão Divino (2× Golpe Sagrado, Clamor de cura em área); Ladino → Assassino (ATAQUE MORTAL: Fort. ou morre), Dançarino das Sombras (Passo Sombrio: oculto + furtivo garantido) ou Duelista (INT na CA + RIPOSTE automático); Maga → Arquimaga (+3 foco), Encantatriz Branca (CD +2, Égide de Vontade na party) ou Maga de Batalha (+1 dano por dado). Cada trilha: bônus fixos + passiva + habilidade nova.
 - **GRIMÓRIO & APRENDIZADO DE MAGIAS (regras 3.5)** — a maga agora tem **FOCO ARCANO por combate** (4 + nível/2; magias custam por círculo) e aprende magias novas copiando PERGAMINHOS no descanso: teste de **Identificar Magia CD 15+círculo**, tinta rara a 100 po × círculo (gasta na tentativa!), falhou = só no próximo descanso. 5 magias aprendíveis: **Bola de Fogo** (6d6 em área), **Velocidade** (party acelerada), **Sono Profundo** (inimigos comuns dormem), **Toque Vampírico** (dreno) e **Tempestade de Gelo** (4º círculo). Pergaminhos: loja do Bruno, drops fixos da M3 e o Limiar do Sonho.
@@ -21,11 +28,11 @@ Dê dois cliques no **atalho "Ozein RPG" na área de trabalho**, ou abra o `inde
 - **ROLAGEM DE D20 ANIMADA**: nos testes de perícia o dado gira com suspense antes de parar (20 natural dourado, 1 natural sombrio); em cada ataque e salvamento do combate um dado dá um "flip" sobre quem rolou.
 - **Save** ao descansar (taverna/casebre) + exportar/importar `.json` por slot.
 
-## Balanceamento (validado por simulação de 400–500 combates/encontro)
-Missão 1: Nó 1 ~75% em auto "burro"; gigante ~55%. Missão 2: Paredão ~75%, Grande Fihyr ~70%. **Missão 3 (party nv 6–8)**: vau/capela/pasto 97–100% com prestígio; o **covil (Vevra + Vigília Rubra) fica em ~86% com build ofensiva e ~69% com build defensiva** — e **~6% SEM prestígio**: o Anexo dos Caçadores não é decorativo, escolham as trilhas antes da Gruta! Jogando de verdade (frio no Pesadelo, foco na Vigília antes da Anciã, Velocidade na rodada 1) é bem mais suave. Derrota segue barata: -10% do ouro.
+## Balanceamento (validado por simulação de centenas de combates/encontro)
+Missão 1: Nó 1 ~75% em auto "burro"; gigante ~55%. Missão 2: Paredão ~75%, Grande Fihyr ~70%. Missão 3 (nv 6–8): covil ~86% ofensiva / ~69% defensiva / ~6% sem prestígio. **Missão 4 (party nv 8–9)**: armazém/subsolo/santuário ~100% em auto; o **Fórum Afundado (Yara + Lysia) fica em ~64% ofensiva e ~66% defensiva** (as builds agora EMPATAM — rebalance da v0.8.0) e **~8% SEM prestígio**. Jogando de verdade (Velocidade na rodada 1, foco na Lysia até ela fugir, poções do Empório) é bem mais suave. Derrota segue barata: -10% do ouro.
 
 ## O que vem depois (fatias futuras)
-Missão 4 — Úbia e a trilha de Avenches (as Brancas convocaram; Viridiana iniciou "a fase dois"; membro interno a 1 missão B de distância). Depois: soquetes/runas, baú/stash, Selos (endgame). Retratos da Lysia, Yurin, Vevra, Dora e cenários da rota sul no Gemini.
+Missão 5 — Avenches (a amostra-mãe, Viridiana e o que ri atrás dela; Yara jurou marchar junto; as Brancas apontam o leste pela 1ª vez em 200 anos). Depois: soquetes/runas, baú/stash, Selos (endgame). Retratos da Lysia, Yurin, Vevra, Dora, Jack e Yara no Gemini.
 
 ## Estrutura (dados separados do código)
 ```
