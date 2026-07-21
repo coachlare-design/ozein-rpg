@@ -32,12 +32,23 @@ const Combat = {
     return { ameaca, mult };
   },
 
+  /* Usos de Golpe Sagrado por combate: 1 base, +1 no nível 5 e no 10
+     (progressão de "destruir o mal" do D&D 3.5), +1 pela trilha de prestígio. */
+  _limiteGolpe(h) {
+    const base = (h.stats.passiva && h.stats.passiva.golpeSagradoUsos) || 1;
+    return base + Math.floor((h.nivel || Regras.nivelPorXp(Engine.estado.xp)) / 5);
+  },
+
   /* ---------- Início / fim ---------- */
   iniciar(encontroId, aoTerminar) {
     const enc = GameData.get('encounters')[encontroId];
     if (!enc) { console.error('Encontro não encontrado:', encontroId); return; }
     this.aoTerminar = aoTerminar || null;
 
+    // ✋ Impor as Mãos renova A CADA ENCONTRO (paridade com o foco arcano da maga)
+    if (Engine.estado.party.includes('paladino')) {
+      Engine.estado.reservaImpor = Engine._reservaMaxima();
+    }
     const herois = Engine.estado.party.map(id => this._montarHeroi(id));
     const inimigos = enc.inimigos.map((e, i) => ({
       ...JSON.parse(JSON.stringify(e)),
@@ -359,7 +370,7 @@ const Combat = {
         break;
       }
       case 'golpe_sagrado': {
-        const limite = passiva.golpeSagradoUsos || 1;
+        const limite = this._limiteGolpe(h);
         if ((h.usos.golpe_sagrado || 0) >= limite) { this.logar('☀️ O Golpe Sagrado se esgotou neste combate.'); return; }
         h.usos.golpe_sagrado = (h.usos.golpe_sagrado || 0) + 1;
         const pena = h.desviando ? -4 : 0;
@@ -369,7 +380,7 @@ const Combat = {
       }
       case 'impor_maos': {
         const reserva = Engine.estado.reservaImpor;
-        if (reserva <= 0) { this.logar('✋ A reserva divina está vazia. Descanse para renová-la.'); return; }
+        if (reserva <= 0) { this.logar('✋ A reserva divina está vazia — renova no próximo encontro.'); return; }
         const feridos = c.herois.filter(x => !this._tem(x, 'petrificado') && Engine.estado.pv[x.id] < x.stats.pvMax);
         const alvoCura = feridos.sort((a, b) => (Engine.estado.pv[a.id] / a.stats.pvMax) - (Engine.estado.pv[b.id] / b.stats.pvMax))[0] || h;
         const falta = alvoCura.stats.pvMax - Engine.estado.pv[alvoCura.id];
@@ -598,7 +609,7 @@ const Combat = {
       if (feridos && Engine.estado.reservaImpor > 3) { this.agir('impor_maos'); return; }
       const chefe = vivos.find(x => x.e.chefe);
       if (chefe && sabe('punicao_celestial') && podeUso('punicao_celestial')) { this.agir('punicao_celestial', chefe.i); return; }
-      if (chefe && (h.usos.golpe_sagrado || 0) < ((h.stats.passiva && h.stats.passiva.golpeSagradoUsos) || 1)) { this.agir('golpe_sagrado', chefe.i); return; }
+      if (chefe && (h.usos.golpe_sagrado || 0) < this._limiteGolpe(h)) { this.agir('golpe_sagrado', chefe.i); return; }
       if (sabe('baluarte') && podeUso('baluarte') && c.rodada === 1 && vivos.length >= 2) { this.agir('baluarte'); return; }
     }
     // vapor da forja no momento certo

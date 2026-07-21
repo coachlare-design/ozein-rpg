@@ -26,12 +26,12 @@ GameData.register('abilities', {
   /* ---------- Paladino ---------- */
   golpe_sagrado: {
     id: 'golpe_sagrado', nome: '☀️ Golpe Sagrado', tipo: 'ataque',
-    desc: 'Canaliza a Triuni: +CAR no acerto, +nível no dano. Devastador contra o mal. 1× por combate.',
+    desc: 'Canaliza a Triuni: +CAR no acerto, +nível no dano. Devastador contra o mal. 1× por combate (+1 uso no nível 5 e no 10).',
     bonusAcerto: 'CAR', bonusDanoNivel: true, usosPorCombate: 1
   },
   impor_maos: {
     id: 'impor_maos', nome: '✋ Impor as Mãos', tipo: 'cura',
-    desc: 'Cura pela graça divina. Reserva diária de PV (nível × mod CAR). Recarrega ao descansar.',
+    desc: 'Cura pela graça divina. Reserva de PV (nível × mod CAR) que RENOVA a cada combate.',
     reservaDiaria: true
   },
   aura_coragem: {

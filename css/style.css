@@ -664,3 +664,16 @@ button, .btn { touch-action: manipulation; -webkit-tap-highlight-color: rgba(230
   border: 2px solid var(--tocha-clara, #ffd27a);
   box-shadow: 0 2px 8px rgba(0, 0, 0, .6);
 }
+
+/* ===== v0.7.2: chamada de prestígio bem visível na cidade ===== */
+.btn.alerta-prestigio {
+  border-color: var(--unico, #e6a23c);
+  background: linear-gradient(135deg, rgba(230,162,60,.22), rgba(20,16,10,.9));
+  animation: pulso-prestigio 1.6s ease-in-out infinite;
+  font-weight: 700;
+}
+.btn.alerta-prestigio .sub { color: var(--texto); opacity: .9; }
+@keyframes pulso-prestigio {
+  0%, 100% { box-shadow: 0 0 6px rgba(230,162,60,.35); }
+  50%      { box-shadow: 0 0 22px rgba(230,162,60,.85); border-color: #ffd873; }
+}

@@ -62,7 +62,7 @@ const UI = {
         <button class="btn mini" onclick="UI.telaFicha()">⚔️ Ficha</button>
         <button class="btn mini" onclick="UIInv.telaInventario()">🎒 Inventário</button>
         <button class="btn mini" onclick="UI.telaDiario()">📖 Diário</button>
-        <button class="btn mini" onclick="UI.alternarLocal()">🗺️ ${Engine.estado.local === 'mapa' ? 'Ir à Cidade' : 'Ir ao Mapa'}</button>
+        <button class="btn mini" onclick="UI.alternarLocal()">${Engine.estado.local === 'mapa' ? (Engine.cidadeBloqueada() ? '🔒 Cidade' : '🗺️ Ir à Cidade') : '🗺️ Ir ao Mapa'}</button>
         <button class="btn mini" onclick="SaveSystem.exportar(Engine.estado)" title="Baixa o save como arquivo .json (cópia de segurança)">💾 Exportar</button>
         <button class="btn mini" onclick="UI.botaoMusica(this)">🎵 ${Musica.ligada ? 'ON' : 'off'}</button>
         <button class="btn mini" onclick="UI.telaTitulo()" title="Voltar à tela de título (troca de slot/jogador). Salve antes!">🏠 Título</button>
@@ -75,7 +75,14 @@ const UI = {
   },
 
   alternarLocal() {
-    if (Engine.estado.local === 'mapa') { this.telaCidade(); return; }
+    if (Engine.estado.local === 'mapa') {
+      const trava = Engine.cidadeBloqueada();
+      if (trava) {
+        this.toast(`🔒 A missão "${trava}" está em andamento — Renânia reabre quando o objetivo da rota cair. Descanse nos pontos do caminho.`);
+        return;
+      }
+      this.telaCidade(); return;
+    }
     if (!Engine.missaoAtiva()) { this.toast('Aceite um contrato no quadro dos Caçadores primeiro.'); return; }
     this.telaMapa();
   },
@@ -233,13 +240,25 @@ const UI = {
     painel.id = 'painel-locais';
     painel.innerHTML = `<div class="cabecalho"><h3>${cidade.nome}</h3><p>${cidade.descricao}</p></div>`;
 
+    // 🎖️ Chamada BEM visível: prestígio disponível e alguém ainda sem trilha
+    const prestigioPendente = Engine.estado.flags.rankC &&
+      Engine.estado.party.some(id => Engine.podePrestigio(id));
+    if (prestigioPendente) {
+      const alerta = this.el('button', 'btn alerta-prestigio',
+        `🎖️ TRILHAS DE PRESTÍGIO DISPONÍVEIS!<span class="sub">A veterana do Anexo dos Caçadores espera a party nos fundos da taverna. A escolha é PERMANENTE — e define o futuro de cada herói. Clique para ir agora.</span>`);
+      alerta.onclick = () => this.abrirDialogo('anexo_treinamento');
+      painel.appendChild(alerta);
+    }
+
     for (const local of cidade.locais) {
       if (local.condicao) {
         if (local.condicao.flag && !Engine.estado.flags[local.condicao.flag]) continue;
         if (local.condicao.semFlag && Engine.estado.flags[local.condicao.semFlag]) continue;
         if (local.condicao.missao && !Engine.estado.missoes[local.condicao.missao]) continue;
       }
-      const b = this.el('button', 'btn', `${local.nome}<span class="sub">${local.desc}</span>`);
+      const novoPrestigio = local.id === 'anexo' && prestigioPendente;
+      const b = this.el('button', 'btn' + (novoPrestigio ? ' destaque' : ''),
+        `${novoPrestigio ? '🔔 ' : ''}${local.nome}<span class="sub">${local.desc}</span>`);
       if (local.acao.tipo === 'viajar' && !Engine.missaoAtiva()) {
         b.disabled = true;
         b.title = 'Aceite um contrato no quadro dos Caçadores primeiro.';
@@ -440,12 +459,14 @@ const UI = {
     const mapa = GameData.get('world').mapa;
     this.fundo(mapa.fundo);
 
+    // Faixa fina, NÃO intercepta cliques (pointer-events:none) e fica ABAIXO
+    // dos nós (z-index menor) — nenhum nó da estrada pode ficar inacessível atrás dela.
     const cab = this.el('div', 'cabecalho-mapa');
-    cab.style.cssText = 'position:absolute;left:24px;top:24px;z-index:15;max-width:380px;';
+    cab.style.cssText = 'position:absolute;left:12px;top:8px;z-index:8;max-width:92vw;pointer-events:none;padding:8px 14px;';
     const missaoTrava = Engine.cidadeBloqueada();
-    cab.innerHTML = `<h3>🗺️ ${mapa.nome}</h3><p>Avance nó a nó. Nós com borda dourada estão acessíveis; ✓ concluídos. ${missaoTrava
-      ? `<b style="color:var(--tocha-clara)">🔒 Missão em andamento: "${missaoTrava}" — Renânia só reabre quando o objetivo cair. Descanse nos pontos da rota.</b>`
-      : 'Você pode voltar à cidade a qualquer momento.'}</p>`;
+    cab.innerHTML = `<h3 style="display:inline;font-size:15px">🗺️ ${mapa.nome}</h3> <span style="font-size:12px;color:var(--texto-fraco)">${missaoTrava
+      ? `<b style="color:var(--tocha-clara)">🔒 "${missaoTrava}" em andamento — Renânia reabre quando o objetivo cair.</b>`
+      : '— pode voltar à cidade quando quiser.'}</span>`;
     this.raiz.appendChild(cab);
 
     const cont = this.el('div');

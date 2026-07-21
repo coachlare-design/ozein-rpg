@@ -8,7 +8,7 @@
 
 const Engine = {
   estado: null,
-  VERSAO_SAVE: 6,
+  VERSAO_SAVE: 7,
 
   /* ---------- Estado inicial (Novo Jogo) ---------- */
   novoJogo(nomeJogador, slot) {
@@ -383,15 +383,16 @@ const Engine = {
     return novidades;
   },
 
-  /* Aviso único quando a party atinge o nível das trilhas de prestígio */
+  /* Aviso quando a party atinge o nível das trilhas de prestígio.
+     Repete a CADA nível novo enquanto alguém não tiver escolhido a trilha. */
   _avisoPrestigio(g) {
     const req = GameData.get('prestige').requisitoNivel || 4;
     if (!g || !g.subiu || g.nivel < req) return null;
-    if (this.estado.flags.avisoPrestigio) return null;
+    if (this.estado.flags.avisoPrestigio >= g.nivel) return null;
     const algumSem = this.estado.party.some(id => !this.estado.herois[id].prestigio);
     if (!algumSem) return null;
-    this.estado.flags.avisoPrestigio = true;
-    return { ui: 'toast', texto: '🎖️ NÍVEL ' + g.nivel + '! O Anexo dos Caçadores (na cidade) agora ensina CLASSES DE PRESTÍGIO — escolha a trilha de cada herói.' };
+    this.estado.flags.avisoPrestigio = g.nivel;
+    return { ui: 'toast', texto: '🎖️ NÍVEL ' + g.nivel + '! O Anexo dos Caçadores (na cidade) ensina CLASSES DE PRESTÍGIO — escolha a trilha de cada herói.' };
   },
 
   /* ---------- Save ---------- */
@@ -451,6 +452,10 @@ const Engine = {
         }
       }
     }
+    // v7: backfill de flags de rank — saves que concluíram missões ANTES da
+    // v0.7.0 não têm rankC/rankB gravadas, e sem elas o Anexo (prestígio) nunca aparece
+    if (e.missoes.missao1 && e.missoes.missao1.concluida && !e.flags.rankC) e.flags.rankC = true;
+    if (e.missoes.missao2 && e.missoes.missao2.concluida && !e.flags.rankB) e.flags.rankB = true;
     e.versaoSave = this.VERSAO_SAVE;
   }
 };

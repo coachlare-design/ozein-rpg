@@ -30,7 +30,7 @@ GameData.register('heroes', {
     habilidades: [
       { nome: 'Detectar o Mal', desc: 'Sente a presença do mal à vontade (60 pés).' },
       { nome: 'Graça Divina', desc: 'Adiciona o bônus de Carisma a todos os salvamentos (já incluso).' },
-      { nome: 'Impor as Mãos', desc: 'Cura (nível × mod. CAR) PV por dia. Reserva atual: 4 PV.' },
+      { nome: 'Impor as Mãos', desc: 'Cura (nível × mod. CAR) PV — a reserva renova a cada combate.' },
       { nome: 'Aura de Coragem', desc: 'Imune a medo; aliados próximos recebem +4 contra medo. (Ativa quando houver party.)' }
     ],
     equipamento: ['espada_longa', 'cota_malha', 'escudo_pesado_aco', 'simbolo_triuni'],

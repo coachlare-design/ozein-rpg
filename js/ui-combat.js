@@ -127,7 +127,7 @@ const UICombate = {
           if (abId === 'usar_pocao') extra = ` (${Engine.estado.inventario.filter(x => x === 'pocao_cura_leve').length})`;
           if (abId === 'impor_maos') extra = ` (${Engine.estado.reservaImpor} PV)`;
           if (abId === 'golpe_sagrado') {
-            const lim = (h.stats.passiva && h.stats.passiva.golpeSagradoUsos) || 1;
+            const lim = Combat._limiteGolpe(h);
             if ((h.usos.golpe_sagrado || 0) >= lim) extra = ' (usado)';
             else if (lim > 1) extra = ` (${lim - (h.usos.golpe_sagrado || 0)}×)`;
           }
@@ -230,7 +230,8 @@ const UICombate = {
       📜 <b>APRENDER MAGIAS NOVAS</b>: compre/encontre <b>pergaminhos de magia</b> e estude-os no
       <b>DESCANSO</b> (botão "📖 Estudar o grimório"). O estudo rola Identificar Magia e gasta tinta — falhou, tenta no próximo descanso.</p>`;
     const dicaPaladino = `<p class="dica-tatica">⚔️ <b>LINHA DE FRENTE</b> — ☀️ Golpe Sagrado devasta o MAL (chefes adoram ser o alvo);
-      ✋ Impor as Mãos cura o aliado mais ferido usando a reserva diária (renova no descanso).</p>`;
+      ganha +1 uso por combate no nível 5 e no 10. ✋ Impor as Mãos cura o aliado mais ferido — a reserva
+      <b>renova a cada encontro</b>, como o foco da maga: gaste sem dó.</p>`;
     const dicaGatilhos = `<div class="bloco"><h4>⚡ Itens de gatilho (varinhas & bastões)</h4>
       <p class="dica-tatica">Disparam a magia <b>sem teste e sem gastar foco</b> — consomem <b>CARGAS</b>.
       Regra de D&D 3.5: só ativa quem tem a magia na <b>lista da classe</b> —

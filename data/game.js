@@ -5,7 +5,7 @@
    ===================================================== */
 GameData.register('config', {
   titulo: 'Ozein — Os Pesadelos de Renânia',
-  versao: '0.7.1 — Arte das cenas M2/M3 + Mapa de Genesiano + Lysia',
+  versao: '0.7.2 — Prestígio visível + mapa destravado + paladino renovado',
   mundo: 'Galáxia Empíria · Mundo Ozein · Continente Genesiano',
   regiao: 'Renânia (oeste de Vithus)',
 

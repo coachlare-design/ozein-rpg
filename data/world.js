@@ -99,7 +99,7 @@ GameData.register('world', {
         icone: '🏘️',
         x: 8, y: 78,
         tipo: 'cidade',
-        desc: 'A vila. Sempre dá para voltar — covardia e estratégia às vezes usam a mesma estrada.'
+        desc: 'A vila. Reabre quando o objetivo da missão ativa cair — até lá, descanse nos pontos da rota.'
       },
       {
         id: 'no_estrada1',
