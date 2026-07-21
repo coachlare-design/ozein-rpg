@@ -94,7 +94,7 @@ GameData.register('encounters', {
 
   m2_galeria: {
     id: 'm2_galeria', nome: 'A Galeria Escavada',
-    fundo: 'assets/img/cenario-entrada-mina.png',
+    fundo: 'assets/img/cenario-galeria.png',
     tier: 'baixo', iLvl: 5,
     inimigos: [
       { ref: 'cultista_capataz', apelido: 'Capataz Cultista', pv: 18, ca: 14, atk: 4, dano: '1d8+2', atbVel: 8, icone: '🪓' },
@@ -107,7 +107,7 @@ GameData.register('encounters', {
 
   m2_bolsao: {
     id: 'm2_bolsao', nome: 'O Bolsão Anti-Planar',
-    fundo: 'assets/img/cenario-caverna.png',
+    fundo: 'assets/img/cenario-bolsao.png',
     tier: 'medio', iLvl: 5,
     inimigos: [
       { ref: 'quasit', apelido: 'Quasit', pv: 13, ca: 16, atk: 5, dano: '1d3+1', atbVel: 12, icone: '😈' },
@@ -120,7 +120,7 @@ GameData.register('encounters', {
 
   m2_antessala: {
     id: 'm2_antessala', nome: 'A Antessala do Selo',
-    fundo: 'assets/img/cenario-caverna.png',
+    fundo: 'assets/img/cenario-antessala.png',
     tier: 'medio', iLvl: 6,
     inimigos: [
       { ref: 'babau', apelido: 'Babau Faminto', pv: 38, ca: 17, atk: 7, dano: '1d6+4', extraFogo: '1d4', atbVel: 8, icone: '🗡️' },
@@ -133,7 +133,7 @@ GameData.register('encounters', {
 
   m2_fissura: {
     id: 'm2_fissura', nome: 'A Fissura de Pesadelo',
-    fundo: 'assets/img/cenario-forja.png',
+    fundo: 'assets/img/cenario-fissura.png',
     tier: 'medio', iLvl: 6,
     inimigos: [
       { ref: 'fihyr', apelido: 'Fihyr', pv: 22, ca: 15, atk: 6, dano: '1d6+2', atbVel: 9, icone: '👁️' },
@@ -146,7 +146,7 @@ GameData.register('encounters', {
 
   m2_paredao: {
     id: 'm2_paredao', nome: 'O Paredão — Drahz e Ekaterina',
-    fundo: 'assets/img/cenario-forja.png',
+    fundo: 'assets/img/cenario-paredao.png',
     tier: 'chefe', iLvl: 7,
     inimigos: [
       { ref: 'drahz', apelido: 'Drahz, o Guarda-Costas', pv: 52, ca: 18, atk: 8, dano: '2d6+3', atbVel: 10, icone: '🧝', chefe: true },
@@ -159,7 +159,7 @@ GameData.register('encounters', {
 
   m2_grande_fihyr: {
     id: 'm2_grande_fihyr', nome: 'O QUE ESCAPOU — Grande Fihyr',
-    fundo: 'assets/img/cenario-forja.png',
+    fundo: 'assets/img/cenario-paredao.png',
     tier: 'chefe', iLvl: 7,
     inimigos: [
       { ref: 'grande_fihyr', apelido: 'Grande Fihyr', pv: 140, ca: 18, atk: 12, dano: '2d8+8', atbVel: 9, icone: '👁️', chefe: true,
@@ -171,7 +171,7 @@ GameData.register('encounters', {
 
   /* Re-exploração M2 (farm) */
   refarm_m2_bolsao: {
-    id: 'refarm_m2_bolsao', nome: 'Frestas do Bolsão', fundo: 'assets/img/cenario-caverna.png',
+    id: 'refarm_m2_bolsao', nome: 'Frestas do Bolsão', fundo: 'assets/img/cenario-bolsao.png',
     tier: 'medio', iLvl: 6,
     inimigos: [
       { ref: 'quasit', apelido: 'Quasit', pv: 13, ca: 16, atk: 5, dano: '1d3+1', atbVel: 12, icone: '😈' },
@@ -180,7 +180,7 @@ GameData.register('encounters', {
     recompensa: { xp: 400, ouro: [50, 90], drops: 1 }
   },
   refarm_m2_fissura: {
-    id: 'refarm_m2_fissura', nome: 'Ecos de Pesadelo', fundo: 'assets/img/cenario-forja.png',
+    id: 'refarm_m2_fissura', nome: 'Ecos de Pesadelo', fundo: 'assets/img/cenario-fissura.png',
     tier: 'medio', iLvl: 7,
     inimigos: [
       { ref: 'fihyr', apelido: 'Fihyr', pv: 22, ca: 15, atk: 6, dano: '1d6+2', atbVel: 9, icone: '👁️' },
@@ -193,7 +193,7 @@ GameData.register('encounters', {
 
   m3_vau: {
     id: 'm3_vau', nome: 'Vau da Prata — a colheita do sono',
-    fundo: 'assets/img/cenario-estrada.png',
+    fundo: 'assets/img/cenario-vau.png',
     tier: 'medio', iLvl: 7,
     inimigos: [
       { ref: 'irmao_vigilia', apelido: 'Irmão da Vigília', pv: 26, ca: 15, atk: 7, dano: '1d6+3', atbVel: 9, icone: '🕯️',
@@ -209,7 +209,7 @@ GameData.register('encounters', {
 
   m3_capela: {
     id: 'm3_capela', nome: 'Capela das Lamúrias',
-    fundo: 'assets/img/cenario-caverna.png',
+    fundo: 'assets/img/cenario-capela.png',
     tier: 'medio', iLvl: 8,
     inimigos: [
       { ref: 'sacerdote_lamurias', apelido: 'Sacerdote Ceifeiro', pv: 34, ca: 16, atk: 8, dano: '1d8+3', atbVel: 8, icone: '💀',
@@ -225,7 +225,7 @@ GameData.register('encounters', {
 
   m3_pasto: {
     id: 'm3_pasto', nome: 'Pasto de Cinzas — o corcel solto',
-    fundo: 'assets/img/cenario-encosta.png',
+    fundo: 'assets/img/cenario-pasto.png',
     tier: 'chefe', iLvl: 8,
     inimigos: [
       { ref: 'pesadelo', apelido: 'Pesadelo', pv: 62, ca: 18, atk: 11, dano: '2d6+6', extraFogo: '1d6', atbVel: 11, icone: '🐴', chefe: true,
@@ -239,7 +239,7 @@ GameData.register('encounters', {
 
   m3_covil: {
     id: 'm3_covil', nome: 'A Gruta do Véu — Madame Vevra',
-    fundo: 'assets/img/cenario-caverna.png',
+    fundo: 'assets/img/cenario-gruta.png',
     tier: 'chefe', iLvl: 9,
     inimigos: [
       { ref: 'ancia_noturna', apelido: 'Madame Vevra, Anciã Noturna', pv: 80, ca: 18, atk: 10, dano: '2d6+6', atbVel: 9, icone: '🌙', chefe: true,
@@ -253,7 +253,7 @@ GameData.register('encounters', {
 
   /* Re-exploração M3 (farm) */
   refarm_m3_vau: {
-    id: 'refarm_m3_vau', nome: 'Sonhos Remanescentes', fundo: 'assets/img/cenario-estrada.png',
+    id: 'refarm_m3_vau', nome: 'Sonhos Remanescentes', fundo: 'assets/img/cenario-vau.png',
     tier: 'medio', iLvl: 8,
     inimigos: [
       { ref: 'larva_pesadelo', apelido: 'Larva de Pesadelo', pv: 16, ca: 14, atk: 6, dano: '1d4+2', atbVel: 12, icone: '🐛' },
@@ -263,7 +263,7 @@ GameData.register('encounters', {
     recompensa: { xp: 700, ouro: [80, 140], drops: 2 }
   },
   refarm_m3_pasto: {
-    id: 'refarm_m3_pasto', nome: 'Cinzas que Sonham', fundo: 'assets/img/cenario-encosta.png',
+    id: 'refarm_m3_pasto', nome: 'Cinzas que Sonham', fundo: 'assets/img/cenario-pasto.png',
     tier: 'medio', iLvl: 9,
     inimigos: [
       { ref: 'fihyr', apelido: 'Fihyr', pv: 24, ca: 16, atk: 7, dano: '1d6+3', atbVel: 9, icone: '👁️' },

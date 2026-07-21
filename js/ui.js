@@ -251,6 +251,7 @@ const UI = {
   },
 
   acaoLocal(acao) {
+    if (acao.tipo === 'mapaMundo') { this.painelMapaMundo(); return; }
     if (acao.tipo === 'dialogo') { this.contextoCena = null; this.abrirDialogo(acao.dialogo); }
     else if (acao.tipo === 'viajar') { Engine.estado.local = 'mapa'; this.telaMapa(); }
     else if (acao.tipo === 'descanso') {
@@ -377,6 +378,24 @@ const UI = {
       this.atualizarHud();
       this.telaPrestigio();
     } else this.toast('⚠️ Não foi possível (nível insuficiente ou trilha já escolhida).');
+  },
+
+  /* 🗺️ Mapa do continente Genesiano (arte canônica do Carlos) */
+  painelMapaMundo() {
+    const antigo = document.getElementById('painel-mapa-mundo');
+    if (antigo) { antigo.remove(); return; }
+    const painel = this.el('div', 'painel-cheio');
+    painel.id = 'painel-mapa-mundo';
+    painel.innerHTML = `
+      <h2>🗺️ O Continente Genesiano</h2>
+      <button class="btn fechar" onclick="this.parentElement.remove()">✕ Fechar</button>
+      <p style="color:var(--texto-fraco);max-width:760px;margin-bottom:12px">Escala: 1 dia a cavalo por quadrado.
+        <b style="color:var(--tocha-clara)">RENÂNIA</b> fica no sopé das montanhas do oeste — vizinha de Danos e Nemésia,
+        na rota que liga <b>Vithus</b> (norte) a <b>Úbia</b>, a Cidade dos Heróis. A leste, os reinos de <b>Solaris</b> e <b>Alakan</b>;
+        ao sul, a Grande Floresta; além das montanhas, as Terras Esquecidas.</p>
+      <img src="assets/img/mapa-genesiano.jpg" alt="Mapa do continente Genesiano"
+           style="max-width:100%;border:2px solid var(--borda,#5a4a33);border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.6)">`;
+    this.raiz.appendChild(painel);
   },
 
   /* Troca de líder — só em pontos de descanso (concept: troca em save points) */
@@ -512,6 +531,7 @@ const UI = {
     this.raiz.appendChild(caixa);
 
     // falas escritas como "Paladino/Ladino/Maga" ganham o NOME do herói
+    const NPC_RETRATOS = { 'Lysia Moss': 'assets/img/retrato-lysia.jpg' };
     const nomeFala = (quem) => {
       const h = Engine.estado.herois;
       const mapa = {
@@ -519,7 +539,9 @@ const UI = {
         'Ladino': h.ladino, 'Maga': h.maga
       };
       const hr = mapa[quem];
-      return hr ? `${hr.nome} <span style="opacity:.65;font-weight:normal">(${quem})</span>` : quem;
+      const retrato = hr ? hr.retrato : NPC_RETRATOS[quem];
+      const img = retrato ? `<img class="retrato-fala" src="${retrato}" alt="">` : '';
+      return hr ? `${img}${hr.nome} <span style="opacity:.65;font-weight:normal">(${quem})</span>` : `${img}${quem}`;
     };
 
     let i = 0;

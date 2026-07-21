@@ -655,3 +655,12 @@ button, .btn { touch-action: manipulation; -webkit-tap-highlight-color: rgba(230
 }
 #painel-taticas { overflow-y: auto; }
 .no-mapa.bloqueado .disco { filter: grayscale(.8); }
+
+/* retrato circular na caixa de fala (heróis e NPCs canônicos) */
+.quem .retrato-fala {
+  width: 46px; height: 46px; border-radius: 50%;
+  object-fit: cover; object-position: top;
+  vertical-align: middle; margin-right: 10px;
+  border: 2px solid var(--tocha-clara, #ffd27a);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+}

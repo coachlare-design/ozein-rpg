@@ -26,6 +26,12 @@ GameData.register('world', {
         acao: { tipo: 'dialogo', dialogo: 'quadro_contratos' }
       },
       {
+        id: 'mesa_mapas',
+        nome: '🗺️ Mesa de Mapas (Taverna)',
+        desc: 'O mapa do continente Genesiano aberto sobre a mesa. Renânia fica no sopé das montanhas do oeste, a caminho de Vithus e Úbia.',
+        acao: { tipo: 'mapaMundo' }
+      },
+      {
         id: 'forja',
         nome: '⚒️ Forja do Mestre Bruno',
         desc: 'Ferreiro da vila. Compra, vende e conserta. (Loja completa no Passe B.)',

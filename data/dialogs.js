@@ -313,7 +313,7 @@ GameData.register('dialogs', {
   /* ================= MISSÃO 2 — OS PESADELOS SELADOS ================= */
 
   m2_beco: {
-    cenario: 'assets/img/cidade-praca.png',
+    cenario: 'assets/img/cenario-beco.png',
     falas: [
       { quem: 'Narrador', texto: 'O beco atrás da taverna cheira a chuva velha. Encostado na parede, girando uma moeda entre os dedos, está um rapaz que não deve ter nem vinte anos — dezessete, talvez. Sorriso fácil. Olhos que já viram coisa demais pra idade.' },
       { quem: 'Yurin', texto: '"Relaxa, cavaleiro, se eu quisesse briga não teria assinado o bilhete. Yurin. O seu ladino aí me conhece — a gente tem... histórico comercial." (o ladino não confirma nem nega)' },
@@ -351,7 +351,7 @@ GameData.register('dialogs', {
   /* ---------- Nós da M2 ---------- */
 
   m2_cena_galeria: {
-    cenario: 'assets/img/cenario-entrada-mina.png',
+    cenario: 'assets/img/cenario-galeria.png',
     falas: [
       { quem: 'Narrador', texto: 'A galeria nova desce em ângulo perfeito, escorada com madeira cara. Duas dúzias de operários cavam SEM PARAR, olhos vidrados, mãos em carne viva. Nenhum deles pisca. Entre eles, capatazes de maça na mão — e um símbolo discreto no cinto: um corte vermelho num círculo negro.' },
       { quem: 'Maga', texto: '"Encantamento em massa. Estes homens não estão aqui por vontade própria." (ela olha pros capatazes) "Aqueles estão."' }
@@ -365,7 +365,7 @@ GameData.register('dialogs', {
   },
 
   m2_galeria_liberta: {
-    cenario: 'assets/img/cenario-entrada-mina.png',
+    cenario: 'assets/img/cenario-galeria.png',
     falas: [
       { quem: 'Narrador', texto: 'Sua voz de comando corta o transe como aço: metade dos operários pisca, larga as pás e CORRE. Os capatazes se viram para vocês — e agora estão em menor número e sem escudo humano.' }
     ],
@@ -382,7 +382,7 @@ GameData.register('dialogs', {
   },
 
   m2_galeria_vitoria: {
-    cenario: 'assets/img/cenario-entrada-mina.png',
+    cenario: 'assets/img/cenario-galeria.png',
     falas: [
       { quem: 'Narrador', texto: 'Com os capatazes caídos, o encanto afrouxa: os operários desabam onde estão, exaustos, e aos poucos acordam sem saber como chegaram ali. Um deles, um velho de barba rala, agarra seu braço: "Tinha uma MOÇA DE VERMELHO. Bonita que doía. Ela falou uma palavra e o mundo... sumiu."' },
       { quem: 'Narrador', texto: 'No bolso de um capataz: um adiantamento em ouro novo — cunhagem de Danos — e instruções numa caligrafia elegante: "cavem até o ferro. Não toquem no ferro."' }
@@ -392,7 +392,7 @@ GameData.register('dialogs', {
   },
 
   m2_cena_bolsao: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-bolsao.png',
     falas: [
       { quem: 'Narrador', texto: 'O ar aqui DOBRA errado — como olhar através de água. No teto, runas anãs de ancoragem piscam fracas, falhando como velas no vento. E pelas falhas, coisas pequenas atravessam: garras, risinhos, olhos amarelos.' },
       { quem: 'Maga', texto: '"Âncora dimensional. Os anões não selaram só com ferro — selaram com LEI. E alguém está roendo a lei." (três vultos pequenos descem das runas, rindo) "Quasits. Se os pequenos já passam, os grandes estão na fila."' }
@@ -404,7 +404,7 @@ GameData.register('dialogs', {
   },
 
   m2_bolsao_vitoria: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-bolsao.png',
     falas: [
       { quem: 'Narrador', texto: 'O último quasit evapora em fumaça fedorenta. A maga passa uma hora reforçando as runas de ancoragem com giz arcano e teimosia — não é conserto, é curativo. "Vai segurar uns dias. Talvez."' },
       { quem: 'Maga', texto: '"Escutem. As runas registram o que atravessa. Dois sinais GRANDES passaram há semanas... e pararam. Do lado de cá. Algo está esperando entre nós e o selo."' }
@@ -415,7 +415,7 @@ GameData.register('dialogs', {
   },
 
   m2_cena_antessala: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-antessala.png',
     falas: [
       { quem: 'Narrador', texto: 'Colunas anãs sustentam um salão que nenhum minerador de Renânia jamais viu. O silêncio aqui tem textura. E então vocês percebem: dois vultos MAGROS COMO FOME, pele escorrendo lodo negro, parados diante da passagem — como sentinelas. Como convidados que chegaram cedo.' },
       { quem: 'Ladino', texto: '(sussurro) "Eles não estão surpresos de nos ver. Estavam ESPERANDO alguém abrir. Só não sabiam que seríamos nós de fora."' }
@@ -427,7 +427,7 @@ GameData.register('dialogs', {
   },
 
   m2_antessala_vitoria: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-antessala.png',
     falas: [
       { quem: 'Narrador', texto: 'O lodo dos Babau ferve e some. No chão onde o segundo escapou, restou uma marca queimada — não de fuga cega: um TRAJETO. Ele foi na direção do Paredão. Avisar.' },
       { quem: 'Paladino', texto: '(o Detectar o Mal formiga na nuca há minutos) "Tem algo maior à frente. Duas presenças mortais... e uma terceira que não consigo ler. Como um borrão vermelho na graça da Triuni."' }
@@ -437,7 +437,7 @@ GameData.register('dialogs', {
   },
 
   m2_cena_fissura: {
-    cenario: 'assets/img/cenario-forja.png',
+    cenario: 'assets/img/cenario-fissura.png',
     falas: [
       { quem: 'Narrador', texto: 'E ali está: uma rachadura FINA como um fio de cabelo na quina do ferro antigo — aberta não pela escavação, mas por dentro. Em volta dela, o ar treme com formas que não deviam ter forma: criaturas de carne pálida e olhos demais, tecidas de puro medo.' },
       { quem: 'Maga', texto: '"Fihyr. Nascem dos pesadelos — literalmente. Os mineradores da vila andam sonhando com isto AQUI, e a fissura dá corpo ao sonho." (ela ergue a voz, firme) "Mentes firmes! Eles se alimentam do medo que causam!"' }
@@ -449,7 +449,7 @@ GameData.register('dialogs', {
   },
 
   m2_fissura_vitoria: {
-    cenario: 'assets/img/cenario-forja.png',
+    cenario: 'assets/img/cenario-fissura.png',
     falas: [
       { quem: 'Narrador', texto: 'Os fihyr se desmancham como névoa ao amanhecer. A fissura continua ali — fina, paciente. E agora vocês ouvem, vindo do Paredão logo adiante: um CANTO. Duas vozes. Uma reza em idioma mortuário... e o som ritmado de algo cortando pele.' },
       { quem: 'Narrador', texto: 'Chegou a hora. Do outro lado da última galeria, alguém está abrindo o que os anões morreram para fechar.' }
@@ -460,7 +460,7 @@ GameData.register('dialogs', {
   },
 
   m2_cena_paredao: {
-    cenario: 'assets/img/cenario-forja.png',
+    cenario: 'assets/img/cenario-paredao.png',
     falas: [
       { quem: 'Narrador', texto: 'O PAREDÃO enche a caverna de parede a parede — ferro puro, negro, coberto de runas que brilham fracas como brasas morrendo. Diante dele, um círculo ritual: velas de sebo negro, correntes de prata... e SANGUE fresco desenhando gramática arcana no chão.' },
       { quem: 'Narrador', texto: 'Uma sacerdotisa de vermelho-rubi mantém o canto — Ekaterina, do templo novo da vila. E das sombras da coluna, um drow de lâminas gêmeas se desdobra como tinta derramada: "Vocês não deviam ter chegado tão longe", diz Drahz, sem pressa. "Ela disse que viriam. Ela sempre acerta."' }
@@ -522,7 +522,7 @@ GameData.register('dialogs', {
 
   /* ---------- Refarm M2 ---------- */
   refarm_m2_bolsao_intro: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-bolsao.png',
     falas: [{ quem: 'Narrador', texto: 'As runas remendadas seguram o grosso — mas frestas são frestas, e quasits são teimosos. De tempos em tempos, um risinho ecoa entre as colunas.' }],
     opcoes: [
       { texto: '⚔️ Caçar os que vazaram (farm, XP reduzido)', efeito: [{ tipo: 'combate', valor: 'refarm_m2_bolsao', farm: true }] },
@@ -530,7 +530,7 @@ GameData.register('dialogs', {
     ]
   },
   refarm_m2_fissura_intro: {
-    cenario: 'assets/img/cenario-forja.png',
+    cenario: 'assets/img/cenario-fissura.png',
     falas: [{ quem: 'Narrador', texto: 'Enquanto a vila sonhar, a fissura fabrica horrores — menores agora, mas famintos. Alguém precisa aparar os pesadelos. De preferência, com lucro.' }],
     opcoes: [
       { texto: '⚔️ Dispersar os ecos (farm, XP reduzido)', efeito: [{ tipo: 'combate', valor: 'refarm_m2_fissura', farm: true }] },
@@ -572,7 +572,7 @@ GameData.register('dialogs', {
   },
 
   m3_cena_estrada: {
-    cenario: 'assets/img/cenario-estrada.png',
+    cenario: 'assets/img/cenario-aldeia.png',
     falas: [
       { quem: 'Narrador', texto: 'A caravana está parada no meio da estrada como um brinquedo largado: seis carroças, bois pastando soltos, mercadorias intactas. Nas boleias, os condutores DORMEM — sorrindo. Um deles abraça o chicote como quem abraça um filho.' },
       { quem: 'Narrador', texto: 'Nenhum sinal de luta. Nenhum roubo. Só um cheiro adocicado no ar, como flor pisada, e uma fileira de moscas dormindo — MOSCAS, dormindo — na canga do primeiro boi.' }
@@ -587,7 +587,7 @@ GameData.register('dialogs', {
   },
 
   m3_estrada_sucesso: {
-    cenario: 'assets/img/cenario-estrada.png',
+    cenario: 'assets/img/cenario-aldeia.png',
     falas: [
       { quem: 'Narrador', texto: 'Não é doença nem veneno comum: as pupilas dançam sob as pálpebras num ritmo IDÊNTICO em todos os condutores — seis homens sonhando O MESMO SONHO, no mesmo compasso. E nos pulsos de cada um, uma marca fina de fuligem: alguém já esteve aqui, conferindo o rebanho.' },
       { quem: 'Narrador', texto: 'Nos rastros: pegadas de sandálias em fila (acólitos, seis ou sete) e — mais fundo que todas — DOIS sulcos de casco queimados na terra, como ferro de marcar. O que fez isto pesa como um cavalo de guerra e caminha soltando brasa.' }
@@ -598,7 +598,7 @@ GameData.register('dialogs', {
   },
 
   m3_estrada_falha: {
-    cenario: 'assets/img/cenario-estrada.png',
+    cenario: 'assets/img/cenario-aldeia.png',
     falas: [
       { quem: 'Narrador', texto: 'O cheiro adocicado engrossa enquanto vocês examinam — e a maga puxa a party pra trás no último segundo: "SAIAM da nuvem! É o pólen do sonho, ele está ATIVO!" A cabeça roda; os joelhos amolecem. Vocês recuam a tempo, mas a estrada cobrou o pedágio.' }
     ],
@@ -606,7 +606,7 @@ GameData.register('dialogs', {
   },
 
   m3_cena_vau: {
-    cenario: 'assets/img/cenario-estrada.png',
+    cenario: 'assets/img/cenario-vau.png',
     falas: [
       { quem: 'Narrador', texto: 'Vau da Prata dorme onde caiu. O ferreiro roncando sobre a bigorna fria. Duas crianças enroladas com o cachorro no meio da rua. Uma mesa de jantar posta há nove dias, com nove dias de moscas — as moscas também dormem. O silêncio é tão completo que dá pra ouvir a aldeia inteira RESPIRANDO NO MESMO RITMO.' },
       { quem: 'Narrador', texto: 'E entre os adormecidos, figuras de roupão cinza trabalham com eficiência de formiga: erguem os que dormem, penduram etiquetas de madeira nos pescoços, carregam os "etiquetados" para uma carroça coberta. Um deles nota vocês — e SORRI, erguendo a palma aberta: "Irmãos! Vieram receber a bênção do descanso?"' },
@@ -619,7 +619,7 @@ GameData.register('dialogs', {
   },
 
   m3_vau_vitoria: {
-    cenario: 'assets/img/cenario-estrada.png',
+    cenario: 'assets/img/cenario-vau.png',
     falas: [
       { quem: 'Narrador', texto: 'O último Irmão desaba — e os aldeões SEGUEM DORMINDO, sereno e fundo, o que de certa forma é pior. Na carroça coberta: doze adormecidos etiquetados. As etiquetas, traduzidas pela maga: "FORTE. FÉRTIL. SONHA ALTO." E um destino: "Capela — para a Vigília pagar."' },
       { quem: 'Narrador', texto: 'No bolso do Irmão mais graduado, um caderninho de contabilidade. Última linha: "Entregues à Capela: 41. A Senhora do Véu paga em prata o sonhador comum... e em OURO o que sonha com o selo."' }
@@ -629,7 +629,7 @@ GameData.register('dialogs', {
   },
 
   m3_cena_capela: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-capela.png',
     falas: [
       { quem: 'Narrador', texto: 'A capela rural do Templo das Lamúrias finge luto: velas baratas, flores murchas, um altar de pedra cinzenta. Mas atrás da cortina do coro, o "depósito": adormecidos empilhados em prateleiras COM ETIQUETAS, como garrafas numa adega. Sacerdotes de roupão vermelho-ferrugem conferem o estoque.' },
       { quem: 'Paladino', texto: '(o Detectar o Mal queima como brasa engolida) "Nerull. Este lugar inteiro é uma mentira consagrada a Nerull — o Ceifador. E aquele roupão vermelho-ferrugem eu conheço dos arquivos da Ordem: ADAGAS NEGRAS. Assassinos de aluguel com batina."' },
@@ -642,7 +642,7 @@ GameData.register('dialogs', {
   },
 
   m3_capela_vitoria: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-capela.png',
     falas: [
       { quem: 'Narrador', texto: 'O Ceifeiro cai atravessado no próprio altar — a foice ainda procurando a mão dele, teimosa. No livro-caixa da capela, a contabilidade do horror: 41 sonhadores comprados dos Irmãos, 38 revendidos "à Gruta, pelo Véu". E uma observação em letra miúda: "a Senhora entrega os sonhos COLHIDOS à maga de vermelho. A de vermelho entrega a uma máscara de osso. NÃO PERGUNTAR sobre a máscara."' },
       { quem: 'Maga', texto: '"Máscara de osso salpicada de sangue... é ELA. Mestra Viridiana Quispe, do conselho das Cinco." (a voz treme entre medo e fúria) "A cadeia inteira: os Irmãos colhem, as Lamúrias revendem, a Anciã EXTRAI os sonhos... e o extrato viaja para Avenches. Estamos dentro do experimento dela, olhando pra linha de produção."' }
@@ -653,7 +653,7 @@ GameData.register('dialogs', {
   },
 
   m3_cena_limiar: {
-    cenario: 'assets/img/cenario-encosta.png',
+    cenario: 'assets/img/cenario-limiar.png',
     falas: [
       { quem: 'Narrador', texto: 'A névoa começa exatamente numa linha, como uma parede sem parede. Do outro lado, as cores estão ERRADAS — mais bonitas, mais fundas, cores de dentro da pálpebra. É aqui que os sonhos de quarenta e um aldeões se encontram. A maga estica a mão: "Se entrarmos, entramos no SONHO COLETIVO. Mentes firmes ou não saímos."' },
       { quem: 'Narrador', texto: 'Vocês atravessam. Do outro lado: Vau da Prata — mas dourada, farta, sem carvão nas unhas de ninguém. A aldeia SONHA a própria vida melhorada. E no meio da praça de sonho, esperando de braços cruzados, com um sorriso que não devia estar num sonho alheio... YURIN.' },
@@ -668,7 +668,7 @@ GameData.register('dialogs', {
   },
 
   m3_limiar_sucesso: {
-    cenario: 'assets/img/cenario-encosta.png',
+    cenario: 'assets/img/cenario-limiar.png',
     falas: [
       { quem: 'Narrador', texto: 'A party acorda de pé, do lado de fora da névoa, com o gosto de mel do sonho ainda na língua — e o anel de ferro negro FRIO e real na palma da maga. No chão, onde a névoa lambe a terra, um pergaminho que não existia: granizo desenhado em tinta azul. O sonho, às vezes, paga pedágio de volta.' }
     ],
@@ -681,7 +681,7 @@ GameData.register('dialogs', {
   },
 
   m3_limiar_falha: {
-    cenario: 'assets/img/cenario-encosta.png',
+    cenario: 'assets/img/cenario-limiar.png',
     falas: [
       { quem: 'Narrador', texto: 'O sonho GRUDA. Por um tempo impossível de medir, vocês vivem a Vau da Prata dourada — colheitas, festas, nenhum monstro, nenhum contrato. É a maga quem quebra o encanto, cravando as unhas na própria cicatriz: "ISTO. NÃO. É. NOSSO." Vocês acordam de joelhos na terra fria, exaustos como quem trabalhou a noite inteira... mas com o anel e o aviso de Yurin intactos.' }
     ],
@@ -694,7 +694,7 @@ GameData.register('dialogs', {
   },
 
   m3_cena_pasto: {
-    cenario: 'assets/img/cenario-encosta.png',
+    cenario: 'assets/img/cenario-pasto.png',
     falas: [
       { quem: 'Narrador', texto: 'O pasto é um círculo perfeito de cinza, e no centro dele ELE pasta: um corcel negro do tamanho de um touro, crina de fogo baixo, cascos afundando marcas queimadas na terra. Não come grama. Come o RESTO dos sonhos que a Anciã descarta — e engorda.' },
       { quem: 'Narrador', texto: 'O Pesadelo ergue a cabeça. Os olhos são duas brasas pacientes. Ele não relincha — ele RI, do jeito que cavalos não deviam saber rir, e bate o casco três vezes. Do capim cinzento, larvas se desenterram como dedos.' }
@@ -706,7 +706,7 @@ GameData.register('dialogs', {
   },
 
   m3_pasto_vitoria: {
-    cenario: 'assets/img/cenario-encosta.png',
+    cenario: 'assets/img/cenario-pasto.png',
     falas: [
       { quem: 'Narrador', texto: 'O Pesadelo desaba em brasas que a grama cinzenta bebe. Sem a montaria, a Anciã não cavalga mais os sonhos de ninguém esta noite — está PRESA na gruta, com o estoque dela. A trilha de cascos queimados aponta direto para a boca de pedra a nordeste. Ela sabe que vocês vêm. Os pesadelos sempre sabem.' }
     ],
@@ -715,7 +715,7 @@ GameData.register('dialogs', {
   },
 
   m3_cena_covil: {
-    cenario: 'assets/img/cenario-caverna.png',
+    cenario: 'assets/img/cenario-gruta.png',
     falas: [
       { quem: 'Narrador', texto: 'A gruta respira. Dentro, pendurados em casulos de teia cinzenta, os 38 adormecidos de Vau da Prata — e de cada testa sai um FIO de prata luminosa, fino como cabelo, todos correndo para o centro da câmara, onde uma pedra negra do tamanho de um punho PULSA como um coração fora do peito.' },
       { quem: 'Madame Vevra', texto: 'Ela se desdobra da sombra — bela de um jeito que dói atrás dos olhos, exatamente como os operários descreveram a outra. "Visitas. E EU sem chá." (os fios de prata cantam quando ela passa) "Vocês mataram meu cavalo. Sabem quanto custa um Pesadelo adulto? A senhora da máscara vai descontar do MEU pagamento."' },
@@ -766,7 +766,7 @@ GameData.register('dialogs', {
 
   /* ---------- Refarm M3 ---------- */
   refarm_m3_vau_intro: {
-    cenario: 'assets/img/cenario-estrada.png',
+    cenario: 'assets/img/cenario-vau.png',
     falas: [{ quem: 'Narrador', texto: 'Vau da Prata acordou — mas nove dias de sonho coletivo deixam resíduo. Nas noites sem lua, larvas se desenterram dos quintais como má lembrança. A aldeia paga bem por quem as apara.' }],
     opcoes: [
       { texto: '⚔️ Aparar as larvas (farm, XP reduzido)', efeito: [{ tipo: 'combate', valor: 'refarm_m3_vau', farm: true }] },
@@ -774,7 +774,7 @@ GameData.register('dialogs', {
     ]
   },
   refarm_m3_pasto_intro: {
-    cenario: 'assets/img/cenario-encosta.png',
+    cenario: 'assets/img/cenario-pasto.png',
     falas: [{ quem: 'Narrador', texto: 'A grama do pasto continua cinza, e nas cinzas os sonhos ruins ainda criam corpo de vez em quando. Menores que antes. Mais famintos também.' }],
     opcoes: [
       { texto: '⚔️ Dispersar o que sonha nas cinzas (farm, XP reduzido)', efeito: [{ tipo: 'combate', valor: 'refarm_m3_pasto', farm: true }] },

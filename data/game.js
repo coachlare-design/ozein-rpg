@@ -5,7 +5,7 @@
    ===================================================== */
 GameData.register('config', {
   titulo: 'Ozein — Os Pesadelos de Renânia',
-  versao: '0.7.0 — Rota sem volta + Táticas + Gatilhos + Regras de Classe',
+  versao: '0.7.1 — Arte das cenas M2/M3 + Mapa de Genesiano + Lysia',
   mundo: 'Galáxia Empíria · Mundo Ozein · Continente Genesiano',
   regiao: 'Renânia (oeste de Vithus)',
 
