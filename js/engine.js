@@ -215,6 +215,43 @@ const Engine = {
     return noCidade ? noCidade.id : null; // sem missão ativa: os ganchos estão na cidade
   },
 
+  /* v0.8.1 — O "PRÓXIMO CLIQUE" em texto (mostrado no Diário): o jogador
+     nunca fica perdido — a dica cobre o fluxo inteiro M1→M4 nas 2 regiões. */
+  dicaProximoPasso() {
+    const e = this.estado, f = e.flags, m = e.missoes;
+    const noNome = (id) => { const n = this.mapaAtual().nos.find(x => x.id === id); return n ? n.nome : 'o próximo nó'; };
+    if (this.regiaoAtual() === 'renania') {
+      if (!m.missao1) return '🍺 Vá à Taverna → 📜 Quadro de Contratos e ACEITE o contrato do Basilisco (Missão 1).';
+      if (!m.missao1.concluida) {
+        if (f.missao1Cobrar) return '📜 Quadro de Contratos: entregue as secreções e COBRE a recompensa (fecha a Missão 1).';
+        return '🗺️ Vá ao mapa e siga a ⭐ dourada: ' + noNome(this.proximoDestino()) + '.';
+      }
+      if (!f.v01Completa) return '🏘️ Volte à praça — alguém espera na porta do casebre.';
+      if (!m.missao2) return '🌒 Beco atrás da taverna: atenda o recado de "Y." (abre a Missão 2).';
+      if (!m.missao2.concluida) {
+        if (f.missao2Relatorio) return '📨 Praça: abra o Envelope lacrado da guilda (fecha a Missão 2).';
+        return '🗺️ Vá ao mapa e siga a ⭐ dourada: ' + noNome(this.proximoDestino()) + '.';
+      }
+      if (!m.missao3) return '📜 Quadro de Contratos: aceite o CONTRATO DIRETO rank B "A Vila que Dorme" (Missão 3).';
+      if (!m.missao3.concluida) {
+        if (f.missao3Relatorio) return '📨 Praça: abra o Correio da guilda — Vau da Prata (fecha a Missão 3).';
+        return '🗺️ Vá ao mapa e siga a ⭐ dourada: ' + noNome(this.proximoDestino()) + '.';
+      }
+      if (!f.ubiaAberta) return '📨 Praça: abra o Tubo de marfim — a CONVOCAÇÃO A ÚBIA (leva à Missão 4).';
+      if (!m.missao4 || !m.missao4.concluida) return '🐎 Praça: tome a Diligência para ÚBIA — a Missão 4 espera na Cidade dos Heróis.';
+      if (!f.mantoEntregue) return '🐎 Diligência para ÚBIA: a Torre de Marfim guarda algo para a maga.';
+      return '🏅 Tudo em dia! A Missão 5 (Avenches) chega na próxima atualização — aproveite para farmar loot nos mapas.';
+    }
+    // Úbia
+    if (!m.missao4) return '📜 Mural de Contratos da Sede: aceite o contrato de Jack Caolha (Missão 4).';
+    if (!m.missao4.concluida) {
+      if (f.missao4Relatorio) return '📜 Mural da Sede: apresente o RELATÓRIO FINAL a Jack (fecha a Missão 4).';
+      return '⚓ Desça à Baixa do Porto e siga a ⭐ dourada: ' + noNome(this.proximoDestino()) + '.';
+    }
+    if (!f.mantoEntregue) return '🗼 Torre de Marfim: o conselho das Brancas espera a maga (há uma recompensa).';
+    return '🏅 Tudo em dia! A Missão 5 (Avenches) chega na próxima atualização — Renânia e o farm ficam a uma diligência.';
+  },
+
   concluirNo(noId) {
     if (!this.estado.nosConcluidos.includes(noId)) {
       this.estado.nosConcluidos.push(noId);

@@ -281,6 +281,7 @@ const UI = {
         if (local.condicao.flag && !Engine.estado.flags[local.condicao.flag]) continue;
         if (local.condicao.semFlag && Engine.estado.flags[local.condicao.semFlag]) continue;
         if (local.condicao.missao && !Engine.estado.missoes[local.condicao.missao]) continue;
+        if (local.condicao.semMissao && Engine.estado.missoes[local.condicao.semMissao]) continue;
       }
       const novoPrestigio = local.id === 'anexo' && prestigioPendente;
       const novidade = novidades.includes(local.id);
@@ -627,6 +628,8 @@ const UI = {
             if (cd.flag && !Engine.estado.flags[cd.flag]) continue;
             if (cd.semFlag && Engine.estado.flags[cd.semFlag]) continue;
             if (cd.missaoConcluida && !(Engine.estado.missoes[cd.missaoConcluida] || {}).concluida) continue;
+            // v0.8.1: opção some quando a missão JÁ FOI concluída (ex.: cobrar recompensa 2×)
+            if (cd.missaoNaoConcluida && (Engine.estado.missoes[cd.missaoNaoConcluida] || {}).concluida) continue;
           }
           const b = this.el('button', 'btn', op.texto);
           b.onclick = () => {
@@ -838,6 +841,7 @@ const UI = {
     painel.innerHTML = `
       <h2>📖 Diário-Códex</h2>
       <button class="btn fechar" onclick="this.parentElement.remove()">✕ Fechar</button>
+      <div class="dica-proximo-passo">▶ O QUE FAZER AGORA<span>${Engine.dicaProximoPasso()}</span></div>
       <div class="grade-ficha">
         <div><div class="bloco"><h4>Missões</h4>${missoesHtml}</div></div>
         <div><div class="bloco"><h4>Conhecimento de Ozein</h4>${codexHtml}</div></div>
