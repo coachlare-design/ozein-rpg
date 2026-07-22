@@ -6,6 +6,11 @@ RPG artesanal do Carlos: regras de D&D 3.5, loot/build de Diablo 2, party/histó
 ## Como jogar
 Dê dois cliques no **atalho "Ozein RPG" na área de trabalho**, ou abra o `index.html` desta pasta no Chrome/Edge.
 
+## NOVO na v0.8.1 (qualidade de vida)
+- **Recompensas não repetem mais**: opções de cobrança somem quando a missão já foi concluída (adeus farm de 450 po no quadro). O beco também some depois que a Missão 2 é aceita.
+- **▶ "O QUE FAZER AGORA" no Diário**: um bloco dourado no topo do Diário diz exatamente o próximo clique — do primeiro contrato até a Torre de Marfim, nas duas cidades. Ninguém mais fica perdido.
+- Diário: missões futuras agora dizem ONDE vão abrir ("abre no beco...", "abre no quadro...").
+
 ## NOVO na v0.8.0
 - **MISSÃO 4 — "A Cidade dos Heróis" — completa, em OUTRA CIDADE**: a party viaja para **ÚBIA** (convocação das Brancas + bilhete de Jack). Cidade-hub nova (Sede dos Caçadores, Mural, Torre de Marfim, Museu dos Heróis, Empório da Guilda, Estalagem) e **mapa novo** sobre a vista da Baixa e do Porto: Porto → Armazém 7 → Museu (madrugada) → Galerias do Subsolo → Santuário da Vigília → **O Fórum Afundado**. A "fase dois" de Viridiana: o Tônico da Vigília adormece a guilda, **Yara (Top 1) foi COROADA**, Dora está num casulo, Yurin apronta das dele — e o chefe final é **Yara dominada + LYSIA MOSS em pessoa** (ela foge, claro — mas agora menos elegante). Recompensas: MEMBRO INTERNO (rank A), 2.000 po, **Lâmina da Yara** e **Manto da Incantatrix** (na Torre, pós-missão). 8 cenários novos do Gemini. Gancho: Missão 5 — Avenches.
 - **⭐ PRÓXIMO PASSO no mapa**: o mapa agora SEMPRE aponta para onde ir — nó dourado pulsante com ⭐ + aviso no cabeçalho. Ao fim de cada missão (ex.: chefe da M2 morto), a ⭐ aponta a CIDADE ("o desfecho espera na cidade"). Na cidade, os locais com o próximo passo da história ganham **❗ e destaque**.

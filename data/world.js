@@ -58,7 +58,7 @@ const mundo = {
         id: 'beco',
         nome: '🌒 Beco atrás da taverna',
         desc: 'Alguém deixou um recado na porta do casebre: "no beco, à meia-noite. — Y."',
-        condicao: { flag: 'v01Completa' },
+        condicao: { flag: 'v01Completa', semMissao: 'missao2' },
         acao: { tipo: 'dialogo', dialogo: 'm2_beco' }
       },
       {

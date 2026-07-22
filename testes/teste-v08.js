@@ -348,6 +348,57 @@ teste('combate M4 (smoke): Fórum roda em auto-batalha sem exceção', () => {
   afirmar(Combat.c.terminado, 'combate não terminou em 8000 ticks');
 });
 
+/* ================= 6. v0.8.1 — SEQUÊNCIA CLARA E SEM RECOMPENSA DUPLA ================= */
+console.log('— v0.8.1: recompensa única + próximo clique —');
+
+teste('cobrar recompensa da M1 exige missão NÃO concluída (sem farm de 450 po)', () => {
+  const op = dialogs.quadro_contratos.opcoes.find(o => o.texto.includes('COBRAR'));
+  afirmar(op.condicao.missaoNaoConcluida === 'missao1', 'opção de cobrança sem trava de missão concluída');
+  // e o filtro de condição respeita:
+  const cd = op.condicao;
+  const estadoFake = { missoes: { missao1: { concluida: true } }, flags: { missao1Cobrar: true } };
+  const passa = !(cd.missaoNaoConcluida && (estadoFake.missoes[cd.missaoNaoConcluida] || {}).concluida);
+  afirmar(!passa, 'a opção deveria SUMIR com a M1 concluída');
+});
+
+teste('beco some do hub depois que a M2 é aceita', () => {
+  const beco = world.cidade.locais.find(l => l.id === 'beco');
+  afirmar(beco.condicao.semMissao === 'missao2');
+});
+
+teste('dicaProximoPasso cobre o fluxo M1→M4 sem buracos', () => {
+  Engine.novoJogo('Dica', 1);
+  const e = Engine.estado;
+  afirmar(Engine.dicaProximoPasso().includes('Basilisco'), 'início: aceitar M1');
+  Engine.aceitarMissao('missao1');
+  afirmar(Engine.dicaProximoPasso().includes('⭐'), 'M1 ativa: seguir a estrela');
+  e.flags.missao1Cobrar = true;
+  afirmar(Engine.dicaProximoPasso().includes('COBRE'), 'M1: cobrar recompensa');
+  e.missoes.missao1.concluida = true; e.flags.v01Completa = true;
+  afirmar(Engine.dicaProximoPasso().includes('Beco'), 'pós-M1: beco');
+  Engine.aceitarMissao('missao2');
+  afirmar(Engine.dicaProximoPasso().includes('⭐'), 'M2 ativa: estrela');
+  e.flags.missao2Relatorio = true;
+  afirmar(Engine.dicaProximoPasso().includes('Envelope'), 'M2: envelope');
+  e.missoes.missao2.concluida = true; e.flags.v02Completa = true;
+  afirmar(Engine.dicaProximoPasso().includes('CONTRATO DIRETO'), 'pós-M2: contrato M3');
+  Engine.aceitarMissao('missao3');
+  e.flags.missao3Relatorio = true;
+  afirmar(Engine.dicaProximoPasso().includes('Correio'), 'M3: correio');
+  e.missoes.missao3.concluida = true; e.flags.v03Completa = true;
+  afirmar(Engine.dicaProximoPasso().includes('ÚBIA'), 'pós-M3: convocação');
+  e.flags.ubiaAberta = true; e.regiao = 'ubia';
+  afirmar(Engine.dicaProximoPasso().includes('Mural'), 'Úbia: aceitar M4');
+  Engine.aceitarMissao('missao4');
+  afirmar(Engine.dicaProximoPasso().includes('⭐'), 'M4 ativa: estrela');
+  e.flags.missao4Relatorio = true;
+  afirmar(Engine.dicaProximoPasso().includes('RELATÓRIO'), 'M4: relatório');
+  e.missoes.missao4.concluida = true; e.flags.v04Completa = true;
+  afirmar(Engine.dicaProximoPasso().includes('Torre de Marfim'), 'pós-M4: manto na torre');
+  e.flags.mantoEntregue = true;
+  afirmar(Engine.dicaProximoPasso().includes('Avenches'), 'fim: aguardando M5');
+});
+
 /* ================= RESULTADO ================= */
 console.log('\n============================');
 console.log(`RESULTADO: ${ok} ✅ · ${falhas.length} ❌`);

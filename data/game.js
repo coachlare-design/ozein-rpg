@@ -5,7 +5,7 @@
    ===================================================== */
 GameData.register('config', {
   titulo: 'Ozein — Os Pesadelos de Renânia',
-  versao: '0.8.0 — Missão 4: A Cidade dos Heróis (Úbia) + prestígio rebalanceado + vestes da maga',
+  versao: '0.8.1 — Missão 4 (Úbia) + "o que fazer agora" no Diário + recompensas sem repetição',
   mundo: 'Galáxia Empíria · Mundo Ozein · Continente Genesiano',
   regiao: 'Renânia e Úbia (Genesiano)',
 

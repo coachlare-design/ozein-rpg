@@ -57,7 +57,7 @@ GameData.register('dialogs', {
     opcoes: [
       { texto: '⚔️ Aceitar o contrato do Basilisco (inicia a Missão 1)', condicao: { semMissao: 'missao1' },
         efeito: [{ tipo: 'aceitarMissao', valor: 'missao1' }, { tipo: 'dialogo', valor: 'contrato_aceito' }] },
-      { texto: '💰 Entregar as secreções e COBRAR A RECOMPENSA', condicao: { flag: 'missao1Cobrar' },
+      { texto: '💰 Entregar as secreções e COBRAR A RECOMPENSA', condicao: { flag: 'missao1Cobrar', missaoNaoConcluida: 'missao1' },
         goto: 'cobrar_recompensa' },
       { texto: '🩸 CONTRATO DIRETO RANK B: "A Vila que Dorme" (inicia a Missão 3)', condicao: { flag: 'v02Completa', semMissao: 'missao3' },
         efeito: [{ tipo: 'aceitarMissao', valor: 'missao3' }, { tipo: 'dialogo', valor: 'm3_aceita' }] },
